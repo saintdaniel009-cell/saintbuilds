@@ -59,7 +59,7 @@ main{overflow-x:clip}
 @media(min-width:768px){.hero-bottom p{max-width:260px}}
 
 /* 3D head */
-.head-stage{position:absolute;left:50%;translate:-50% -50%;top:52%;z-index:10;width:300px;aspect-ratio:4/5;touch-action:pan-y}
+.head-stage{position:absolute;left:50%;translate:-50% -50%;top:50%;z-index:10;width:min(380px,96vw);aspect-ratio:4/5;touch-action:pan-y}
 @media(min-width:640px){.head-stage{top:auto;bottom:0;translate:-50% 0;width:380px}}
 @media(min-width:768px){.head-stage{width:460px}}
 @media(min-width:1024px){.head-stage{width:540px}}
@@ -69,6 +69,16 @@ main{overflow-x:clip}
 .head-glow{position:absolute;left:50%;top:42%;width:85%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
   background:radial-gradient(circle,rgba(182,0,168,var(--glow,.28)) 0%,rgba(118,33,176,calc(var(--glow,.28)*.6)) 35%,transparent 68%);filter:blur(30px);transition:opacity .4s;pointer-events:none;
   translate:var(--gx,0) var(--gy,0)}
+.scroll-cue{position:absolute;left:50%;bottom:22px;margin-left:-28px;width:56px;z-index:25;display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(215,226,234,.7);text-decoration:none;transition:opacity .4s}
+.scroll-cue small{font-size:10px;letter-spacing:.22em;text-transform:uppercase}
+.scroll-cue .mouse{width:22px;height:34px;border:1.5px solid currentColor;border-radius:12px;position:relative}
+.scroll-cue .mouse span{position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:currentColor;animation:wheel 1.8s ease-in-out infinite}
+@keyframes wheel{0%{opacity:0;transform:translateY(-3px)}30%{opacity:1}70%{opacity:1;transform:translateY(8px)}100%{opacity:0;transform:translateY(10px)}}
+.scroll-cue.gone{opacity:0!important;pointer-events:none}
+.scroll-cue:hover{color:#fff}
+@media(max-width:639px){.scroll-cue{bottom:118px}}
+.head-hint{bottom:16%!important}
+@media (prefers-reduced-motion:reduce){.scroll-cue .mouse span{animation:none}}
 .head-bubble{position:absolute;left:62%;top:8%;background:#fff;color:#0C0C0C;font-weight:600;font-size:15px;padding:10px 16px;border-radius:18px 18px 18px 4px;
   opacity:0;transform:translateY(8px) scale(.9);transition:opacity .25s,transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;white-space:nowrap;z-index:3}
 .head-bubble.show{opacity:1;transform:none}
@@ -146,6 +156,10 @@ main{overflow-x:clip}
 .ph1{height:clamp(130px,16vw,230px)}
 .ph2{height:clamp(160px,22vw,340px)}
 .ptall{height:calc(clamp(130px,16vw,230px) + clamp(160px,22vw,340px) + 12px)}
+.vgrid{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -4px;padding:0 4px}
+.vgrid::-webkit-scrollbar{display:none}
+.vgrid video{flex:0 0 62%;aspect-ratio:9/16;height:auto;object-fit:cover;border-radius:28px;background:#16181c;scroll-snap-align:center}
+@media(min-width:640px){.vgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));overflow:visible;max-width:1100px;margin:0 auto}.vgrid video{width:100%;border-radius:32px}}
 .pgrid .swap{cursor:pointer;transition:transform .25s,opacity .25s}
 .pgrid .swap:hover{transform:scale(.98);opacity:.85}
 
@@ -179,6 +193,8 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin
     <div class="head-bubble" id="headBubble">Hi there!</div>
     <div class="head-hint" id="headHint">Move · tap me</div>
   </div>
+
+  <a class="scroll-cue fi" href="#about" style="--fy:10px;--fdelay:1s" aria-label="Scroll for more"><span class="mouse"><span></span></span><small>Scroll</small></a>
 
   <div class="hero-bottom">
     <p class="fi" style="--fy:20px;--fdelay:.35s">A designer building websites, videos and 3D visuals that win you customers</p>
@@ -235,10 +251,7 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin
 
     <div class="pwrap"><article class="pcard" style="top:calc(var(--st) + 56px)">
       <div class="ptop"><div class="num hero-heading">03</div><div class="pmeta"><small>Client · Video</small><h3>Reels &amp; Product Promos</h3></div><a class="ghost-btn" href="#contact">Start a Project</a></div>
-      <div class="pgrid"><div class="pcol">
-        <img class="ph1 swap" src="videos/hscd.jpg" data-video="videos/hscd.mp4" alt="Play World Sickle Cell Day video" loading="lazy">
-        <img class="ph2 swap" src="videos/rigo.jpg" data-video="videos/rigo.mp4" alt="Play Rigo explainer video" loading="lazy">
-      </div><video class="ptall" id="mainVideo" src="videos/vendpay.mp4" poster="videos/vendpay.jpg" controls playsinline preload="none"></video></div>
+      <div class="vgrid"><video src="videos/vendpay.mp4" poster="videos/vendpay.jpg" controls playsinline preload="none" aria-label="VendPay product promo"></video><video src="videos/hscd.mp4" poster="videos/hscd.jpg" controls playsinline preload="none" aria-label="World Sickle Cell Day reel"></video><video src="videos/rigo.mp4" poster="videos/rigo.jpg" controls playsinline preload="none" aria-label="Rigo explainer reel"></video><video src="videos/chatbot.mp4" poster="videos/chatbot.jpg" controls playsinline preload="none" aria-label="Chatbot announcement reel"></video></div>
     </article></div>
 
     <div class="pwrap"><article class="pcard" style="top:calc(var(--st) + 84px)">
@@ -315,13 +328,10 @@ function stackFx(){const r=stack.getBoundingClientRect();const total=cards.lengt
 document.documentElement.style.setProperty('--st',innerWidth>=768?'128px':'96px');
 addEventListener('resize',()=>document.documentElement.style.setProperty('--st',innerWidth>=768?'128px':'96px'));
 
-/* ---------- Video swap ---------- */
-const mv=document.getElementById('mainVideo');
-document.querySelectorAll('.swap').forEach(img=>img.addEventListener('click',()=>{
-  const cur={src:mv.getAttribute('src'),poster:mv.getAttribute('poster')};
-  mv.src=img.dataset.video;mv.poster=img.src;mv.play().catch(()=>{});
-  img.dataset.video=cur.src;img.src=cur.poster;}));
+/* ---------- One video at a time ---------- */
+document.querySelectorAll('.vgrid video').forEach(v=>v.addEventListener('play',()=>document.querySelectorAll('.vgrid video').forEach(o=>{if(o!==v)o.pause();})));
 
+const cueEl=document.querySelector('.scroll-cue');addEventListener('scroll',()=>cueEl.classList.toggle('gone',scrollY>60),{passive:true});
 let ticking=false;function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(()=>{marq();reveal();stackFx();ticking=false;});}}
 addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
 
@@ -331,7 +341,7 @@ let gl=true;try{const c=document.createElement('canvas');gl=!!(window.WebGLRende
 if(!gl||!window.THREE){stage.classList.add('no-gl');return;}
 
 const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));stage.appendChild(renderer.domElement);
+renderer.setPixelRatio(Math.min(Math.max(devicePixelRatio,1.5),2.5));stage.appendChild(renderer.domElement);
 const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(30,1,0.1,20);
 const head=new THREE.Group();scene.add(head);
 const MODEL='assets/head/saint-head-only.glb',NECK=0.79;
@@ -341,7 +351,7 @@ function start(){if(started)return;started=true;resize();requestAnimationFrame(l
 function buildGLB(gltf){
   const m=gltf.scene;const box=new THREE.Box3().setFromObject(m);const size=box.getSize(new THREE.Vector3()),c=box.getCenter(new THREE.Vector3());
   m.position.sub(c);const s=1.05/size.y;const wrap=new THREE.Group();wrap.add(m);wrap.scale.setScalar(s);wrap.position.y=0.05;head.add(wrap);
-  m.traverse(o=>{if(!o.isMesh||!o.material)return;const mt=o.material;if(mt.map)mt.map.encoding=THREE.sRGBEncoding;mt.transparent=true;
+  m.traverse(o=>{if(!o.isMesh||!o.material)return;const mt=o.material;if(mt.map){mt.map.encoding=THREE.sRGBEncoding;mt.map.anisotropy=renderer.capabilities.getMaxAnisotropy();mt.map.needsUpdate=true;}mt.transparent=true;
     mt.onBeforeCompile=sh=>{sh.uniforms.uNeck={value:NECK};
       sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying float vY;').replace('#include <begin_vertex>','#include <begin_vertex>\nvY=position.y;');
       sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying float vY;\nuniform float uNeck;').replace('#include <dithering_fragment>','#include <dithering_fragment>\ngl_FragColor.a*=smoothstep(uNeck,uNeck+0.04,vY);');};});
