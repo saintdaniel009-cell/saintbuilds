@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Saint Daniel — Web Design, Video &amp; 3D</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
 <meta name="description" content="Saint Daniel designs and builds websites, edits videos and creates 3D renders for businesses. Building websites since 2018.">
 <meta property="og:title" content="Saint Daniel — Web Design, Video & 3D">
 <meta property="og:description" content="Websites that bring you customers. Plus video editing, 3D renders and social media design.">
@@ -172,6 +177,7 @@ main{overflow-x:clip}
 footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:96px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;opacity:.6;text-transform:uppercase;letter-spacing:.08em}
 
 @media (prefers-reduced-motion:reduce){.fi{transition:none;opacity:1;transform:none}.deco .float{animation:none}}
+img,video,canvas{-webkit-user-drag:none;user-select:none;-webkit-touch-callout:none}
 </style>
 </head>
 <body>
@@ -253,8 +259,8 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin
       <div class="pgrid vmob"><div class="pcol">
         <img class="ph1 swap" src="videos/hscd.jpg" data-video="videos/hscd.mp4" alt="Play World Sickle Cell Day video" loading="lazy">
         <img class="ph2 swap" src="videos/rigo.jpg" data-video="videos/rigo.mp4" alt="Play Rigo explainer video" loading="lazy">
-      </div><video class="ptall" id="mainVideo" src="videos/vendpay.mp4" poster="videos/vendpay.jpg" controls playsinline preload="none"></video></div>
-      <div class="vgrid"><video src="videos/vendpay.mp4" poster="videos/vendpay.jpg" controls playsinline preload="none" aria-label="VendPay product promo"></video><video src="videos/hscd.mp4" poster="videos/hscd.jpg" controls playsinline preload="none" aria-label="World Sickle Cell Day reel"></video><video src="videos/rigo.mp4" poster="videos/rigo.jpg" controls playsinline preload="none" aria-label="Rigo explainer reel"></video><video src="videos/chatbot.mp4" poster="videos/chatbot.jpg" controls playsinline preload="none" aria-label="Chatbot announcement reel"></video></div>
+      </div><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" class="ptall" id="mainVideo" src="videos/vendpay.mp4" poster="videos/vendpay.jpg" controls playsinline preload="none"></video></div>
+      <div class="vgrid"><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" src="videos/vendpay.mp4" poster="videos/vendpay.jpg" controls playsinline preload="none" aria-label="VendPay product promo"></video><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" src="videos/hscd.mp4" poster="videos/hscd.jpg" controls playsinline preload="none" aria-label="World Sickle Cell Day reel"></video><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" src="videos/rigo.mp4" poster="videos/rigo.jpg" controls playsinline preload="none" aria-label="Rigo explainer reel"></video><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" src="videos/chatbot.mp4" poster="videos/chatbot.jpg" controls playsinline preload="none" aria-label="Chatbot announcement reel"></video></div>
     </article></div>
 
     <div class="pwrap"><article class="pcard" style="top:calc(var(--st) + 84px)">
@@ -341,6 +347,10 @@ document.querySelectorAll('.swap').forEach(img=>img.addEventListener('click',()=
 document.querySelectorAll('.vgrid video').forEach(v=>v.addEventListener('play',()=>document.querySelectorAll('.vgrid video').forEach(o=>{if(o!==v)o.pause();})));
 
 const cueEl=document.querySelector('.scroll-cue');addEventListener('scroll',()=>cueEl.classList.toggle('gone',scrollY>60),{passive:true});
+/* ---------- Media deterrents ---------- */
+document.addEventListener('contextmenu',e=>{if(e.target.closest('img,video,canvas,.marquee,.deco'))e.preventDefault();});
+document.addEventListener('dragstart',e=>{if(e.target.closest('img,video'))e.preventDefault();});
+
 let ticking=false;function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(()=>{marq();reveal();stackFx();ticking=false;});}}
 addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
 
