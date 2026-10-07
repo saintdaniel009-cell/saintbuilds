@@ -156,10 +156,9 @@ main{overflow-x:clip}
 .ph1{height:clamp(130px,16vw,230px)}
 .ph2{height:clamp(160px,22vw,340px)}
 .ptall{height:calc(clamp(130px,16vw,230px) + clamp(160px,22vw,340px) + 12px)}
-.vgrid{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -4px;padding:0 4px}
-.vgrid::-webkit-scrollbar{display:none}
-.vgrid video{flex:0 0 62%;aspect-ratio:9/16;height:auto;object-fit:cover;border-radius:28px;background:#16181c;scroll-snap-align:center}
-@media(min-width:640px){.vgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));overflow:visible;max-width:1100px;margin:0 auto}.vgrid video{width:100%;border-radius:32px}}
+.vgrid{display:none}
+.vgrid video{width:100%;aspect-ratio:9/16;height:auto;object-fit:cover;border-radius:32px;background:#16181c}
+@media(min-width:768px){.vmob{display:none!important}.vgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:1100px;margin:0 auto}}
 .pgrid .swap{cursor:pointer;transition:transform .25s,opacity .25s}
 .pgrid .swap:hover{transform:scale(.98);opacity:.85}
 
@@ -251,6 +250,10 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin
 
     <div class="pwrap"><article class="pcard" style="top:calc(var(--st) + 56px)">
       <div class="ptop"><div class="num hero-heading">03</div><div class="pmeta"><small>Client · Video</small><h3>Reels &amp; Product Promos</h3></div><a class="ghost-btn" href="#contact">Start a Project</a></div>
+      <div class="pgrid vmob"><div class="pcol">
+        <img class="ph1 swap" src="videos/hscd.jpg" data-video="videos/hscd.mp4" alt="Play World Sickle Cell Day video" loading="lazy">
+        <img class="ph2 swap" src="videos/rigo.jpg" data-video="videos/rigo.mp4" alt="Play Rigo explainer video" loading="lazy">
+      </div><video class="ptall" id="mainVideo" src="videos/vendpay.mp4" poster="videos/vendpay.jpg" controls playsinline preload="none"></video></div>
       <div class="vgrid"><video src="videos/vendpay.mp4" poster="videos/vendpay.jpg" controls playsinline preload="none" aria-label="VendPay product promo"></video><video src="videos/hscd.mp4" poster="videos/hscd.jpg" controls playsinline preload="none" aria-label="World Sickle Cell Day reel"></video><video src="videos/rigo.mp4" poster="videos/rigo.jpg" controls playsinline preload="none" aria-label="Rigo explainer reel"></video><video src="videos/chatbot.mp4" poster="videos/chatbot.jpg" controls playsinline preload="none" aria-label="Chatbot announcement reel"></video></div>
     </article></div>
 
@@ -328,6 +331,12 @@ function stackFx(){const r=stack.getBoundingClientRect();const total=cards.lengt
 document.documentElement.style.setProperty('--st',innerWidth>=768?'128px':'96px');
 addEventListener('resize',()=>document.documentElement.style.setProperty('--st',innerWidth>=768?'128px':'96px'));
 
+/* ---------- Video swap (mobile) ---------- */
+const mv=document.getElementById('mainVideo');
+document.querySelectorAll('.swap').forEach(img=>img.addEventListener('click',()=>{
+  const cur={src:mv.getAttribute('src'),poster:mv.getAttribute('poster')};
+  mv.src=img.dataset.video;mv.poster=img.src;mv.play().catch(()=>{});
+  img.dataset.video=cur.src;img.src=cur.poster;}));
 /* ---------- One video at a time ---------- */
 document.querySelectorAll('.vgrid video').forEach(v=>v.addEventListener('play',()=>document.querySelectorAll('.vgrid video').forEach(o=>{if(o!==v)o.pause();})));
 
@@ -344,21 +353,21 @@ const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreferenc
 renderer.setPixelRatio(Math.min(Math.max(devicePixelRatio,1.5),2.5));stage.appendChild(renderer.domElement);
 const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(30,1,0.1,20);
 const head=new THREE.Group();scene.add(head);
-const MODEL='assets/head/saint-head-only.glb',NECK=0.79;
+const MODEL='assets/head/saint-head-v2.glb',NECK=-0.655,FADE=0.2;
 let uniforms=null,lights=null,started=false;
 function start(){if(started)return;started=true;resize();requestAnimationFrame(loop);}
 /* --- true 3D cartoon head (GLB) --- */
 function buildGLB(gltf){
   const m=gltf.scene;const box=new THREE.Box3().setFromObject(m);const size=box.getSize(new THREE.Vector3()),c=box.getCenter(new THREE.Vector3());
-  m.position.sub(c);const s=1.05/size.y;const wrap=new THREE.Group();wrap.add(m);wrap.scale.setScalar(s);wrap.position.y=0.05;head.add(wrap);
+  m.position.sub(c);const s=1.3/size.y;const wrap=new THREE.Group();wrap.add(m);wrap.scale.setScalar(s);wrap.position.y=-0.02;head.add(wrap);
   m.traverse(o=>{if(!o.isMesh||!o.material)return;const mt=o.material;if(mt.map){mt.map.encoding=THREE.sRGBEncoding;mt.map.anisotropy=renderer.capabilities.getMaxAnisotropy();mt.map.needsUpdate=true;}mt.transparent=true;
     mt.onBeforeCompile=sh=>{sh.uniforms.uNeck={value:NECK};
       sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying float vY;').replace('#include <begin_vertex>','#include <begin_vertex>\nvY=position.y;');
-      sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying float vY;\nuniform float uNeck;').replace('#include <dithering_fragment>','#include <dithering_fragment>\ngl_FragColor.a*=smoothstep(uNeck,uNeck+0.04,vY);');};});
+      sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying float vY;\nuniform float uNeck;').replace('#include <dithering_fragment>','#include <dithering_fragment>\ngl_FragColor.a*=smoothstep(uNeck,uNeck+'+FADE.toFixed(3)+',vY);');};});
   renderer.outputEncoding=THREE.sRGBEncoding;
-  const hemi=new THREE.HemisphereLight(0xffffff,0x3a2a44,1.0);const key=new THREE.DirectionalLight(0xffffff,0.9);key.position.set(0.6,0.8,2);
+  const hemi=new THREE.HemisphereLight(0xffffff,0x3a2a44,1.15);const key=new THREE.DirectionalLight(0xffffff,0.6);key.position.set(0.6,0.8,2);
   const rim=new THREE.DirectionalLight(0xb40ea8,0.6);rim.position.set(-1.5,0.6,-1.2);const rim2=new THREE.DirectionalLight(0x7b2cff,0.45);rim2.position.set(1.6,0.2,-1);
-  scene.add(hemi,key,rim,rim2);lights={key,rim,rim2};start();}
+  scene.add(hemi,key,rim,rim2);lights={key,rim,rim2};scale=0.75;vs=0.02;start();}
 /* --- fallback: 2.5D depth-map portrait --- */
 function build25D(){
   const loader=new THREE.TextureLoader();
