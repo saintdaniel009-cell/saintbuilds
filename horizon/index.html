@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Horizon Premier Construction — Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#00796B; --teal-dk:#005A50; --teal-lt:#E0F7FA;
+  --ink:#0D141A; --ink-2:#263238; --muted:#56585E;
+  --gold:#E8B321; --star:#FFBB00; --line:#E3E8EA; --bg:#F6F8F9; --white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"DM Sans",system-ui,sans-serif;color:var(--ink);background:var(--white);line-height:1.55;font-size:16px}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+h1,h2,h3,.display{font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.01em;line-height:1.02}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.btn{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 28px;border-radius:6px;font-weight:700;font-size:16px;border:2px solid transparent}
+.btn-primary{background:var(--teal);color:#fff}
+.btn-gold{background:var(--gold);color:var(--ink)}
+.btn-ghost{border-color:rgba(255,255,255,.7);color:#fff}
+.stars{color:var(--star);letter-spacing:2px}
+
+/* concept ribbon */
+.ribbon{background:var(--ink);color:#cfd8dc;font-size:12px;text-align:center;padding:8px 16px;letter-spacing:.04em}
+.ribbon b{color:var(--gold);font-weight:700}
+
+/* nav */
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.nav{display:flex;align-items:center;justify-content:space-between;height:78px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{height:46px;width:66px;object-fit:cover;border-radius:4px}
+.brand span{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:22px;text-transform:uppercase;line-height:1}
+.brand small{display:block;white-space:nowrap;font-family:"DM Sans",sans-serif;font-weight:500;font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.links{display:flex;gap:28px;white-space:nowrap;font-weight:500;font-size:15px}
+.nav-cta{display:flex;align-items:center;gap:18px}
+.nav-phone{white-space:nowrap;font-weight:700;font-size:15px;text-align:right;line-height:1.2}
+.nav-phone small{display:block;font-weight:500;font-size:12px;color:var(--muted)}
+.nav .btn{height:46px;padding:0 20px;font-size:15px}
+
+/* hero */
+.hero{position:relative;color:#fff;background:var(--ink) url("https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1800,fit=crop,q=85/YbNv9lQy5aSNy0EJ/img_3101-YNqyraO3plHwxlQV.jpeg") center/cover}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(13,20,26,.94) 0%,rgba(13,20,26,.82) 45%,rgba(0,90,80,.55) 100%)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;padding-top:84px;padding-bottom:96px;align-items:center}
+.hero .eyebrow{color:var(--gold)}
+.hero h1{font-size:64px;margin:16px 0 20px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p.lede{font-size:19px;color:#dfe6e9;max-width:560px}
+.hero-ctas{display:flex;gap:14px;margin:32px 0 30px;flex-wrap:wrap}
+.hero-proof{display:flex;align-items:center;gap:14px;font-size:14px;color:#dfe6e9}
+.g-badge{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);padding:10px 14px;border-radius:8px}
+.g-badge b{font-size:20px;color:#fff}
+
+.form-card{background:#fff;color:var(--ink);border-radius:12px;padding:30px;box-shadow:0 30px 60px rgba(0,0,0,.35);border-top:6px solid var(--teal)}
+.form-card h3{font-size:30px;margin-bottom:6px}
+.form-card p{font-size:14px;color:var(--muted);margin-bottom:20px}
+.field{display:block;margin-bottom:12px}
+.field span{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
+.field .in{height:48px;border:1px solid #cfd8dc;border-radius:6px;padding:0 14px;display:flex;align-items:center;color:#90a4ae;font-size:15px;background:#fff}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chips{display:flex;flex-direction:column;gap:8px;margin:6px 0 18px}
+.chip{display:flex;align-items:center;gap:10px;border:1px solid #cfd8dc;border-radius:6px;padding:11px 14px;font-size:14px}
+.chip i{width:16px;height:16px;border-radius:50%;border:2px solid #90a4ae;flex:none}
+.chip.on{border-color:var(--teal);background:var(--teal-lt);font-weight:700}
+.chip.on i{border-color:var(--teal);background:radial-gradient(var(--teal) 45%,transparent 50%)}
+.form-card .btn{width:100%}
+.form-note{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+
+/* trust bar */
+.trust{background:var(--teal);color:#fff}
+.trust .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.trust div{padding:24px 20px;border-left:1px solid rgba(255,255,255,.2);display:flex;gap:14px;align-items:center}
+.trust div:first-child{border-left:0}
+.trust b{font-family:"Barlow Condensed",sans-serif;font-size:30px;line-height:1;text-transform:uppercase}
+.trust small{display:block;font-size:13px;opacity:.85;line-height:1.35}
+
+/* sections */
+section{padding:96px 0}
+.sec-head{max-width:700px;margin-bottom:48px}
+.sec-head h2{font-size:52px;margin:12px 0 14px}
+.sec-head p{font-size:18px;color:var(--muted)}
+.center{text-align:center;margin-left:auto;margin-right:auto}
+
+/* insurance */
+.ins{background:var(--bg)}
+.ins-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.ins-photo{position:relative}
+.ins-photo img{border-radius:12px;height:520px;width:100%;object-fit:cover}
+.ins-tag{position:absolute;left:-24px;bottom:36px;background:var(--ink);color:#fff;padding:20px 24px;border-radius:10px;max-width:280px;border-left:5px solid var(--gold)}
+.ins-tag b{font-family:"Barlow Condensed",sans-serif;font-size:26px;text-transform:uppercase;line-height:1.05;display:block}
+.ins-tag small{font-size:13px;color:#cfd8dc}
+.ins h2{font-size:52px;margin:12px 0 18px}
+.ins p.lede{font-size:18px;color:var(--muted);margin-bottom:26px}
+.carriers{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px}
+.carriers span{background:#fff;border:1px solid var(--line);padding:10px 16px;border-radius:6px;font-weight:700;font-size:14px}
+.checks{list-style:none;display:grid;gap:14px;margin-bottom:32px}
+.checks li{display:flex;gap:12px;font-size:16px}
+.checks li:before{content:"✓";flex:none;width:26px;height:26px;border-radius:50%;background:var(--teal);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;counter-reset:s}
+.step{background:#fff;border:1px solid var(--line);border-radius:12px;padding:30px 26px;position:relative}
+.step:before{counter-increment:s;content:"0" counter(s);font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:56px;color:var(--teal-lt);-webkit-text-stroke:1.5px var(--teal);line-height:1;display:block;margin-bottom:16px}
+.step h3{font-size:26px;margin-bottom:10px}
+.step p{font-size:15px;color:var(--muted)}
+
+/* services */
+.services{background:var(--ink);color:#fff}
+.services .sec-head p{color:#b0bec5}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.svc{background:var(--ink-2);border-radius:12px;overflow:hidden}
+.svc img{height:220px;width:100%;object-fit:cover}
+.svc div{padding:26px}
+.svc h3{font-size:28px;margin-bottom:8px}
+.svc p{font-size:15px;color:#b0bec5;margin-bottom:16px}
+.svc a{font-weight:700;color:var(--gold);font-size:15px}
+.svc.feature{grid-row:span 2;display:flex;flex-direction:column;background:var(--teal)}
+.svc.feature img{height:100%;min-height:300px;flex:1}
+.svc.feature p{color:#e0f2f1}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:220px;gap:14px}
+.gallery img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+.gallery .tall{grid-row:span 2}
+.gallery .wide{grid-column:span 2}
+
+/* reviews */
+.reviews{background:var(--teal-lt)}
+.rev-top{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:44px}
+.rev-score{background:#fff;border-radius:12px;padding:22px 28px;display:flex;align-items:center;gap:18px;border:1px solid #b2ebf2}
+.rev-score b{font-family:"Barlow Condensed",sans-serif;font-size:56px;line-height:1}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.rev{background:#fff;border-radius:12px;padding:28px;display:flex;flex-direction:column;gap:16px}
+.rev p{font-size:17px;flex:1}
+.rev small{font-size:13px;color:var(--muted);font-weight:500}
+
+/* faq */
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px}
+.qa{border-bottom:1px solid var(--line);padding:22px 0}
+.qa h3{font-family:"DM Sans",sans-serif;text-transform:none;font-size:19px;font-weight:700;display:flex;justify-content:space-between;gap:20px;letter-spacing:0;line-height:1.3}
+.qa h3:after{content:"+";color:var(--teal);font-size:24px;line-height:1}
+.qa p{margin-top:10px;color:var(--muted)}
+.qa.open h3:after{content:"–"}
+
+/* cta band */
+.cta-band{background:var(--teal) url("https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1800,fit=crop,q=80/YbNv9lQy5aSNy0EJ/img_3265-m2Wpva2jGGH5q34k.jpeg") center/cover;position:relative;color:#fff;padding:88px 0}
+.cta-band:before{content:"";position:absolute;inset:0;background:rgba(0,90,80,.9)}
+.cta-band .wrap{position:relative;display:flex;justify-content:space-between;align-items:center;gap:40px}
+.cta-band h2{font-size:56px;max-width:640px}
+.cta-band p{color:#e0f2f1;font-size:18px;margin-top:12px}
+
+footer{background:var(--ink);color:#b0bec5;padding:64px 0 28px;font-size:15px}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+footer h4{font-family:"DM Sans",sans-serif;color:#fff;font-size:14px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+footer li{list-style:none;margin-bottom:10px}
+.foot .brand span{color:#fff}
+.legal{border-top:1px solid #263238;padding-top:22px;display:flex;justify-content:space-between;font-size:13px}
+
+/* mobile */
+@media (max-width:900px){
+  .links,.nav-phone{display:none}
+  .btn{white-space:normal;text-align:center}
+  .hero-ctas .btn,.cta-band .btn{width:100%}
+  .hero-proof{flex-wrap:wrap}
+  .hero .wrap,.ins-grid,.faq-grid{grid-template-columns:1fr;gap:40px}
+  .hero .wrap{padding-top:56px;padding-bottom:64px}
+  .hero h1{font-size:50px}
+  .trust .wrap{grid-template-columns:1fr 1fr}
+  .trust div:nth-child(3){border-left:0}
+  .trust div{border-top:1px solid rgba(255,255,255,.2);min-width:0;padding:18px 14px;flex-direction:column;align-items:flex-start;gap:6px}
+  .trust b{font-size:24px}
+  .trust small br{display:none}
+  .brand small{display:none}
+  .steps,.svc-grid,.rev-grid{grid-template-columns:1fr}
+  .svc.feature{grid-row:auto}
+  .gallery{grid-template-columns:1fr 1fr;grid-auto-rows:160px}
+  .gallery .wide{grid-column:span 2}
+  section{padding:64px 0}
+  .sec-head h2,.ins h2{font-size:40px}
+  .ins-photo img{height:360px}
+  .ins-tag{left:12px;bottom:12px}
+  .rev-top,.cta-band .wrap{flex-direction:column;align-items:flex-start}
+  .cta-band h2{font-size:42px}
+  .foot{grid-template-columns:1fr 1fr}
+  .foot > div{min-width:0;overflow-wrap:anywhere}
+  .legal{flex-direction:column;gap:8px}
+}
+</style>
+</head>
+<body>
+
+<div class="ribbon"><b>CONCEPT REDESIGN</b> &nbsp;·&nbsp; Prepared for Horizon Premier Construction by Divergent Design Solutions</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#">
+      <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=300,fit=crop,q=95/YbNv9lQy5aSNy0EJ/img_3271-mxBZqMQee9UKKLkb.jpeg" alt="Horizon Premier Construction logo">
+      <span>Horizon Premier<small>Construction · Conyers, GA</small></span>
+    </a>
+    <nav class="links">
+      <a href="#insurance">Insurance Claims</a>
+      <a href="#services">Services</a>
+      <a href="#work">Our Work</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <div class="nav-phone"><small>Talk to Cindy</small>(678) 275-3964</div>
+      <a class="btn btn-primary" href="#quote">Free Inspection</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Roofing &amp; Insurance Claim Specialists · East Atlanta</div>
+      <h1>Insurance denied your roof? <em>Let's get it approved.</em></h1>
+      <p class="lede">Free roof inspections for hail and wind damage. We document everything, work directly with your insurance company, and handle your new roof from claim to clean-up.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-gold" href="#quote">Book My Free Inspection</a>
+        <a class="btn btn-ghost" href="#">Call (678) 275-3964</a>
+      </div>
+      <div class="hero-proof">
+        <div class="g-badge"><b>5.0</b><div><div class="stars">★★★★★</div>51 Google reviews</div></div>
+        <span>Homeowners across Conyers &amp;<br>the East Atlanta metro</span>
+      </div>
+    </div>
+
+    <div class="form-card" id="quote">
+      <h3>Get your free roof inspection</h3>
+      <p>No cost, no obligation. We'll call to schedule within one business day.</p>
+      <div class="row2">
+        <label class="field"><span>Full name</span><div class="in">Jane Smith</div></label>
+        <label class="field"><span>Phone</span><div class="in">(555) 000-0000</div></label>
+      </div>
+      <label class="field"><span>Property address</span><div class="in">Street, city, ZIP</div></label>
+      <span style="font-size:13px;font-weight:700">I need help with</span>
+      <div class="chips">
+        <div class="chip on"><i></i>A free roof inspection</div>
+        <div class="chip"><i></i>My insurance claim was denied</div>
+        <div class="chip"><i></i>A free estimate</div>
+      </div>
+      <a class="btn btn-primary" href="#">Request My Inspection</a>
+      <div class="form-note">Prefer to talk? Call Cindy at (678) 275-3964</div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust">
+  <div class="wrap">
+    <div><b>5.0 ★</b><small>Rated by 51 homeowners<br>on Google</small></div>
+    <div><b>$0</b><small>Roof inspections,<br>always free</small></div>
+    <div><b>Claims</b><small>Handled with all major<br>insurance carriers</small></div>
+    <div><b>Full Service</b><small>Roofs, gutters, siding<br>&amp; painting</small></div>
+  </div>
+</div>
+
+<!-- INSURANCE -->
+<section class="ins" id="insurance">
+  <div class="wrap ins-grid">
+    <div class="ins-photo">
+      <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1200,fit=crop,q=85/YbNv9lQy5aSNy0EJ/img_3119-A85w48JMWWFD6x1J.jpeg" alt="Horizon crew on a roof replacement">
+      <div class="ins-tag"><b>Denied a year ago?</b><small>It may not be too late. Ask us to take a second look.</small></div>
+    </div>
+    <div>
+      <div class="eyebrow">Insurance Claims</div>
+      <h2>We do the paperwork. You get the roof.</h2>
+      <p class="lede">Storm damage is hard to prove on your own. Our team inspects your roof, documents every sign of hail and wind damage, and works with your insurer to secure a full replacement, even if your claim was denied before.</p>
+      <div class="carriers"><span>State Farm</span><span>Allstate</span><span>American Family</span><span>Farmers</span><span>+ more</span></div>
+      <ul class="checks">
+        <li>Free, no-pressure inspection with photos of every issue we find</li>
+        <li>We meet with your adjuster and walk them through the damage</li>
+        <li>New roof, gutters and more, often covered by your policy</li>
+      </ul>
+      <a class="btn btn-primary" href="#quote">Check My Roof for Free</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head center" style="text-align:center">
+      <div class="eyebrow">How It Works</div>
+      <h2>From inspection to new roof in 4 steps</h2>
+      <p>Simple, clear and handled by one team from start to finish.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><h3>Free inspection</h3><p>We check your roof for hail and wind damage and show you exactly what we find.</p></div>
+      <div class="step"><h3>Claim support</h3><p>We document the damage and work directly with your insurance company.</p></div>
+      <div class="step"><h3>Pick your style</h3><p>We bring shingle samples to your home so you can choose the right color.</p></div>
+      <div class="step"><h3>Install &amp; clean-up</h3><p>Our crew installs your new roof and leaves your property spotless.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" style="color:var(--gold)">What We Do</div>
+      <h2>One team for your whole exterior</h2>
+      <p>Roofing is our specialty. While we're there, we can take care of the rest.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc feature">
+        <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=900,fit=crop,q=85/YbNv9lQy5aSNy0EJ/img_0936-AGB64EOW93HLV55o.jpeg" alt="">
+        <div><h3>Roof Replacement</h3><p>Full replacements for storm-damaged and aging roofs, often covered through your insurance claim.</p><a href="#quote" style="color:#fff">Get a free inspection →</a></div>
+      </div>
+      <div class="svc">
+        <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop,q=85/YbNv9lQy5aSNy0EJ/img_0938-AQEypLMG71s0DeNA.jpeg" alt="">
+        <div><h3>Storm Damage Repair</h3><p>Hail and wind damage found, documented and repaired.</p><a href="#quote">Learn more →</a></div>
+      </div>
+      <div class="svc">
+        <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop,q=85/YbNv9lQy5aSNy0EJ/img_0939-d95KgzorxQsXMDQ6.jpeg" alt="">
+        <div><h3>Gutters</h3><p>New gutter installation that keeps water away from your home.</p><a href="#quote">Learn more →</a></div>
+      </div>
+      <div class="svc">
+        <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop,q=85/YbNv9lQy5aSNy0EJ/img_0942-m2WpQx5rZMSxPKZg.jpeg" alt="">
+        <div><h3>Siding</h3><p>Durable siding installation that refreshes your home's exterior.</p><a href="#quote">Learn more →</a></div>
+      </div>
+      <div class="svc">
+        <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop,q=85/YbNv9lQy5aSNy0EJ/img_2104-YD064Lq90qF5kbBP.jpeg" alt="">
+        <div><h3>Interior &amp; Exterior Painting</h3><p>Quality materials and a clean, long-lasting finish.</p><a href="#quote">Learn more →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Our Work</div>
+      <h2>Real roofs. Real Georgia homes.</h2>
+      <p>Every photo here is a Horizon Premier project.</p>
+    </div>
+    <div class="gallery">
+      <img class="tall" src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=700,fit=crop,q=85/YbNv9lQy5aSNy0EJ/img_3098-Yyv371N42XhR6gXD.jpeg" alt="">
+      <img class="wide" src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1000,fit=crop,q=85/YbNv9lQy5aSNy0EJ/img_2138_original-AR0yEMD2JatBXvak.jpeg" alt="">
+      <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=600,fit=crop,q=85/YbNv9lQy5aSNy0EJ/img_0941-dOqy4O6NKqcX4r0m.jpeg" alt="">
+      <img class="wide" src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1000,fit=crop,q=85/YbNv9lQy5aSNy0EJ/img_2814_original-Yyv3NZOPbRcznoW4.jpeg" alt="">
+      <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=600,fit=crop,q=85/YbNv9lQy5aSNy0EJ/img_3023_original-YrDljqM9JptJG8PV.jpeg" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="wrap">
+    <div class="rev-top">
+      <div class="sec-head" style="margin:0">
+        <div class="eyebrow">Reviews</div>
+        <h2>Homeowners say it best</h2>
+      </div>
+      <div class="rev-score"><b>5.0</b><div><div class="stars" style="font-size:20px">★★★★★</div><small style="color:var(--muted)">Based on 51 Google reviews</small></div></div>
+    </div>
+    <div class="rev-grid">
+      <div class="rev"><div class="stars">★★★★★</div><p>Abraham brought shingle samples so we could choose the right color, and checked in with us the whole way through.</p><small>Google review</small></div>
+      <div class="rev"><div class="stars">★★★★★</div><p>A tree fell on our home and the damage was severe. Kenneth and Abraham were professional and detailed from beginning to end.</p><small>Google review</small></div>
+      <div class="rev"><div class="stars">★★★★★</div><p>They got our roof covered under insurance. The crew showed up on time and came back the next day to finish small details.</p><small>Google review</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap faq-grid">
+    <div class="sec-head">
+      <div class="eyebrow">FAQ</div>
+      <h2>Questions homeowners ask us</h2>
+      <p>Still unsure? Call Cindy at (678) 275-3964 and we'll walk you through it.</p>
+    </div>
+    <div>
+      <div class="qa open"><h3>Is the roof inspection really free?</h3><p>Yes. We inspect your roof for hail and wind damage at no cost and with no obligation to hire us.</p></div>
+      <div class="qa"><h3>My insurance already denied my claim. Can you still help?</h3><p>Often, yes. We review the damage, document it properly and work with your insurer to request a full replacement.</p></div>
+      <div class="qa"><h3>Which insurance companies do you work with?</h3><p>We work with all major carriers, including State Farm, Allstate, American Family and Farmers.</p></div>
+      <div class="qa"><h3>Do you do more than roofs?</h3><p>Yes. We also install gutters and siding and offer interior and exterior painting.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <div class="wrap">
+    <div>
+      <h2>Storm hit your roof? Find out for free.</h2>
+      <p>Book a no-cost inspection today. We'll tell you exactly what we find.</p>
+    </div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap">
+      <a class="btn btn-gold" href="#quote">Book Free Inspection</a>
+      <a class="btn btn-ghost" href="#">(678) 275-3964</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="brand" style="margin-bottom:16px">
+          <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=300,fit=crop,q=95/YbNv9lQy5aSNy0EJ/img_3271-mxBZqMQee9UKKLkb.jpeg" alt="" style="height:46px">
+          <span>Horizon Premier<small>Construction</small></span>
+        </div>
+        <p>Roofing and insurance claim specialists serving Conyers and the East Atlanta metro.</p>
+      </div>
+      <div><h4>Services</h4><ul><li>Roof Replacement</li><li>Storm Damage</li><li>Insurance Claims</li><li>Gutters &amp; Siding</li><li>Painting</li></ul></div>
+      <div><h4>Company</h4><ul><li>Our Work</li><li>Reviews</li><li>FAQ</li><li>Instagram</li></ul></div>
+      <div><h4>Contact</h4><ul><li>(678) 275-3964</li><li>info@horizonroof4.com</li><li>263 Glen Rd NE<br>Conyers, GA 30013</li></ul></div>
+    </div>
+    <div class="legal"><span>© 2026 Horizon Premier Construction LLC</span><span>Concept by Divergent Design Solutions</span></div>
+  </div>
+</footer>
+
+</body>
+</html>
