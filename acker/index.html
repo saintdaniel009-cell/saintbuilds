@@ -1,0 +1,102 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>Acker Paving — Concept</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>:root{--c1:#1C1C1E;--c2:#F4C430;--ac:#B88A00;--soft:#FDF3D3}*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,sans-serif;color:#111827;background:#fff;line-height:1.55;overflow-x:hidden}
+a{color:inherit}.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:Archivo,Inter,sans-serif;line-height:1.08;letter-spacing:-.01em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 24px;border-radius:8px;font-weight:600;text-decoration:none;white-space:nowrap;border:2px solid transparent;cursor:pointer;font-size:16px;font-family:inherit}
+.btn-acc{background:var(--c2);color:var(--c1)}.btn-acc:hover{filter:brightness(1.06)}
+.btn-main{background:var(--c1);color:#fff;width:100%;margin-top:18px}
+.btn-ghost{border-color:rgba(255,255,255,.65);color:#fff}.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.btn-dark{background:var(--c1);color:#fff}.btn-line{border-color:var(--c1);color:var(--c1)}.btn-outline{border-color:var(--c1);color:var(--c1)}
+.ribbon{background:#111;color:#cfd3da;font-size:13px;text-align:center;padding:8px 16px}.ribbon b,.ribbon a{color:#fff}
+nav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #E4E7EC}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:70px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.logo-mark{width:38px;height:38px;border-radius:8px;background:var(--c1);color:var(--c2);display:grid;place-items:center;flex:none}
+.logo-txt{font-family:Archivo;font-weight:900;font-size:19px;color:var(--c1);line-height:1}
+.logo-txt small{display:block;font-weight:700;font-size:10px;letter-spacing:.14em;color:var(--ac);margin-top:3px}
+.nav-links{display:flex;gap:26px;font-weight:500;font-size:15px}.nav-links a{text-decoration:none;color:#5B6474}.nav-links a:hover{color:var(--c1)}
+.nav-cta{display:flex;align-items:center;gap:14px}.nav-phone{font-weight:700;color:var(--c1);text-decoration:none}
+@media(max-width:900px){.nav-links,.nav-phone{display:none}}@media(max-width:420px){.nav-cta .btn{padding:11px 14px;font-size:14px}.logo-txt{font-size:16px}}
+.hero{position:relative;background:var(--c1) center/cover no-repeat;color:#fff}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,color-mix(in srgb,var(--c1) 95%,transparent) 0%,color-mix(in srgb,var(--c1) 82%,transparent) 50%,color-mix(in srgb,var(--c1) 30%,transparent) 100%)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;padding-top:76px;padding-bottom:76px;align-items:center}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--c1);background:var(--c2);padding:7px 12px;border-radius:999px}
+.hero h1{font-size:clamp(36px,5.2vw,62px);font-weight:900;margin:18px 0 16px}.hero h1 em{font-style:normal;color:var(--c2)}
+.lead{font-size:clamp(16px,1.6vw,19px);color:#e3e8ee;max-width:560px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 30px}
+.trust{display:flex;flex-wrap:wrap;gap:12px 24px;font-size:14px;color:#eef2f6}.trust span{display:flex;align-items:center;gap:7px}.trust svg{color:var(--c2)}
+.stars{color:#F5B301;letter-spacing:1px}
+.card{background:#fff;color:#111827;border-radius:14px;padding:28px;box-shadow:0 30px 60px rgba(0,0,0,.25)}
+.card h3{font-size:24px;color:var(--c1)}.card p{color:#5B6474;font-size:14px;margin:6px 0 16px}
+.card label{display:block;font-size:13px;font-weight:600;margin:12px 0 6px}
+.card input,.card select{width:100%;padding:12px 14px;border:1px solid #cfd5df;border-radius:8px;font:inherit;font-size:15px;background:#fff}
+.card .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.card .fine{font-size:12px;text-align:center;margin:10px 0 0}
+.sent{display:none;padding:14px;border-radius:8px;background:#E8F6EE;color:#14532d;font-size:14px;margin-top:12px}
+@media(max-width:900px){.hero .wrap{grid-template-columns:1fr;padding-top:48px;padding-bottom:48px}}
+.badges{background:#F5F6F8;border-bottom:1px solid #E4E7EC}.badges .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-top:26px;padding-bottom:26px}
+.badge{display:flex;align-items:center;gap:12px}.badge b{display:block;font-family:Archivo;font-size:17px;color:var(--c1)}.badge small{color:#5B6474;font-size:13px}
+.badge .ic{width:44px;height:44px;border-radius:10px;background:#fff;border:1px solid #E4E7EC;display:grid;place-items:center;flex:none;color:var(--ac)}
+@media(max-width:900px){.badges .wrap{grid-template-columns:1fr 1fr}}
+section{padding:84px 0}.sec-head{max-width:640px;margin-bottom:40px}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ac)}.kicker.light{color:var(--c2)}
+.sec-head h2{font-size:clamp(28px,3.6vw,42px);color:var(--c1);margin:10px 0 12px}
+.ins{background:var(--c1);color:#fff}.ins .sec-head h2{color:#fff}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step{background:rgba(255,255,255,.06);border-radius:12px;padding:26px;border:1px solid rgba(255,255,255,.1)}
+.step .n{font-family:Archivo;font-weight:900;font-size:40px;color:var(--c2);line-height:1}.step h3{font-size:20px;margin:12px 0 8px}.step p{color:#cdd6e0;font-size:15px}
+@media(max-width:800px){.steps{grid-template-columns:1fr}}
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.svc a{display:block;text-decoration:none;border:1px solid #E4E7EC;border-radius:12px;padding:24px;transition:border-color .2s,transform .2s,box-shadow .2s;background:#fff}
+.svc a:hover{border-color:var(--ac);transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.07)}
+.svc .ic{width:46px;height:46px;border-radius:10px;background:var(--soft);color:var(--ac);display:grid;place-items:center;margin-bottom:16px}
+.svc h3{font-size:20px;color:var(--c1);margin-bottom:6px}.svc p{color:#5B6474;font-size:15px}
+@media(max-width:900px){.svc{grid-template-columns:1fr 1fr}}@media(max-width:560px){.svc{grid-template-columns:1fr}}
+.why{background:#F5F6F8}.why .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.why-img{border-radius:14px;aspect-ratio:4/5;background:#cfd5df center/cover}
+.list{list-style:none;display:grid;gap:16px}.list li{display:flex;gap:14px}
+.list .ck{width:26px;height:26px;border-radius:50%;background:var(--c2);color:var(--c1);display:grid;place-items:center;flex:none;margin-top:2px}
+.list b{display:block;color:var(--c1)}.list span{color:#5B6474;font-size:15px}
+@media(max-width:900px){.why .wrap{grid-template-columns:1fr}.why-img{aspect-ratio:16/11}}
+.rev-top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:34px}
+.score{display:flex;align-items:center;gap:14px;background:#F5F6F8;border-radius:12px;padding:14px 18px}.score b{font-family:Archivo;font-size:34px;color:var(--c1)}.score small{color:#5B6474}
+.gallery{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:240px 240px;gap:12px}
+.gallery div{border-radius:12px;background:#cfd5df center/cover}.gallery div:first-child{grid-row:span 2}
+.note{color:#5B6474;font-size:13px;margin-top:12px}
+@media(max-width:800px){.gallery{grid-template-columns:1fr 1fr;grid-template-rows:200px 160px 160px}.gallery div:first-child{grid-column:span 2;grid-row:auto}}
+.cta{background:var(--c2);color:var(--c1);padding:64px 0}.cta .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.cta h2{font-size:clamp(26px,3.4vw,40px)}.cta p{margin-top:6px;opacity:.85}.cta-btns{display:flex;gap:12px;flex-wrap:wrap}
+footer{background:color-mix(in srgb,var(--c1) 85%,#000);color:#aab6c8;padding:56px 0 28px;font-size:14px}
+footer .cols{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:32px}footer h4{color:#fff;font-family:Archivo;font-size:16px;margin-bottom:12px}
+footer a{text-decoration:none}footer a:hover{color:#fff}
+footer .bottom{border-top:1px solid rgba(255,255,255,.1);margin-top:40px;padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:800px){footer .cols{grid-template-columns:1fr}}
+.callbar{display:none}@media(max-width:700px){.callbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid #E4E7EC;padding:10px 12px;gap:10px}.callbar .btn{flex:1;padding:13px 10px}body{padding-bottom:70px}}
+.fi{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}.fi.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.fi{opacity:1;transform:none;transition:none}}
+
+.hero{background-image:url('https://images.unsplash.com/photo-1784454936095-28042e9b1652?auto=format&fit=crop&w=1800&q=70')}.why-img{background-image:url('https://images.unsplash.com/photo-1706922685061-e346647bde61?auto=format&fit=crop&w=1000&q=70')}</style></head><body>
+<div class="ribbon"><b>Website concept</b> prepared for Acker Paving by <a href="https://saintbuilds.com">Saint Daniel</a>. Photos are placeholders until we add your own work.</div>
+<nav><div class="wrap"><a class="logo" href="#top"><span class="logo-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg></span><span class="logo-txt">Acker<small>PAVING</small></span></a>
+<div class="nav-links"><a href="#services">Services</a><a href="#process">How it works</a><a href="#work">Our work</a><a href="#estimate">Contact</a></div>
+<div class="nav-cta"><a class="nav-phone" href="tel:+18308329019">(830) 832-9019</a><a class="btn btn-acc" href="#estimate">Free Quote</a></div></div></nav>
+<header class="hero" id="top"><div class="wrap"><div><span class="eyebrow">Asphalt &amp; concrete · New Braunfels</span><h1>Smooth driveways.<br><em>Solid parking lots.</em></h1><p class="lead">Asphalt and concrete paving, sealcoating, striping and repairs for homes and businesses across New Braunfels and the Hill Country.</p>
+<div class="hero-ctas"><a class="btn btn-acc" href="#estimate">Get my free quote</a><a class="btn btn-ghost" href="tel:+18308329019">Call (830) 832-9019</a></div><div class="trust"><span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg> Free estimates</span><span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg> Residential &amp; commercial</span><span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg> Hill Country</span></div></div>
+<form class="card" id="estimate" onsubmit="event.preventDefault();this.querySelector('.sent').style.display='block'"><h3>Get a free quote</h3><p>Tell us a little about the job. We'll get back to you the same day.</p>
+<div class="row2"><div><label>Name</label><input required placeholder="Jane Smith"></div><div><label>Phone</label><input required placeholder="(555) 555-0123" inputmode="tel"></div></div>
+<label>Address</label><input placeholder="Street, New Braunfels, TX"><label>What do you need?</label><select><option>Asphalt driveways</option><option>Parking lots</option><option>Sealcoating</option><option>Striping</option><option>Repairs</option><option>Concrete</option><option>Something else</option></select>
+<button class="btn btn-main" type="submit">Request my free quote</button><p class="fine">No obligation. We never share your details.</p>
+<div class="sent">Thanks! This is a concept page, so nothing was sent. On the live site, this goes straight to your inbox and phone.</div></form></div></header>
+<div class="badges"><div class="wrap"><div class="badge"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 5 21M16 3l3 18M12 5v3M12 11v3M12 17v3"/></svg></span><div><b>Asphalt paving</b><small>Driveways &amp; lots</small></div></div><div class="badge"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16"/><path d="M4 12h16M12 4v16"/></svg></span><div><b>Concrete</b><small>Pads, curbs &amp; walks</small></div></div><div class="badge"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></svg></span><div><b>Sealcoating</b><small>Protect your surface</small></div></div><div class="badge"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><b>Local</b><small>New Braunfels &amp; area</small></div></div></div></div>
+<section class="ins" id="process"><div class="wrap"><div class="sec-head fi"><span class="kicker light">How it works</span><h2>Paving without the headaches</h2></div><div class="steps"><div class="step fi"><div class="n">01</div><h3>Free site estimate</h3><p>We measure, check drainage and recommend the right surface.</p></div><div class="step fi"><div class="n">02</div><h3>Clear proposal</h3><p>One written price covering prep, paving and clean-up.</p></div><div class="step fi"><div class="n">03</div><h3>Built to last</h3><p>Proper base, proper compaction and a finish that holds up to Texas heat.</p></div></div></div></section>
+<section id="services"><div class="wrap"><div class="sec-head fi"><span class="kicker">What we do</span><h2>Services in New Braunfels and the Hill Country</h2></div><div class="svc"><a href="#estimate" class="fi"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 5 21M16 3l3 18M12 5v3M12 11v3M12 17v3"/></svg></span><h3>Asphalt driveways</h3><p>New installs, overlays and full replacements.</p></a><a href="#estimate" class="fi"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16"/><path d="M4 12h16M12 4v16"/></svg></span><h3>Parking lots</h3><p>Paving, overlays and repairs for businesses.</p></a><a href="#estimate" class="fi"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></svg></span><h3>Sealcoating</h3><p>Protects asphalt from sun, water and oil.</p></a><a href="#estimate" class="fi"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span><h3>Striping</h3><p>Clear, compliant lot lines and markings.</p></a><a href="#estimate" class="fi"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6a4 4 0 0 0 5 5l-9 9-3-3 9-9a4 4 0 0 0-2-2z"/></svg></span><h3>Repairs</h3><p>Potholes, cracks and patching.</p></a><a href="#estimate" class="fi"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg></span><h3>Concrete</h3><p>Pads, curbs, sidewalks and approaches.</p></a></div></div></section>
+<section class="why"><div class="wrap"><div class="why-img fi"></div><div><div class="sec-head fi" style="margin-bottom:22px"><span class="kicker">Why Acker</span><h2>Paving done right, the first time</h2></div><ul class="list"><li class="fi"><span class="ck"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span><div><b>Proper base work</b><span>Most paving fails underneath, so we get the base right.</span></div></li><li class="fi"><span class="ck"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span><div><b>Residential &amp; commercial</b><span>From a home driveway to a full parking lot.</span></div></li><li class="fi"><span class="ck"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span><div><b>Built for Texas heat</b><span>Mixes and sealcoats suited to Hill Country weather.</span></div></li><li class="fi"><span class="ck"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span><div><b>Straight pricing</b><span>A written estimate with no surprises.</span></div></li></ul></div></div></section>
+<section id="work"><div class="wrap"><div class="rev-top"><div class="sec-head fi" style="margin-bottom:0"><span class="kicker">Our work</span><h2>Recent projects</h2></div></div><div class="gallery fi"><div style="background-image:url('https://images.unsplash.com/photo-1773118330236-d812832b5b71?auto=format&fit=crop&w=1100&q=70')"></div><div style="background-image:url('https://images.unsplash.com/photo-1595734939818-f4e0d44957df?auto=format&fit=crop&w=700&q=70')"></div><div style="background-image:url('https://images.unsplash.com/photo-1693019108307-25453cd99978?auto=format&fit=crop&w=700&q=70')"></div><div style="background-image:url('https://images.unsplash.com/photo-1685692145956-d48371176012?auto=format&fit=crop&w=700&q=70')"></div><div style="background-image:url('https://images.unsplash.com/photo-1707925082019-4a182e2ba548?auto=format&fit=crop&w=700&q=70')"></div></div><p class="note">Placeholder photos. Your own before-and-after photos go here on the live site.</p></div></section>
+<div class="cta"><div class="wrap"><div><h2>Driveway or lot falling apart?</h2><p>Get a free estimate from Acker Paving.</p></div><div class="cta-btns"><a class="btn btn-dark" href="#estimate">Get a free quote</a><a class="btn btn-line" href="tel:+18308329019">(830) 832-9019</a></div></div></div>
+<footer><div class="wrap"><div class="cols"><div><h4>Acker Paving</h4><p>Serving New Braunfels and the Hill Country.</p></div><div><h4>Contact</h4><p><a href="tel:+18308329019">(830) 832-9019</a><br><a href="mailto:estimate@ackerpaving.com">estimate@ackerpaving.com</a></p></div><div><h4>Area</h4><p>New Braunfels and the Hill Country</p></div></div>
+<div class="bottom"><span>© 2026 Acker Paving</span><span>Concept by <a href="https://saintbuilds.com">saintbuilds.com</a></span></div></div></footer>
+<div class="callbar"><a class="btn btn-acc" href="tel:+18308329019">Call now</a><a class="btn btn-outline" href="#estimate">Free quote</a></div>
+<script>const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -40px 0px'});document.querySelectorAll('.fi').forEach(el=>io.observe(el));</script>
+</body></html>
