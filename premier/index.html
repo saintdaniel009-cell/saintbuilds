@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Premier Roofing &amp; Siding — Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0E2240;--navy-2:#16315C;--red:#C8242F;--red-dk:#A11C25;--ink:#111827;--muted:#5B6474;--line:#E4E7EC;--bg:#F5F6F8;--white:#fff;--gold:#F5B301}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--white);line-height:1.55;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:Archivo,Inter,sans-serif;line-height:1.08;letter-spacing:-.01em}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 24px;border-radius:8px;font-weight:600;text-decoration:none;white-space:nowrap;border:2px solid transparent;cursor:pointer;font-size:16px}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:var(--red-dk)}
+.btn-ghost{border-color:rgba(255,255,255,.6);color:#fff}.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.ribbon{background:#111;color:#cfd3da;font-size:13px;text-align:center;padding:8px 16px}
+.ribbon b{color:#fff}
+/* nav */
+nav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:70px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.logo-mark{width:38px;height:38px;border-radius:8px;background:var(--navy);display:grid;place-items:center;flex:none}
+.logo-txt{font-family:Archivo;font-weight:900;font-size:19px;color:var(--navy);line-height:1}
+.logo-txt small{display:block;font-weight:600;font-size:11px;letter-spacing:.14em;color:var(--red);margin-top:3px}
+.nav-links{display:flex;gap:26px;font-weight:500;font-size:15px}
+.nav-links a{text-decoration:none;color:var(--muted)}.nav-links a:hover{color:var(--navy)}
+.nav-cta{display:flex;align-items:center;gap:14px}
+.nav-phone{font-weight:700;color:var(--navy);text-decoration:none}
+@media(max-width:900px){.nav-links,.nav-phone{display:none}}
+@media(max-width:420px){.nav-cta .btn{padding:11px 14px;font-size:14px}.logo-txt{font-size:16px}}
+/* hero */
+.hero{position:relative;background:var(--navy) url('https://images.unsplash.com/photo-1643225523483-e2c434191bba?auto=format&fit=crop&w=1800&q=70') center/cover;color:#fff}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,34,64,.96) 0%,rgba(14,34,64,.85) 48%,rgba(14,34,64,.35) 100%)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;padding-top:72px;padding-bottom:72px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:rgba(200,36,47,.9);padding:7px 12px;border-radius:999px}
+.hero h1{font-size:clamp(36px,5.2vw,62px);font-weight:900;margin:18px 0 16px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p.lead{font-size:clamp(16px,1.6vw,19px);color:#d9e1ee;max-width:560px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 30px}
+.trust{display:flex;flex-wrap:wrap;gap:12px 26px;font-size:14px;color:#e8edf5}
+.trust span{display:flex;align-items:center;gap:7px}
+.stars{color:var(--gold);letter-spacing:1px}
+/* form card */
+.card{background:#fff;color:var(--ink);border-radius:14px;padding:28px;box-shadow:0 30px 60px rgba(0,0,0,.25)}
+.card h3{font-size:24px;color:var(--navy)}
+.card p{color:var(--muted);font-size:14px;margin:6px 0 18px}
+.card label{display:block;font-size:13px;font-weight:600;margin:12px 0 6px}
+.card input,.card select,.card textarea{width:100%;padding:12px 14px;border:1px solid #cfd5df;border-radius:8px;font:inherit;font-size:15px;background:#fff}
+.card .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card .btn{width:100%;justify-content:center;margin-top:18px}
+.card .fine{font-size:12px;text-align:center;margin:10px 0 0}
+.sent{display:none;padding:14px;border-radius:8px;background:#E8F6EE;color:#14532d;font-size:14px;margin-top:12px}
+@media(max-width:900px){.hero .wrap{grid-template-columns:1fr;padding-top:48px;padding-bottom:48px}}
+/* badges strip */
+.badges{background:var(--bg);border-bottom:1px solid var(--line)}
+.badges .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-top:26px;padding-bottom:26px}
+.badge{display:flex;align-items:center;gap:12px}
+.badge b{display:block;font-family:Archivo;font-size:18px;color:var(--navy)}
+.badge small{color:var(--muted);font-size:13px}
+.badge .ic{width:44px;height:44px;border-radius:10px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;flex:none;color:var(--red)}
+@media(max-width:900px){.badges .wrap{grid-template-columns:1fr 1fr}}
+/* sections */
+section{padding:84px 0}
+.sec-head{max-width:640px;margin-bottom:40px}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+.sec-head h2{font-size:clamp(28px,3.6vw,42px);color:var(--navy);margin:10px 0 12px}
+.sec-head p{color:var(--muted);font-size:17px}
+/* insurance */
+.ins{background:var(--navy);color:#fff}
+.ins .sec-head h2{color:#fff}.ins .sec-head p{color:#c5d0e2}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step{background:var(--navy-2);border-radius:12px;padding:26px;border:1px solid rgba(255,255,255,.08)}
+.step .n{font-family:Archivo;font-weight:900;font-size:40px;color:var(--gold);line-height:1}
+.step h3{font-size:20px;margin:12px 0 8px}
+.step p{color:#c5d0e2;font-size:15px}
+@media(max-width:800px){.steps{grid-template-columns:1fr}}
+/* services */
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.svc a{display:block;text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:24px;transition:border-color .2s,transform .2s,box-shadow .2s;background:#fff}
+.svc a:hover{border-color:var(--red);transform:translateY(-3px);box-shadow:0 14px 30px rgba(14,34,64,.08)}
+.svc .ic{width:46px;height:46px;border-radius:10px;background:#FCECEE;color:var(--red);display:grid;place-items:center;margin-bottom:16px}
+.svc h3{font-size:20px;color:var(--navy);margin-bottom:6px}
+.svc p{color:var(--muted);font-size:15px}
+@media(max-width:900px){.svc{grid-template-columns:1fr 1fr}}@media(max-width:560px){.svc{grid-template-columns:1fr}}
+/* why */
+.why{background:var(--bg)}
+.why .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.why-img{border-radius:14px;overflow:hidden;aspect-ratio:4/5;background:#cfd5df url('https://images.unsplash.com/photo-1635424709961-f3a150459ad4?auto=format&fit=crop&w=1000&q=70') center/cover;position:relative}
+.why-img .tag{position:absolute;left:18px;bottom:18px;background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.why-img .tag b{font-family:Archivo;font-size:28px;color:var(--navy);display:block;line-height:1}
+.why-img .tag small{color:var(--muted);font-size:13px}
+.list{list-style:none;display:grid;gap:16px;margin-top:8px}
+.list li{display:flex;gap:14px}
+.list .ck{width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;flex:none;margin-top:2px}
+.list b{display:block;color:var(--navy)}
+.list span{color:var(--muted);font-size:15px}
+.vet{margin-top:26px;display:flex;gap:14px;align-items:center;background:#fff;border:1px dashed var(--red);border-radius:12px;padding:16px 18px}
+.vet b{color:var(--red);font-family:Archivo;font-size:26px}
+@media(max-width:900px){.why .wrap{grid-template-columns:1fr}.why-img{aspect-ratio:16/11}}
+/* work */
+.gallery{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:240px 240px;gap:12px}
+.gallery div{border-radius:12px;background:#cfd5df center/cover}
+.gallery div:first-child{grid-row:span 2}
+.note{color:var(--muted);font-size:13px;margin-top:12px}
+@media(max-width:800px){.gallery{grid-template-columns:1fr 1fr;grid-template-rows:200px 160px 160px}.gallery div:first-child{grid-column:span 2;grid-row:auto}}
+/* reviews */
+.rev-top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:34px}
+.score{display:flex;align-items:center;gap:14px;background:var(--bg);border-radius:12px;padding:14px 18px}
+.score b{font-family:Archivo;font-size:34px;color:var(--navy)}
+.revs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.rev{border:1px solid var(--line);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:14px}
+.rev p{font-size:16px}
+.rev .who{margin-top:auto;font-weight:600;color:var(--navy);font-size:14px}
+@media(max-width:900px){.revs{grid-template-columns:1fr 1fr}}@media(max-width:600px){.revs{grid-template-columns:1fr}}
+/* cta */
+.cta{background:var(--red);color:#fff;padding:64px 0}
+.cta .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.cta h2{font-size:clamp(26px,3.4vw,40px)}
+.cta p{color:#ffe1e3;margin-top:6px}
+.btn-white{background:#fff;color:var(--red)}.btn-white:hover{background:#f3f3f3}
+/* footer */
+footer{background:#0A1830;color:#aab6c8;padding:56px 0 28px;font-size:14px}
+footer .cols{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:32px}
+footer h4{color:#fff;font-family:Archivo;font-size:16px;margin-bottom:12px}
+footer a{text-decoration:none}footer a:hover{color:#fff}
+footer .bottom{border-top:1px solid rgba(255,255,255,.1);margin-top:40px;padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:800px){footer .cols{grid-template-columns:1fr}}
+/* mobile call bar */
+.callbar{display:none}
+@media(max-width:700px){.callbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--line);padding:10px 12px;gap:10px}.callbar .btn{flex:1;justify-content:center;padding:13px 10px}body{padding-bottom:70px}}
+.fi{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}.fi.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.fi{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<div class="ribbon"><b>Website concept</b> prepared for Premier Roofing &amp; Siding by <a href="https://saintbuilds.com" style="color:#fff">Saint Daniel</a>. Photos are placeholders until we add your own project shots.</div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top">
+      <span class="logo-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"><path d="M2 12 12 4l10 8"/><path d="M5 10v9h14v-9"/></svg></span>
+      <span class="logo-txt">PREMIER<small>ROOFING &amp; SIDING</small></span>
+    </a>
+    <div class="nav-links"><a href="#services">Services</a><a href="#insurance">Insurance claims</a><a href="#work">Our work</a><a href="#reviews">Reviews</a></div>
+    <div class="nav-cta"><a class="nav-phone" href="tel:+14045516405">(404) 551-6405</a><a class="btn btn-red" href="#estimate">Free Estimate</a></div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">GAF Certified · Conyers, GA</span>
+      <h1>Big-company roofing.<br><em>Local, honest pricing.</em></h1>
+      <p class="lead">Roof replacements, repairs, siding and gutters for homes and businesses across Rockdale County. We handle the insurance paperwork, so in most cases a storm-damaged roof costs you nothing out of pocket.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-red" href="#estimate">Get my free estimate</a>
+        <a class="btn btn-ghost" href="tel:+14045516405">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>
+          Call (404) 551-6405</a>
+      </div>
+      <div class="trust">
+        <span><span class="stars">★★★★★</span> 97 Google reviews</span>
+        <span>✔ BBB Accredited</span>
+        <span>✔ Licensed &amp; insured</span>
+      </div>
+    </div>
+
+    <form class="card" id="estimate" onsubmit="event.preventDefault();this.querySelector('.sent').style.display='block'">
+      <h3>Get a free roof estimate</h3>
+      <p>Tell us a little about your home. We'll call you back the same day.</p>
+      <div class="row2">
+        <div><label for="n">Name</label><input id="n" required placeholder="Jane Smith"></div>
+        <div><label for="ph">Phone</label><input id="ph" required placeholder="(404) 555-0123" inputmode="tel"></div>
+      </div>
+      <label for="ad">Property address</label><input id="ad" placeholder="Street, Conyers GA">
+      <label for="sv">What do you need?</label>
+      <select id="sv"><option>Roof replacement</option><option>Roof repair / leak</option><option>Storm or hail damage (insurance)</option><option>Siding</option><option>Gutters</option><option>Something else</option></select>
+      <button class="btn btn-red" type="submit">Request my free estimate</button>
+      <p class="fine">No obligation. We never share your details.</p>
+      <div class="sent">Thanks! This is a concept page, so nothing was sent. On the live site, this goes straight to your inbox and phone.</div>
+    </form>
+  </div>
+</header>
+
+<div class="badges">
+  <div class="wrap">
+    <div class="badge"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5l-8-3z"/></svg></span><div><b>GAF Certified</b><small>Manufacturer-certified installs</small></div></div>
+    <div class="badge"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.3 18.2 21l-1.6-7L22 9.2l-7.2-.6L12 2 9.2 8.6 2 9.2 7.4 14l-1.6 7z"/></svg></span><div><b>97 reviews</b><small>From local homeowners</small></div></div>
+    <div class="badge"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12l5 5L20 6"/></svg></span><div><b>20+ years</b><small>Combined crew experience</small></div></div>
+    <div class="badge"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg></span><div><b>Financing</b><small>Flexible payment options</small></div></div>
+  </div>
+</div>
+
+<section class="ins" id="insurance">
+  <div class="wrap">
+    <div class="sec-head fi"><span class="kicker" style="color:var(--gold)">Storm &amp; hail damage</span><h2>We deal with the insurance company. You get a new roof.</h2><p>We work with all home insurance carriers and handle the paperwork from inspection to final payment.</p></div>
+    <div class="steps">
+      <div class="step fi"><div class="n">01</div><h3>Free inspection</h3><p>We check your roof, photograph the damage and tell you honestly whether it's worth filing a claim.</p></div>
+      <div class="step fi"><div class="n">02</div><h3>We handle the claim</h3><p>We meet your adjuster, document everything and take care of the back-and-forth paperwork.</p></div>
+      <div class="step fi"><div class="n">03</div><h3>New roof, no stress</h3><p>Once approved, our GAF-certified crew installs your roof and cleans up. In most cases, you only pay your deductible.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head fi"><span class="kicker">What we do</span><h2>One crew for your whole exterior</h2><p>Residential and commercial. No job is too big or too small.</p></div>
+    <div class="svc">
+      <a href="#estimate" class="fi"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M2 12 12 4l10 8"/><path d="M5 10v9h14v-9"/></svg></span><h3>Roof replacement</h3><p>Full tear-off and new architectural shingles from GAF, CertainTeed, Tamko and IKO.</p></a>
+      <a href="#estimate" class="fi"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3v6M8 7l4 4 4-4"/><path d="M4 21h16"/><path d="M6 21v-6h12v6"/></svg></span><h3>Roof repair &amp; leaks</h3><p>Missing shingles, leaks, flashing and storm damage, fixed fast before it spreads.</p></a>
+      <a href="#estimate" class="fi"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 21h18M5 21V8h14v13M5 12h14M5 16h14"/></svg></span><h3>Siding</h3><p>Vinyl and fiber-cement siding that refreshes your home and keeps the weather out.</p></a>
+      <a href="#estimate" class="fi"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 6h18l-2 4H5z"/><path d="M17 10v10"/></svg></span><h3>Gutters</h3><p>Seamless gutters and downspouts sized to protect your foundation and fascia.</p></a>
+      <a href="#estimate" class="fi"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M12 3v18M4 12h16"/></svg></span><h3>Windows</h3><p>Energy-efficient replacement windows installed cleanly, inside and out.</p></a>
+      <a href="#estimate" class="fi"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h12v5H4zM10 9v4M8 13h4v8H8z"/></svg></span><h3>Painting &amp; construction</h3><p>Exterior painting and general construction to finish the job properly.</p></a>
+    </div>
+  </div>
+</section>
+
+<section class="why">
+  <div class="wrap">
+    <div class="why-img fi"><div class="tag"><b>GAF</b><small>Certified roofing contractor</small></div></div>
+    <div>
+      <div class="sec-head fi" style="margin-bottom:22px"><span class="kicker">Why Premier</span><h2>Professional, dependable, and on your side</h2></div>
+      <ul class="list">
+        <li class="fi"><span class="ck">✓</span><div><b>GAF Certified Roofing Contractor</b><span>A status held by only a small share of roofers in North America.</span></div></li>
+        <li class="fi"><span class="ck">✓</span><div><b>Fully licensed &amp; insured</b><span>You're protected from the first ladder to the final clean-up.</span></div></li>
+        <li class="fi"><span class="ck">✓</span><div><b>We explain everything</b><span>We sit down with you and walk through the work in plain English.</span></div></li>
+        <li class="fi"><span class="ck">✓</span><div><b>Flexible payment</b><span>Financing available and all major credit cards accepted.</span></div></li>
+      </ul>
+      <div class="vet fi"><b>5% off</b><span>for veterans and active-duty service members. Thank you for your service.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head fi"><span class="kicker">Our work</span><h2>Recent roofs around Conyers</h2><p>Every project is photographed before and after, so you can see the quality for yourself.</p></div>
+    <div class="gallery fi">
+      <div style="background-image:url('https://images.unsplash.com/photo-1635424824849-1b09bdcc55b1?auto=format&fit=crop&w=1100&q=70')"></div>
+      <div style="background-image:url('https://images.unsplash.com/photo-1633759593085-1eaeb724fc88?auto=format&fit=crop&w=700&q=70')"></div>
+      <div style="background-image:url('https://images.unsplash.com/photo-1691039923170-c275e01cce89?auto=format&fit=crop&w=700&q=70')"></div>
+      <div style="background-image:url('https://images.unsplash.com/photo-1635424824800-692767998d07?auto=format&fit=crop&w=700&q=70')"></div>
+      <div style="background-image:url('https://images.unsplash.com/photo-1518736346281-76873166a64a?auto=format&fit=crop&w=700&q=70')"></div>
+    </div>
+    <p class="note">Placeholder photos. Your own before-and-after project photos go here on the live site.</p>
+  </div>
+</section>
+
+<section id="reviews" style="padding-top:20px">
+  <div class="wrap">
+    <div class="rev-top">
+      <div class="sec-head fi" style="margin-bottom:0"><span class="kicker">Reviews</span><h2>What Conyers homeowners say</h2></div>
+      <div class="score fi"><b>97</b><div><span class="stars">★★★★★</span><br><small style="color:var(--muted)">Google reviews</small></div></div>
+    </div>
+    <div class="revs">
+      <div class="rev fi"><span class="stars">★★★★★</span><p>"We are more than pleased with the new roof and the interior repairs exceeded our expectations."</p><span class="who">Wendy &amp; Brent Carter</span></div>
+      <div class="rev fi"><span class="stars">★★★★★</span><p>"I needed a new roof and ceiling repaired. The crew was very efficient in getting the job well done."</p><span class="who">Gail K.</span></div>
+      <div class="rev fi"><span class="stars">★★★★★</span><p>"Excellent service, very thorough. Will sit down with you and explain their work in detail."</p><span class="who">Van W.</span></div>
+      <div class="rev fi"><span class="stars">★★★★★</span><p>"My experience with this company was nothing short of amazing."</p><span class="who">Tamaria H.</span></div>
+      <div class="rev fi"><span class="stars">★★★★★</span><p>"It was a pleasure doing business with Premier Roofing and Siding. The customer service was fantastic."</p><span class="who">S. Walters</span></div>
+      <div class="rev fi"><span class="stars">★★★★★</span><p>"Premier Roofing &amp; Siding, LLC is an excellent company in professionality, quality, and service."</p><span class="who">Winsome H.</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="cta">
+  <div class="wrap">
+    <div><h2>Storm hit your roof?</h2><p>Book a free inspection before your insurance deadline runs out.</p></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn btn-white" href="#estimate">Book free inspection</a><a class="btn btn-ghost" href="tel:+14045516405">(404) 551-6405</a></div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div><h4>Premier Roofing &amp; Siding, LLC</h4><p>Where premier service begins. Roofing, siding, gutters, windows and painting for homes and businesses in Conyers and Rockdale County.</p></div>
+      <div><h4>Contact</h4><p><a href="tel:+14045516405">(404) 551-6405</a><br><a href="mailto:customercare@premierroofllc.net">customercare@premierroofllc.net</a><br>1705 Hwy 138 SE #81834<br>Conyers, GA 30013</p></div>
+      <div><h4>Hours</h4><p>Mon–Fri: 8:00am – 7:00pm<br>Saturday: 9:00am – 4:00pm<br>Sunday: Closed</p></div>
+    </div>
+    <div class="bottom"><span>© 2026 Premier Roofing &amp; Siding, LLC</span><span>Concept by <a href="https://saintbuilds.com" style="color:#fff">saintbuilds.com</a></span></div>
+  </div>
+</footer>
+
+<div class="callbar"><a class="btn btn-red" href="tel:+14045516405">Call now</a><a class="btn" style="border-color:var(--navy);color:var(--navy)" href="#estimate">Free estimate</a></div>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.fi').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
