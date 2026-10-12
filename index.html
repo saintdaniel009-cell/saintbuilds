@@ -150,7 +150,7 @@ main{overflow-x:clip}
 @media(min-width:640px){.steps{grid-template-columns:1fr 1fr}}
 @media(min-width:1024px){.steps{grid-template-columns:repeat(4,1fr)}}
 .step{border:1px solid rgba(12,12,12,.15);border-radius:28px;padding:24px}
-.step span{display:block;font-weight:900;font-size:2rem;line-height:1;margin-bottom:16px;background:linear-gradient(123deg,#B600A8,#7621B0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.step>span{display:block;font-weight:900;font-size:2rem;line-height:1;margin-bottom:16px;background:linear-gradient(123deg,#B600A8,#7621B0);-webkit-background-clip:text;background-clip:text;color:transparent}
 .step h4{font-weight:600;text-transform:uppercase;font-size:1.05rem;letter-spacing:.02em;margin-bottom:8px}
 .step p{font-weight:300;line-height:1.55;font-size:.95rem;opacity:.7}
 .contact p.assure{margin:18px auto 0;font-size:.95rem;opacity:.6}
@@ -200,6 +200,9 @@ img,video,canvas{-webkit-user-drag:none;user-select:none;-webkit-touch-callout:n
 html.ng .ng-only{display:inline-flex!important}
 html.ng .us-only{display:none!important}
 .wa-link{align-items:center;gap:8px}
+.ng-txt{display:none}
+html.ng .ng-txt{display:inline}
+html.ng .no-ng{display:none!important}
 </style>
 <script>try{var tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';if(tz==='Africa/Lagos'||/^en-NG|-NG$/i.test(navigator.language||''))document.documentElement.classList.add('ng');}catch(e){}</script>
 </head>
@@ -254,7 +257,7 @@ html.ng .us-only{display:none!important}
 <section class="services px" id="services">
   <h2 class="big-h fi" style="--fy:40px">Services</h2>
   <div class="svc-list">
-    <div class="svc fi" style="--fdelay:0s"><div class="num">01</div><div><h3>Web Design &amp; Development</h3><p>Fast, modern websites designed and built from scratch, with layouts that turn visitors into calls, bookings and sales.</p><span class="price">From $950 · Care plan $79/mo</span></div></div>
+    <div class="svc fi" style="--fdelay:0s"><div class="num">01</div><div><h3>Web Design &amp; Development</h3><p>Fast, modern websites designed and built from scratch, with layouts that turn visitors into calls, bookings and sales.</p><span class="price no-ng">From $950 · Care plan $79/mo</span></div></div>
     <div class="svc fi" style="--fdelay:.1s"><div class="num">02</div><div><h3>Landing Pages</h3><p>Focused pages for a single offer or campaign, built to load fast, read clearly and get people to take action.</p></div></div>
     <div class="svc fi" style="--fdelay:.2s"><div class="num">03</div><div><h3>Video Editing</h3><p>Reels, product promos and talking-head edits with captions and pacing made for Instagram, TikTok and YouTube.</p></div></div>
     <div class="svc fi" style="--fdelay:.3s"><div class="num">04</div><div><h3>3D Renders</h3><p>Photorealistic renders of products and retail display stands, so you can see and sell the idea before anything is built.</p></div></div>
@@ -267,7 +270,7 @@ html.ng .us-only{display:none!important}
       <li class="step fi" style="--fdelay:0s"><span>01</span><h4>Free concept</h4><p>I design a homepage concept for your business using your name, photos and reviews. You see it before you spend anything.</p></li>
       <li class="step fi" style="--fdelay:.1s"><span>02</span><h4>15-minute call</h4><p>We go over what you like, what to change and which pages you need.</p></li>
       <li class="step fi" style="--fdelay:.2s"><span>03</span><h4>Live in about a week</h4><p>I build the full site on your domain, set up for phones, with your contact details on every page.</p></li>
-      <li class="step fi" style="--fdelay:.3s"><span>04</span><h4>Care plan, if you want it</h4><p>$79 a month for updates and fixes after launch, so you never have to touch the site yourself.</p></li>
+      <li class="step fi" style="--fdelay:.3s"><span>04</span><h4>Care plan, if you want it</h4><p><span class="no-ng">$79 a month for updates</span><span class="ng-txt">Ongoing updates</span> and fixes after launch, so you never have to touch the site yourself.</p></li>
     </ol>
   </div>
 </section>
