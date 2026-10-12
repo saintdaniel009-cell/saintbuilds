@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-<meta name="description" content="Saint Daniel designs and builds websites, edits videos and creates 3D renders for businesses. Building websites since 2018.">
+<meta name="description" content="Websites that turn local searches into calls and bookings. Free homepage concept, live in about a week, from $950. By Saint Daniel, building websites since 2018.">
 <meta property="og:title" content="Saint Daniel — Web Design, Video & 3D">
 <meta property="og:description" content="Websites that bring you customers. Plus video editing, 3D renders and social media design.">
 <meta property="og:image" content="https://saintbuilds.com/og-image.jpg">
@@ -143,6 +143,18 @@ main{overflow-x:clip}
 .svc h3{font-weight:500;text-transform:uppercase;font-size:clamp(1rem,2.2vw,2.1rem);margin-bottom:6px;letter-spacing:.02em}
 .svc p{font-weight:300;line-height:1.6;max-width:42rem;font-size:clamp(.85rem,1.6vw,1.25rem);opacity:.6}
 
+.price{display:inline-block;margin-top:14px;padding:6px 14px;border-radius:999px;background:#0C0C0C;color:#fff;font-weight:500;font-size:clamp(.75rem,1.2vw,.95rem);letter-spacing:.04em}
+.process{max-width:64rem;margin:96px auto 0}
+.proc-h{font-weight:800;text-transform:uppercase;letter-spacing:-.01em;font-size:clamp(1.8rem,5vw,3.6rem);margin-bottom:32px}
+.steps{list-style:none;display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:640px){.steps{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.steps{grid-template-columns:repeat(4,1fr)}}
+.step{border:1px solid rgba(12,12,12,.15);border-radius:28px;padding:24px}
+.step span{display:block;font-weight:900;font-size:2rem;line-height:1;margin-bottom:16px;background:linear-gradient(123deg,#B600A8,#7621B0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.step h4{font-weight:600;text-transform:uppercase;font-size:1.05rem;letter-spacing:.02em;margin-bottom:8px}
+.step p{font-weight:300;line-height:1.55;font-size:.95rem;opacity:.7}
+.contact p.assure{margin:18px auto 0;font-size:.95rem;opacity:.6}
+
 /* ============ PROJECTS ============ */
 .projects{background:var(--bg);border-radius:40px 40px 0 0;margin-top:-40px;position:relative;z-index:10;padding-top:80px;padding-bottom:60px}
 @media(min-width:640px){.projects{border-radius:50px 50px 0 0;margin-top:-48px;padding-top:96px}}
@@ -200,7 +212,7 @@ html.ng .us-only{display:none!important}
     <a href="#about">About</a><a href="#services">Services</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
   </nav>
   <div class="hero-title-wrap fi" style="--fy:40px;--fdelay:.15s">
-    <h1 class="hero-heading" id="heroTitle">Hi, i&apos;m Saint</h1>
+    <h1 class="hero-heading" id="heroTitle">Hi, I&apos;m Saint</h1>
   </div>
 
   <div class="head-stage fi" id="headStage" style="--fy:30px;--fdelay:.6s" aria-label="Interactive 3D portrait of Saint Daniel">
@@ -213,7 +225,7 @@ html.ng .us-only{display:none!important}
   <a class="scroll-cue fi" href="#about" style="--fy:10px;--fdelay:1s" aria-label="Scroll for more"><span class="mouse"><span></span></span><small>Scroll</small></a>
 
   <div class="hero-bottom">
-    <p class="fi" style="--fy:20px;--fdelay:.35s">A designer building websites, videos and 3D visuals that win you customers</p>
+    <p class="fi" style="--fy:20px;--fdelay:.35s">I build websites that turn local searches into calls and bookings</p>
     <div class="fi" style="--fy:20px;--fdelay:.5s"><a class="contact-btn magnet" href="#contact">Contact Me</a></div>
   </div>
 </section>
@@ -242,11 +254,21 @@ html.ng .us-only{display:none!important}
 <section class="services px" id="services">
   <h2 class="big-h fi" style="--fy:40px">Services</h2>
   <div class="svc-list">
-    <div class="svc fi" style="--fdelay:0s"><div class="num">01</div><div><h3>Web Design &amp; Development</h3><p>Fast, modern websites designed and built from scratch, with layouts that turn visitors into calls, bookings and sales.</p></div></div>
+    <div class="svc fi" style="--fdelay:0s"><div class="num">01</div><div><h3>Web Design &amp; Development</h3><p>Fast, modern websites designed and built from scratch, with layouts that turn visitors into calls, bookings and sales.</p><span class="price">From $950 · Care plan $79/mo</span></div></div>
     <div class="svc fi" style="--fdelay:.1s"><div class="num">02</div><div><h3>Landing Pages</h3><p>Focused pages for a single offer or campaign, built to load fast, read clearly and get people to take action.</p></div></div>
     <div class="svc fi" style="--fdelay:.2s"><div class="num">03</div><div><h3>Video Editing</h3><p>Reels, product promos and talking-head edits with captions and pacing made for Instagram, TikTok and YouTube.</p></div></div>
     <div class="svc fi" style="--fdelay:.3s"><div class="num">04</div><div><h3>3D Renders</h3><p>Photorealistic renders of products and retail display stands, so you can see and sell the idea before anything is built.</p></div></div>
     <div class="svc fi" style="--fdelay:.4s"><div class="num">05</div><div><h3>Social Media Design</h3><p>Carousels, banners and post templates that keep your brand consistent and recognisable across every platform.</p></div></div>
+  </div>
+
+  <div class="process" id="process">
+    <h3 class="proc-h fi" style="--fy:30px">How it works</h3>
+    <ol class="steps">
+      <li class="step fi" style="--fdelay:0s"><span>01</span><h4>Free concept</h4><p>I design a homepage concept for your business using your name, photos and reviews. You see it before you spend anything.</p></li>
+      <li class="step fi" style="--fdelay:.1s"><span>02</span><h4>15-minute call</h4><p>We go over what you like, what to change and which pages you need.</p></li>
+      <li class="step fi" style="--fdelay:.2s"><span>03</span><h4>Live in about a week</h4><p>I build the full site on your domain, set up for phones, with your contact details on every page.</p></li>
+      <li class="step fi" style="--fdelay:.3s"><span>04</span><h4>Care plan, if you want it</h4><p>$79 a month for updates and fixes after launch, so you never have to touch the site yourself.</p></li>
+    </ol>
   </div>
 </section>
 
@@ -285,8 +307,9 @@ html.ng .us-only{display:none!important}
 <!-- ================= CONTACT ================= -->
 <section class="contact px" id="contact">
   <h2 class="big-h hero-heading fi" style="--fy:40px">Let's talk</h2>
-  <p class="fi" style="--fdelay:.1s">Need a new website, a fix for the one you have, or videos and 3D visuals for your brand? Send a message and I'll reply within one business day.</p>
-  <div class="fi" style="--fdelay:.2s"><a class="contact-btn magnet" href="mailto:letsbuild@saintbuilds.com">Contact Me</a></div>
+  <p class="fi" style="--fdelay:.1s">Tell me your business name and website, and I'll send you a free homepage concept. Need a fix for your current site, or videos and 3D visuals? Same address. I reply within one business day.</p>
+  <div class="fi" style="--fdelay:.2s"><a class="contact-btn magnet" href="mailto:letsbuild@saintbuilds.com">Get a free concept</a></div>
+  <p class="assure fi" style="--fdelay:.25s">Free concept. No obligation, no sales pitch.</p>
   <div class="contact-lines fi" style="--fdelay:.3s">
     <a href="mailto:letsbuild@saintbuilds.com">letsbuild@saintbuilds.com</a>
     <a href="tel:+16785856909" class="us-only">+1 (678) 585-6909</a>
