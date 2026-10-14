@@ -692,8 +692,12 @@ function walk(times){const moved=[];for(let k=0;k<(times||1);k++){const p=S.play
 setInterval(()=>{if(!S.ended&&!document.hidden)walk();},5000);
 setInterval(()=>{if(!$('#v-board').hidden)$('#bLeft').textContent=leftStr(true);},30000);
 
+// ---------- success sound ----------
+const chime=(()=>{let a;try{a=new Audio('success.mp3');a.preload='auto';a.volume=.8;}catch(e){}
+  return()=>{if(!a)return;try{a.currentTime=0;const p=a.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}};})();
+
 // ---------- confetti ----------
-function confetti(count){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const c=$('#confetti');c.hidden=false;const x=c.getContext('2d');const W=c.width=innerWidth*devicePixelRatio,H=c.height=innerHeight*devicePixelRatio;
+function confetti(count){chime();if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const c=$('#confetti');c.hidden=false;const x=c.getContext('2d');const W=c.width=innerWidth*devicePixelRatio,H=c.height=innerHeight*devicePixelRatio;
   const cols=['#F5B82E','#8A2ECC','#5EE08F','#FFFFFF','#E64980'];const ps=Array.from({length:count||140},()=>({x:W/2+(Math.random()-.5)*W*.3,y:H*.35,vx:(Math.random()-.5)*18*devicePixelRatio,vy:(-Math.random()*20-6)*devicePixelRatio,r:Math.random()*6+4,c:cols[Math.floor(Math.random()*cols.length)],a:Math.random()*6,s:(Math.random()-.5)*.3}));
   let f=0;(function tick(){x.clearRect(0,0,W,H);ps.forEach(p=>{p.vy+=.55*devicePixelRatio;p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.a+=p.s;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r,-p.r/2,p.r*2*devicePixelRatio/1.5,p.r*devicePixelRatio/1.5);x.restore();});
     if(++f<150)requestAnimationFrame(tick);else{x.clearRect(0,0,W,H);c.hidden=true;}})();}
