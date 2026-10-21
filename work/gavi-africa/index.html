@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GAVI Africa: website for an auto centre — Saint Daniel</title>
+<meta name="description" content="Case study: designing, building and launching the website for GAVI Africa, an auto service, sales and parts centre in Lagos.">
+<meta property="og:title" content="GAVI Africa — case study by Saint Daniel">
+<meta property="og:description" content="A website that books car services: designed, built on Astro and Sanity, and launched end to end.">
+<meta property="og:image" content="https://saintbuilds.com/work/gavi-africa/img/hero.webp">
+<meta property="og:url" content="https://saintbuilds.com/work/gavi-africa/">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0C0C0C;--fg:#D7E2EA;--muted:#8F9AA3;--line:rgba(215,226,234,.14);--card:#15171B;--accent:#60A5FA}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--fg);font-family:'Kanit',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.col{max-width:680px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:24px 0;font-size:15px}
+nav a{text-decoration:none;opacity:.8}nav a:hover{opacity:1}
+.grad{background:linear-gradient(180deg,#646973 0%,#BBCCD7 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:500}
+h1{font-size:clamp(36px,7vw,64px);font-weight:700;line-height:1.05;letter-spacing:-.02em;margin:12px 0 20px}
+h2{font-size:clamp(26px,4vw,36px);font-weight:700;line-height:1.15;letter-spacing:-.01em;margin-bottom:16px}
+p,li{font-weight:300;font-size:17px;line-height:1.65;color:#C4CFD7}
+p+p{margin-top:14px}
+strong{font-weight:500;color:var(--fg)}
+.lede{font-size:20px;color:var(--fg);max-width:720px}
+header.top{padding:32px 0 40px}
+.meta{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:32px;padding-top:24px;border-top:1px solid var(--line);max-width:860px}
+@media(min-width:640px){.meta{grid-template-columns:repeat(4,1fr)}}
+.meta small{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.meta span{font-size:15px;font-weight:400}
+.devices{display:grid;gap:16px;margin-bottom:64px;align-items:end}
+@media(min-width:860px){.devices{grid-template-columns:3fr 1fr}}
+section{padding:56px 0;border-top:1px solid var(--line)}
+.num{color:var(--accent);font-weight:500;font-size:15px;margin-bottom:8px;display:block}
+figure{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:16px;overflow:hidden}
+figure img{border-radius:12px;margin:0 auto}
+figure.wide{margin-top:28px}
+figure.phone img{max-height:640px;width:auto}
+figcaption{font-size:14px;color:var(--muted);margin-top:14px;line-height:1.5;font-weight:300}
+.split{display:grid;gap:32px;align-items:start}
+@media(min-width:860px){.split{grid-template-columns:1fr 1.2fr}}
+ul.ticks{list-style:none;margin-top:16px}
+ul.ticks li{padding-left:22px;position:relative;margin-top:8px}
+ul.ticks li::before{content:"";position:absolute;left:0;top:.7em;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+ul.ticks+p{margin-top:16px}
+.stack{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.stack span{border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:14px;color:var(--fg)}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.cta a{border:1px solid var(--line);border-radius:999px;padding:12px 22px;text-decoration:none;font-size:15px}
+.cta a.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+footer{padding:40px 0 56px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav><a href="/work/">← All work</a><a href="mailto:letsbuild@saintbuilds.com">Contact</a></nav>
+
+  <header class="top">
+    <span class="eyebrow">Case study · Web design &amp; build</span>
+    <h1 class="grad">GAVI Africa: a website that books car services, not just shows them</h1>
+    <p class="lede">GAVI AFRICA LIMITED runs an auto centre in Abule-Egba, Lagos, covering vehicle sales, after-sales service and genuine spare parts. I designed the website, built it and launched it, then sorted out the domain so the company actually owns it.</p>
+    <div class="meta">
+      <div><small>Role</small><span>Designer &amp; developer</span></div>
+      <div><small>Through</small><span>Divergent Design Solutions</span></div>
+      <div><small>Stack</small><span>Astro, Sanity, Vercel</span></div>
+      <div><small>Scope</small><span>Wireframes to launch</span></div>
+    </div>
+  </header>
+
+  <div class="devices">
+    <figure><img src="img/hero.webp" alt="GAVI Africa homepage on desktop" width="1200" height="750"></figure>
+    <figure class="phone"><img src="img/mobile.webp" alt="GAVI Africa homepage on mobile" width="780" height="1688"></figure>
+  </div>
+
+  <section>
+    <div class="col">
+      <span class="num">The job</span>
+      <h2>Three businesses under one roof</h2>
+      <p>GAVI sells cars, services cars and supplies parts. Each has a different customer and a different next step, and most people visiting have never been to the centre. The site had to do three things:</p>
+      <ul class="ticks">
+        <li><strong>Get people to book a service</strong>, the main action on the site.</li>
+        <li><strong>Show vehicles for sale</strong> in a way the GAVI team can keep up to date without me.</li>
+        <li><strong>Earn trust</strong> from someone deciding whether to hand over their car.</li>
+      </ul>
+      <p>I worked from wireframes, taking the homepage through four versions before building.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">Decision 01</span>
+    <div class="col">
+      <h2>Lead with service, give each pillar its own path</h2>
+      <p>The hero leads with service and has one main button, <strong>Book a Service</strong>, with “browse vehicles for sale” as a quieter secondary link. Below it, the three pillars each get a card with what’s included and their own next step: explore vehicles, view services or request parts. A buyer and a fleet manager both find their route within one scroll.</p>
+    </div>
+    <figure class="wide"><img src="img/pillars.webp" alt="Three pillars section: vehicle sales, after-sales service, genuine spare parts" width="1200" height="798" loading="lazy"><figcaption>One centre, three pillars, three next steps.</figcaption></figure>
+  </section>
+
+  <section>
+    <span class="num">Decision 02</span>
+    <div class="split">
+      <div class="col">
+        <h2>A booking form that does the advisor’s first call</h2>
+        <p>The form asks for what a service advisor needs before the car arrives, so the follow-up call is shorter and the right parts can be ready.</p>
+        <ul class="ticks">
+          <li><strong>Vehicle brand, model and year</strong> are required. The <strong>VIN</strong> is optional, with a note saying why it helps.</li>
+          <li><strong>Drop-off options</strong> match how the centre works: standard, Early Bird from 6:30 AM, Saturday morning, or mobile workshop and recovery.</li>
+          <li><strong>Other ways in.</strong> The Service Advisor’s number sits next to the form, and a WhatsApp button is always on screen, because many customers would rather message or call.</li>
+          <li><strong>Expectations first.</strong> A four-step strip (Book, Diagnose, Service, Drive away) says what happens after submitting.</li>
+        </ul>
+        <p>Submissions go to the team through a Google Apps Script backend, with no paid form service to maintain.</p>
+      </div>
+      <figure><img src="img/booking.webp" alt="Booking form with vehicle details and drop-off preferences" width="1200" height="1228" loading="lazy"><figcaption>The booking section: advisor contact, specialty drop-offs and the form.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">Decision 03</span>
+    <div class="col">
+      <h2>Trust for a place people haven’t visited</h2>
+      <p>Handing your car to a workshop you’ve never seen is a leap. The page answers that with evidence rather than claims: a marquee of the OEM brands GAVI works with, real customer reviews linking to Google, photos of the actual facility and team, the address, opening hours and a map, and an FAQ that answers questions like “I bought my car elsewhere. Can you still service it?”</p>
+    </div>
+    <figure class="wide"><img src="img/reviews.webp" alt="Customer reviews section" width="1200" height="597" loading="lazy"><figcaption>Reviews from real customers, with a link to more on Google.</figcaption></figure>
+    <figure class="wide"><img src="img/facility.webp" alt="Inside the centre photo gallery" width="1200" height="800" loading="lazy"><figcaption>The facility, the floor and the team, in real photos.</figcaption></figure>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="num">Decision 04</span>
+      <h2>Content the team can update themselves</h2>
+      <p>Vehicle stock changes often, so it couldn’t live in code. I set up <strong>Sanity</strong> as the content system, with models for vehicles, blog posts, categories and team members. The GAVI team adds a car or a post in Sanity, and the <strong>Astro</strong> site renders it. Pages are static and fast, hosted on <strong>Vercel</strong>.</p>
+      <div class="stack"><span>Astro</span><span>Sanity CMS</span><span>Vercel</span><span>Google Apps Script forms</span><span>WhatsApp chat</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="num">Beyond the design</span>
+      <h2>Getting the domain back</h2>
+      <p>At launch we found the domain had been registered through a reseller, under the reseller’s details instead of GAVI’s. Pointing it at the new site broke the old email setup, and the reseller asked for a fee to release the transfer code.</p>
+      <p>I worked through it with the client: we got the transfer code, started moving the domain to a registrar under GAVI’s control, and planned the move of the company’s 15 mailboxes to Zoho Mail.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="num">Where it stands</span>
+      <h2>Live at gaviafrica.com</h2>
+      <p>The site is live with a working booking form, and the GAVI team can add vehicles and posts themselves.</p>
+      <div class="cta">
+        <a class="primary" href="https://gaviafrica.com" target="_blank" rel="noopener">Visit the site</a>
+        <a href="/work/">More work</a>
+        <a href="mailto:letsbuild@saintbuilds.com?subject=Saw%20your%20GAVI%20Africa%20case%20study">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 Saint Daniel · saintbuilds.com</footer>
+</div>
+</body>
+</html>
