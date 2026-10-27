@@ -23,7 +23,7 @@ button{font:inherit;color:inherit}
 .fabbtn{width:30px;height:30px;border-radius:6px;border:1px solid var(--line);background:#fff;cursor:pointer;overflow:hidden;padding:0}
 .panel{background:var(--panel);display:flex;flex-direction:column;min-width:0;min-height:0}
 .ph{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 6px;gap:8px}
-.pt{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--mute)}
+.pt{white-space:nowrap;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--mute)}
 .tabs{display:flex;gap:12px}
 .tabs button{border:0;background:none;padding:0;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#c9c5bc;cursor:pointer}
 .tabs button.on{color:var(--ink)}
@@ -38,6 +38,12 @@ button{font:inherit;color:inherit}
 .patbox{flex:1;min-height:0;overflow:auto;padding:6px 14px 14px;touch-action:pan-x pan-y pinch-zoom}
 .patbox svg{display:block}
 .pinfo{font-size:11.5px;color:var(--mute);padding:0 18px 4px}
+.tb{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.tbtn{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.tbtn:hover{border-color:#cfcac0}
+.tbtn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tbtn.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.zm{display:inline-flex;gap:2px}
 .menu{position:absolute;right:0;top:32px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.12);padding:6px;min-width:200px;z-index:20;display:none;text-align:left}
 .menu.open{display:block}
 .menu button{display:block;width:100%;text-align:left;border:0;background:none;padding:9px 10px;border-radius:8px;cursor:pointer;font-size:13px}
@@ -86,6 +92,7 @@ input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border
 .x{border:0;background:#f3f2ee;border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:16px}
 #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:9px 14px;border-radius:10px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60}
 #toast.on{opacity:1}
+@media(max-width:1420px) and (min-width:1001px){.tbtn svg{display:none}.tbtn{padding:6px 7px}}
 @media(max-width:1000px){
   .app{grid-template-columns:1fr;height:auto;grid-template-rows:auto}
   .side{flex-direction:row;overflow-x:auto;padding:8px;gap:2px;position:sticky;top:0;z-index:10;border-bottom:1px solid var(--line);align-items:center}
@@ -121,11 +128,9 @@ input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border
     <div class="chips" id="colChips"></div>
   </section>
   <section class="panel">
-    <div class="ph"><span class="pt">Sewing pattern</span>
-      <div style="display:flex;gap:2px;align-items:center"><button class="dots" id="zo" title="Zoom out">−</button><button class="dots" id="zi" title="Zoom in">+</button>
-      <div style="position:relative"><button class="dots" id="menuBtn" aria-label="More"><svg width="4" height="16" viewBox="0 0 4 16" fill="currentColor"><circle cx="2" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/></svg></button>
-        <div class="menu" id="menu"><button id="pdf">Download PDF (1:1 print)</button><button id="svg">Download SVG</button><button id="openM2">Measurements &amp; settings</button><button onclick="window.open('seam-finishing-guide.pdf','_blank')">Seam finishing guide (PDF)</button></div></div></div></div>
-    <div class="pinfo" id="info"></div>
+    <div class="ph"><span class="pt">Pattern</span>
+      <div class="tb"><button class="tbtn dark" id="pdf"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14"/></svg>PDF 1:1</button><button class="tbtn" id="svg">SVG</button><button class="tbtn" id="openM2" title="Measurements & settings"><svg viewBox="0 0 24 24"><path d="M3 8h18v8H3zM7 8v3M11 8v4M15 8v3M19 8v4"/></svg>Measure</button><button class="tbtn" id="guideBtn" title="Seam finishing guide"><svg viewBox="0 0 24 24"><path d="M6 4h9l3 3v13H6zM9 11h6M9 15h6"/></svg>Finishing</button></div></div>
+    <div class="pinfo" id="info" style="display:flex;justify-content:space-between;align-items:center"></div>
     <div class="patbox" id="prev"></div>
   </section>
 </div>
@@ -146,7 +151,7 @@ input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border
       <div><label>Paper roll width</label><select id="roll"><option value="61">24 in (61 cm)</option><option value="91.4">36 in (91.4 cm)</option><option value="106.7">42 in (106.7 cm)</option><option value="152.4">60 in (152.4 cm)</option></select></div>
     </div>
     <h2>Fit checks</h2><ul class="checks" id="checks"></ul>
-    <h2>Finishing (no overlocker)</h2><div id="fin"></div>
+    <h2 id="finH">Finishing (no overlocker)</h2><div id="fin"></div><p class="note" id="pdfLink"></p>
     <h2>Printing</h2>
     <p class="note">Print the PDF at <b>100% / actual size</b> and measure the 10 cm test square before cutting. Solid line = cut, dashed = stitch. Seam allowance is included. Make a toile in cheap fabric first.</p>
     <p class="note"><button class="chip" id="reset">Reset measurements</button></p>
@@ -691,7 +696,7 @@ function openPop(anchor,html,bind){
 }
 function closePop(){$("pop").classList.remove("open")}
 document.addEventListener("click",e=>{if(!e.target.closest(".pop")&&!e.target.closest("[data-k]")&&!e.target.closest("#colBtn")&&!e.target.closest("#fabBtn")&&!e.target.closest("[data-pop]"))closePop();
-  if(!e.target.closest("#menuBtn"))$("menu").classList.remove("open")});
+  0});
 function chipClick(e){const b=e.target.closest("[data-k]");if(b){const c=chipGroups().find(x=>x.k===b.dataset.k);
   openPop(b,`<h4>${c.l}</h4>`+c.v.map(([v,l])=>`<button class="opt${v===c.cur?" on":""}" data-v="${v}">${l}</button>`).join(""),p=>p.onclick=ev=>{const o=ev.target.closest("[data-v]");if(!o)return;
     if(c.k==="fit"){S.fit=o.dataset.v;$("fit").value=S.fit}else S.o[c.k]=o.dataset.v;closePop();save();renderForm();draft()});return}
@@ -729,7 +734,7 @@ function draft(){
   const prims=flatten(items);
   current={sheet,prims,checks:r.checks,sk:r.sk};
   $("prev").innerHTML=toSVG(sheet,prims,false);
-  $("info").textContent=`${r.pieces.length} pieces · ${sheet.W.toFixed(0)} × ${sheet.H.toFixed(0)} cm (${(sheet.H/100).toFixed(2)} m of paper)`;
+  $("info").innerHTML=`<span>${r.pieces.length} pieces · ${sheet.W.toFixed(0)} × ${sheet.H.toFixed(0)} cm (${(sheet.H/100).toFixed(2)} m of paper)</span><span class="zm"><button class="dots" id="zo" title="Zoom out">−</button><button class="dots" id="zi" title="Zoom in">+</button></span>`;bindZoom();
   const ch=r.checks.slice();if(sheet.tooWide.length)ch.push([false,"A piece is wider than the roll. Pick a wider roll."]);if(sheet.H>500)ch.push([false,"Sheet is over 5 m; some printers cap PDF length."]);
   $("checks").innerHTML=ch.map(([ok,t])=>`<li><span class="dot ${ok?"ok":"warn"}"></span><span>${esc(t)}</span></li>`).join("");
   const bad=ch.filter(c=>!c[0]).length;
@@ -752,7 +757,9 @@ async function offer(filename,data,mime){
 const fname=ext=>`${S.g}-${S.fit}${S.g==="shirt"||S.g==="tee"?"-"+S.o.sleeve+"-sleeve":S.g==="jacket"?"":"-"+S.o.waistStyle}-1to1.${ext}`;
 $("pdf").onclick=()=>{if(current)offer(fname("pdf"),toPDF(current.sheet,current.prims),"application/pdf")};
 $("svg").onclick=()=>{if(current)offer(fname("svg"),toSVG(current.sheet,current.prims,true),"image/svg+xml")};
-$("menuBtn").onclick=()=>$("menu").classList.toggle("open");
+const ONSITE=/saintbuilds/.test(location.hostname);
+$("guideBtn").onclick=()=>{if(ONSITE){window.open("seam-finishing-guide.pdf","_blank");return}openM();setTimeout(()=>$("finH").scrollIntoView({behavior:"smooth"}),260)};
+if(ONSITE)$("pdfLink").innerHTML='<a href="seam-finishing-guide.pdf" target="_blank">Open the illustrated seam finishing guide (PDF)</a>';
 function openM(){$("drawer").classList.add("open");$("scrim").classList.add("open")}
 function closeM(){$("drawer").classList.remove("open");$("scrim").classList.remove("open")}
 $("openM").onclick=openM;$("openM2").onclick=openM;$("closeM").onclick=closeM;$("scrim").onclick=closeM;
@@ -761,8 +768,7 @@ $("drawer").addEventListener("change",e=>{const el=e.target;
   if(el.id==="fit")S.fit=el.value;else if(el.id==="units"){S.units=el.value;renderForm()}else if(el.id==="sa")S.sa=+el.value;else if(el.id==="roll")S.roll=+el.value;else return;
   save();draft()});
 $("meas").addEventListener("input",e=>{const el=e.target;if(!el.dataset.m)return;const v=parseFloat(el.value);if(!(v>0))return;S.m[el.dataset.m]=S.units==="in"?v*2.54:v;save();draft()});
-$("zi").onclick=()=>{S.zoom=Math.min(4,S.zoom*1.25);draft()};
-$("zo").onclick=()=>{S.zoom=Math.max(0.2,S.zoom/1.25);draft()};
+function bindZoom(){$("zi").onclick=()=>{S.zoom=Math.min(4,S.zoom*1.25);draft()};$("zo").onclick=()=>{S.zoom=Math.max(0.2,S.zoom/1.25);draft()}}
 load();if(!S.zoom||S.zoom===1)S.zoom=0.55;if(!S.color)S.color="#1e3a5f";if(!S.fabric)S.fabric="linen";if(!S.view)S.view="both";
 renderGarments();renderViews();renderForm();draft();
 
