@@ -71,6 +71,18 @@ ul.ticks li::before{content:"";position:absolute;left:0;top:.7em;width:8px;heigh
 .cta a.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 footer{padding:40px 0 56px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
 </style>
+<style>
+.hire{margin:16px 0 56px;padding:32px;border:1px solid rgba(215,226,234,.14);border-radius:28px;background:#15171B}
+.hire small{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#00DD4F;font-weight:500}
+.hire h2{font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1.12;margin:10px 0 12px;background:linear-gradient(180deg,#646973 0%,#BBCCD7 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hire p{font-weight:300;font-size:17px;line-height:1.6;color:#C4CFD7;max-width:640px}
+.hire .svc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 22px;padding:0;list-style:none}
+.hire .svc li{border:1px solid rgba(215,226,234,.14);border-radius:999px;padding:6px 14px;font-size:14px;font-weight:400;color:#D7E2EA;margin:0}
+.hire .svc li::before{display:none}
+.hire .btns{display:flex;flex-wrap:wrap;gap:12px}
+.hire .btns a{border:1px solid rgba(215,226,234,.14);border-radius:999px;padding:12px 22px;text-decoration:none;font-size:15px;color:#D7E2EA}
+.hire .btns a.primary{background:#D7E2EA;color:#0C0C0C;border-color:#D7E2EA}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -210,13 +222,22 @@ footer{padding:40px 0 56px;color:var(--muted);font-size:13px;border-top:1px soli
       <h2>Designed, not yet built</h2>
       <p>Everything here is designed and waiting to be built: 86 hi-fi screens across onboarding, transfers, savings, cards, KYC, HMO and support, plus the health profile, the security flows and both Movement phases. The Movement web version already runs as a working prototype.</p>
       <div class="cta">
-        <a class="primary" href="mailto:letsbuild@saintbuilds.com?subject=Saw%20your%20Rigo%20case%20study">Get in touch</a>
-        <a href="/work/kontratpay/">KontratPay case study</a>
+        <a class="primary" href="/work/kontratpay/">KontratPay case study</a>
         <a href="/reel/">Showreel</a>
       </div>
     </div>
   </section>
-
+  <section class="hire" id="hire">
+    <small>Work with me</small>
+    <h2>Need a product designed, built or launched?</h2>
+    <p>I design apps and websites, build them, and make the brand and video that launch them. Open to new projects and roles.</p>
+    <ul class="svc"><li>Product design (apps)</li><li>Web design &amp; build</li><li>Brand identity</li><li>Product video &amp; motion</li></ul>
+    <div class="btns">
+      <a class="primary" href="mailto:letsbuild@saintbuilds.com?subject=Saw%20your%20Rigo%20case%20study">Get in touch</a>
+      <a href="https://www.linkedin.com/in/saint-daniel-405011394/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://x.com/saintbuilds" target="_blank" rel="noopener">Follow on X</a>
+    </div>
+  </section>
   <footer>© 2026 Saint Daniel · saintbuilds.com</footer>
 </div>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c88fe0fcee394e7b98590512f8b620fe"}'></script><!-- End Cloudflare Web Analytics -->
