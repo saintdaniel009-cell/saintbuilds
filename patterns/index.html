@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pattern Drafter · Saint Builds</title>
-<meta name="description" content="Enter your measurements, get 1:1 sewing patterns for shirts, T-shirts, jackets, trousers and shorts.">
+<meta name="description" content="Enter your measurements, get 1:1 sewing patterns. Menswear plus womenswear: shirts, corset tops, bodycon, gowns, skirts and bell bottoms.">
 <meta property="og:title" content="Pattern Drafter · Saint Builds">
-<meta property="og:description" content="Enter your measurements, get 1:1 sewing patterns for shirts, T-shirts, jackets, trousers and shorts.">
+<meta property="og:description" content="Enter your measurements, get 1:1 sewing patterns. Menswear plus womenswear: shirts, corset tops, bodycon, gowns, skirts and bell bottoms.">
 <meta property="og:image" content="https://saintbuilds.com/patterns/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -27,6 +27,7 @@ button{font:inherit;color:inherit}
 .gbtn svg{width:30px;height:30px}
 .gbtn span{font-size:9px;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
 .gbtn.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.swatch,.fabbtn{flex:none}
 .secsw{display:flex;flex-direction:column;gap:2px;width:64px;background:#ebe8e1;border-radius:10px;padding:3px;margin-bottom:6px;flex:none}
 .secsw button{border:0;background:none;border-radius:8px;padding:6px 0;font-size:9px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#9a958b;cursor:pointer}
 .secsw button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
@@ -212,7 +213,13 @@ const M = {
   dressLength:{l:"Dress length",d:95,h:"Back neck bone down to the hem"},
   wUnderbust:{l:"Underbust",d:78,h:"Right under the bust, snug"},
   highHip:{l:"High hip",d:88,h:"Around the top of the hip bones"},
-  corsetBelow:{l:"Waist to corset bottom",d:8,h:"Waist down to where the corset should end"}
+  corsetBelow:{l:"Waist to corset bottom",d:8,h:"Waist down to where the corset should end"},
+  gownLength:{l:"Waist to floor",d:108,h:"Waist down to the floor, in your shoes"},
+  wRise:{l:"Body rise",d:26,h:"Sit on a flat chair: side of waist to seat"},
+  wInseam:{l:"Inside leg",d:80,h:"Crotch to floor, in your shoes"},
+  wThigh:{l:"Thigh",d:56,h:"Fullest part of the upper thigh"},
+  wKnee:{l:"Knee",d:36,h:"Around the knee"},
+  bellHem:{l:"Bell hem (around)",d:64,h:"Leg-opening circumference you want"}
 };
 const SETS = {
   shirt:o=>["chest","neck","shoulder","shirtLength", ...(o.sleeve==="none"?[]:[o.sleeve==="long"?"sleeve":"shortSleeve", ...(o.sleeve==="long"?["wrist"]:[]),"bicep"])],
@@ -223,6 +230,9 @@ const SETS = {
   flare:o=>o.skWaist==="elastic"?["wWaist","wHip","skirtLength"]:["wWaist","skirtLength"],
   pencil:()=>["wWaist","wHip","waistHip","skirtLength"],
   bodycon:o=>["wBust","wWaist","wHip","wNeck","wShoulder","napeWaist","waistHip","dressLength"].concat(o.sleeve==="none"?[]:o.sleeve==="long"?["wSleeve","wWrist","wBicep"]:["wShortSleeve","wBicep"]),
+  bells:()=>["wWaist","wHip","wRise","wInseam","wThigh","wKnee","bellHem"],
+  flowgown:()=>["wBust","wWaist","wNeck","wShoulder","napeWaist","bustHeight","bustSpan","gownLength"],
+  backless:()=>["wBust","wWaist","wNeck","wShoulder","napeWaist","bustHeight","bustSpan","gownLength"],
   corset:()=>["wBust","wUnderbust","wWaist","highHip","napeWaist","bustHeight","corsetBelow"],
   wshirt:o=>["wBust","wWaist","wHip","wNeck","wShoulder","napeWaist","waistHip","bustHeight","bustSpan","wTopLength"].concat(o.sleeve==="none"?[]:o.sleeve==="long"?["wSleeve","wWrist","wBicep"]:["wShortSleeve","wBicep"])
 };
@@ -235,12 +245,15 @@ const OPTS = {
   flare:[{k:"flare",l:"Fullness",v:[["full","Full circle"],["half","Half circle"],["quarter","Quarter circle"]]},{k:"skWaist",l:"Waist",v:[["band","Waistband + zip"],["elastic","Elastic"]]}],
   wshirt:[{k:"shaping",l:"Shaping",v:[["darts","Bust darts"],["princess","Princess seams"]]},{k:"sleeve",l:"Sleeves",v:[["long","Long + cuff"],["short","Short"],["none","Sleeveless"]]}],
   bodycon:[{k:"stretch",l:"Fabric stretch",v:[["low","Low (25-35%)"],["med","Medium (45-55%)"],["high","High (65%+)"]]},{k:"sleeve",l:"Sleeves",v:[["none","Sleeveless"],["short","Short"],["long","Long"]]},{k:"neckline",l:"Neckline",v:[["scoop","Scoop"],["crew","Crew"]]}],
+  bells:[{k:"waistStyle",l:"Waist",v:[["fitted","Fitted + zip fly"],["elastic","Elastic"]]},{k:"backPocket",l:"Back pocket",v:[["yes","Yes"],["no","No"]]}],
+  flowgown:[{k:"gskirt",l:"Skirt",v:[["circle","Circle"],["gathered","Gathered"]]},{k:"gneck",l:"Neckline",v:[["v","V-neck"],["round","Round"]]}],
+  backless:[{k:"bskirt",l:"Skirt",v:[["aline","A-line"],["half","Half circle"]]},{k:"backDepth",l:"Back",v:[["waist","Open to the waist"],["mid","Mid-back band"]]}],
   corset:[{k:"corset",l:"Style",v:[["fashion","Fashion top (zip)"],["laced","Laced + boned"]]}],
   pencil:[{k:"shape",l:"Shape",v:[["pencil","Pencil (tapered)"],["straight","Straight"]]},{k:"vent",l:"Back",v:[["pleat","Kick pleat"],["slit","Slit"]]}]
 };
-const SECT={men:["shirt","tee","jacket","trousers","shorts"],women:["wshirt","corset","bodycon","flare","pencil"]};
-const NOFIT=["flare","bodycon","corset"];
-let S = {g:"shirt",fit:"regular",units:"cm",sa:1,roll:91.4,m:{},o:{sleeve:"short",pocket:"yes",lowerPockets:"yes",waistStyle:"elastic",backPocket:"yes",flare:"half",skWaist:"band",shape:"pencil",vent:"pleat",shaping:"darts",stretch:"med",neckline:"scoop",corset:"fashion"},zoom:1,sec:"men",last:{}};
+const SECT={men:["shirt","tee","jacket","trousers","shorts"],women:["wshirt","corset","bodycon","flowgown","backless","flare","pencil","bells"]};
+const NOFIT=["flare","bodycon","corset","flowgown","backless"];
+let S = {g:"shirt",fit:"regular",units:"cm",sa:1,roll:91.4,m:{},o:{sleeve:"short",pocket:"yes",lowerPockets:"yes",waistStyle:"elastic",backPocket:"yes",flare:"half",skWaist:"band",shape:"pencil",vent:"pleat",shaping:"darts",stretch:"med",neckline:"scoop",corset:"fashion",gskirt:"circle",gneck:"v",bskirt:"aline",backDepth:"waist"},zoom:1,sec:"men",last:{}};
 for(const k in M) S.m[k]=M[k].d;
 function load(){try{const j=JSON.parse(localStorage.getItem("pd-state")||"null");if(j){S=Object.assign(S,j);S.m=Object.assign({},S.m,j.m);S.o=Object.assign({},S.o,j.o);}}catch(e){}}
 function save(){try{localStorage.setItem("pd-state",JSON.stringify(S))}catch(e){}}
@@ -395,7 +408,8 @@ function draftTrousers(m,o,fit,SA,shorts){
   const inseam=shorts?(m.inseam||80):m.inseam;
   const R=m.rise+re, ys=R*2/3;
   const yk=R+inseam/2-5, yh=R+inseam;
-  const hemF=m.hem/2-2, hemB=m.hem/2+2, kneeF=fit==="oversized"?hemF:hemF+2.5, kneeB=fit==="oversized"?hemB:hemB+2.5;
+  let hemF=m.hem/2-2, hemB=m.hem/2+2, kneeF=fit==="oversized"?hemF:hemF+2.5, kneeB=fit==="oversized"?hemB:hemB+2.5;
+  if(m._bells){const ke={slim:2,regular:4,relaxed:7,oversized:10}[fit];kneeF=(m._bells.knee+ke)/2-1;kneeB=(m._bells.knee+ke)/2+1;hemF=m._bells.hem/2-2;hemB=m._bells.hem/2+2}
   const pieces=[], checks=[];
   // FRONT
   const fs=m.seat/4+ef, fext=m.seat/16;
@@ -444,7 +458,7 @@ function draftTrousers(m,o,fit,SA,shorts){
   }
   const fHemA=fInFull[fInFull.length-1], fHemB=fSideFull[0];
   const fMarks=[{pts:seg(P(xc,elastic?3:8),P(xc,hemY-3)),dash:"cf"}];
-  if(!elastic){fMarks.push({pts:seg(P(xc,0),P(xc,7)),dash:"solid"},{pts:seg(P(xc+2,0),P(xc+2,7)),dash:"solid"});
+  if(!elastic){if(m._bells)fMarks.push({pts:[P(xc,0),P(xc+1,9),P(xc+2,0)],dash:"solid"});else fMarks.push({pts:seg(P(xc,0),P(xc,7)),dash:"solid"},{pts:seg(P(xc+2,0),P(xc+2,7)),dash:"solid"});
     fMarks.push({pts:[P(cfW.x-3.5,0)].concat(cubic(P(cfW.x-3.5,ys-3),P(cfW.x-3.5,ys),P(fs-1.2,ys+1.5),P(fs-0.2,ys+1.5)).map((p,i)=>p)),dash:"dot"})}
   const pocketNotch=[{pts:fHip.slice().reverse(),at:3,n:1},{pts:fHip.slice().reverse(),at:19,n:1}];
   pieces.push({name:shorts?"Shorts front":"Trouser front",cut:"Cut 2 (mirror)",edges:[
@@ -477,7 +491,8 @@ function draftTrousers(m,o,fit,SA,shorts){
   const legW=Cf.x+ (Cb.x - Math.min(0,...bSideFull.map(p=>p.x))*0);
   const legCirc=(Cf.x-0)+(Cb.x-0);
   checks.push([legCirc>=m.thigh+6,`Thigh ease +${(legCirc-m.thigh).toFixed(1)} cm (leg ${legCirc.toFixed(1)} vs thigh ${m.thigh})`]);
-  if(fit==="oversized"&&!shorts)checks.push([m.hem>=50,`Leg opening ${m.hem} cm${m.hem<50?": use 50 to 56 cm for a wide, airy leg":" (wide and straight)"}`]);
+  if(m._bells)checks.push([m._bells.hem>=m._bells.knee+15,`Knee ${(kneeF+kneeB).toFixed(1)} cm, flaring to ${m._bells.hem} cm at the hem`]);
+  else if(fit==="oversized"&&!shorts)checks.push([m.hem>=50,`Leg opening ${m.hem} cm${m.hem<50?": use 50 to 56 cm for a wide, airy leg":" (wide and straight)"}`]);
   const seatF=(fs+bs)*2;checks.push([true,`Finished seat ${seatF.toFixed(1)} cm (+${(seatF-m.seat).toFixed(1)})`]);
   const di=plen(fInFull)-plen(bInFull);checks.push([Math.abs(di)<1.2,`Inside leg seams: front ${plen(fInFull).toFixed(1)}, back ${plen(bInFull).toFixed(1)} cm`]);
   const sF=plen(fSideFull)+plen(fHip), sB=plen(bSideFull)+plen(bHip);checks.push([Math.abs(sF-sB)<1.2,`Side seams: front ${sF.toFixed(1)}, back ${sB.toFixed(1)} cm`]);
@@ -625,11 +640,14 @@ const fishMark=(d)=>({pts:[P(d.c,d.top),P(d.c-d.w/2,d.y),P(d.c,d.bot),P(d.c+d.w/
 // sleeve + collar helpers shared by women's tops
 function wSleeve(m,o,fit,SA,AHb,AHf,drop,pieces,checks,knit){
   const fi={slim:0,regular:1,relaxed:2,oversized:3}[fit], AH=AHb+AHf;
-  const ch=knit?Math.max(5,AH*0.22):Math.max(6,AH*[0.31,0.29,0.26,0.21][fi]-drop);
+  let ch=knit?Math.max(5,AH*0.22):Math.max(6,AH*[0.31,0.29,0.26,0.21][fi]-drop);
+  const need=m.wBicep+(knit?-3:4);
   const capB=w=>cubic(P(-w,ch),P(-w*0.6,ch*0.9),P(-w*0.35,0),P(0,0));
   const capF=w=>cubic(P(w,ch),P(w*0.55,ch*0.98),P(w*0.35,0),P(0,0));
   const solve=(f,t)=>{let lo=ch*0.3,hi=AH;for(let i=0;i<50;i++){const mid=(lo+hi)/2;if(plen(f(mid))<t)lo=mid;else hi=mid}return (lo+hi)/2};
-  const ce=knit?0:0.4, wb=solve(capB,AHb+ce), wf=solve(capF,AHf+ce), cb=capB(wb), cf=capF(wf);
+  const ce=knit?0:0.4;let wb=solve(capB,AHb+ce), wf=solve(capF,AHf+ce);
+  while(wb+wf<need&&ch>5){ch-=0.4;wb=solve(capB,AHb+ce);wf=solve(capF,AHf+ce)}
+  const cb=capB(wb), cf=capF(wf);
   const long=o.sleeve==="long";
   let sl,hemW,hemSA;
   if(knit){sl=long?m.wSleeve:m.wShortSleeve;hemW=long?m.wWrist+1:Math.max(wb+wf-3,m.wBicep*0.95);hemSA=2.5}
@@ -659,7 +677,7 @@ function wCollar(NL,SA,pieces,backNeckLen){
 function draftWShirt(m,o,fit,SA){
   const fi={slim:0,regular:1,relaxed:2,oversized:3}[fit], princess=o.shaping==="princess";
   const drop=[0,0.5,1.5,4][fi];
-  const g=wBlock(m,{eB:[6,10,16,26][fi],eW:[8,12,20,34][fi],eH:[6,8,12,22][fi],dartK:[0.85,0.75,0.6,0.45][fi],len:m.wTopLength,curved:true,waistDarts:princess||fi<2,princess,drop,cyAdj:[0,1,2,4][fi]+(o.sleeve==="none"?-1:0),neck:{bnw:m.wNeck/6+0.5,br:1.8,fnd:m.wNeck/6+2}});
+  const g=wBlock(m,{eB:[6,10,16,26][fi],eW:[8,12,20,34][fi],eH:[6,8,12,22][fi],dartK:[0.85,0.75,0.6,0.45][fi],len:m.wTopLength,curved:true,waistDarts:princess||fi<2,princess,drop,cyAdj:[0,1,2,4][fi]+(o.sleeve==="none"?-1:0),neck:{bnw:m.wNeck/6+0.9,br:1.8,fnd:m.wNeck/6+2}});
   const pieces=[],checks=[];
   // back
   pieces.push({name:"Back",cut:"Cut 1 on fold",edges:[{pts:g.backNeck,sa:SA},{pts:seg(g.NP,g.SPb),sa:SA},{pts:g.backArm,sa:SA},{pts:g.bSide,sa:Math.max(SA,1.5)},{pts:g.bHem,sa:SA},{pts:seg(P(0,g.hy),g.N),sa:0,fold:1}],
@@ -864,6 +882,112 @@ function sketchCorset(sk,o,view){
   return {sh,dt};
 }
 
+// ---------- GOWNS ----------
+function goreSkirt(Wc,L,frac,SA,pieces,checks,maxW,zipNote){
+  const Phi=2*Math.PI*frac, r=Wc/Phi;
+  let n=4;while(2*(r+L)*Math.sin(Phi/n/2)>maxW&&n<32)n+=4;
+  const ph=Phi/n, pt=(rho,a)=>P(rho*Math.sin(a),rho*Math.cos(a)-r);
+  const arc=(rho,a,b,k=40)=>{const q=[];for(let i=0;i<=k;i++)q.push(pt(rho,a+(b-a)*i/k));return q};
+  const left=[pt(r,-ph/2),pt(r+L,-ph/2)], right=[pt(r+L,ph/2),pt(r,ph/2)];
+  pieces.push({name:"Skirt panel",cut:`Cut ${n}`,edges:[{pts:arc(r,ph/2,-ph/2),sa:SA},{pts:left,sa:Math.max(SA,1.5)},{pts:arc(r+L,-ph/2,ph/2),sa:1},{pts:right,sa:Math.max(SA,1.5)}],
+    grain:[P(0,6),P(0,L-8)],label:P(-5,L*0.3),note:zipNote,notches:[{pts:left,at:20,n:1}]});
+  checks.push([true,`Skirt: ${frac===0.5?"half":"quarter"} circle in ${n} panels, hem ${(Phi*(r+L)/100).toFixed(1)} m around`]);
+  return {r,n};
+}
+function gatherSkirt(Wc,L,ratio,SA,checks,fin){
+  const tot=Wc*ratio, k=Math.max(2,Math.ceil(tot/140)), w=tot/k+2*SA, h=L+3+SA;
+  checks.push([true,`Skirt: cut ${k} rectangles ${w.toFixed(0)} × ${h.toFixed(0)} cm straight from the fabric (no paper needed). Gathers ${ratio}× the waist`]);
+  fin.rect={k,w,h};
+}
+function bodiceToWaist(m,cfg){return wBlock(m,Object.assign({curved:false,waistDarts:true,len:m.napeWaist,cyAdj:-1},cfg))}
+function waistDartMark(c,w,yw,top){return {pts:[P(c-w/2,yw),P(c,top),P(c+w/2,yw)],dash:"solid"}}
+function draftFlowGown(m,o,fit,SA){
+  const v=o.gneck==="v";
+  const g=bodiceToWaist(m,{eB:5,eW:2,eH:6,dartK:1,neck:{bnw:m.wNeck/6+2,br:3,fnd:v?m.bustHeight-4:m.wNeck/6+6}});
+  if(v)g.frontNeck=cubic(g.NP,P(g.bnw*0.8,g.fnd*0.35),P(g.bnw*0.25,g.fnd*0.8),P(0,g.fnd));
+  const pieces=[],checks=[],fin={};
+  const yb=g.yW;
+  const bm=[];if(g.bDart)bm.push(waistDartMark(g.bDart.c,g.bDart.w,yb,g.cy+3));
+  pieces.push({name:"Bodice back",cut:"Cut 2 (mirror) + 2 lining",edges:[{pts:g.backNeck,sa:SA},{pts:seg(g.NP,g.SPb),sa:SA},{pts:g.backArm,sa:SA},{pts:g.bSide,sa:1.5},{pts:g.bHem,sa:SA},{pts:seg(P(0,g.hy),g.N),sa:1.5}],
+    marks:bm,grain:[P(g.Bw*0.75,g.cy-4),P(g.Bw*0.75,yb-3)],label:P(2,g.cy-2),small:1,note:"Invisible zip in centre back",notches:[{pts:g.backArm,at:plen(g.backArm)*0.6,n:2}]});
+  const fm=[{pts:[g.S1,g.piv,g.S2],dash:"solid"}];if(g.fDart&&g.fDart.w>0)fm.push(waistDartMark(g.BP.x,g.fDart.w,g.yAt(g.BP.x),g.BP.y+2));
+  pieces.push({name:"Bodice front",cut:"Cut 1 on fold + 1 lining",edges:[{pts:seg(g.NP,g.SPf),sa:SA},{pts:g.frontArm,sa:SA},{pts:[g.Uf,g.S1,g.S2],sa:1.5},{pts:g.fSide.slice(1),sa:1.5},{pts:g.fHem,sa:SA},{pts:seg(P(0,g.fHemCF),P(0,g.fnd)),sa:0,fold:1},{pts:rev(g.frontNeck),sa:SA}],
+    marks:fm,grain:[P(g.Fw*0.3,g.cy-2),P(g.Fw*0.3,g.fHemCF-4)],label:P(2,g.cy+4),small:1,notches:[{pts:g.frontArm,at:plen(g.frontArm)*0.6,n:1}]});
+  const Wc=(g.Bw-g.bs.s-(g.bs.d||0)+g.Fw-g.fs.s-(g.fs.d||0))*2;
+  if(o.gskirt==="gathered")gatherSkirt(Wc,m.gownLength,2,SA,checks,fin);
+  else goreSkirt(Wc,m.gownLength,0.5,SA,pieces,checks,Math.min(140,S.roll-6),"Seams fall at centre front, back and sides. Zip in the centre-back seam");
+  checks.unshift([true,`Finished bust ${g.B.toFixed(1)} cm (+5), waist ${Wc.toFixed(1)} cm (+${(Wc-m.wWaist).toFixed(1)})`]);
+  checks.push([true,`Bust dart ${g.D.toFixed(1)} cm at the side, plus waist darts`]);
+  const hemHalf=o.gskirt==="gathered"?Wc/4*1.7:Wc/4+m.gownLength*0.3;
+  return {pieces,checks,sk:{kind:"gown",type:"flow",g,v,L:m.gownLength,hemHalf,gathered:o.gskirt==="gathered",fin:{bust:g.B/4,waist:Wc/4}}};
+}
+function draftBackless(m,o,fit,SA){
+  const g=bodiceToWaist(m,{eB:4,eW:2,eH:6,dartK:1,princess:true,neck:{bnw:m.wNeck/6+0.5,br:2,fnd:6}});
+  const pieces=[],checks=[];
+  const c=g.BP.x,w=Math.max(g.fDart.w,1);
+  const s1=splitAtX(g.fHem,c+w/2), s2=splitAtX(g.fHem,c-w/2);
+  const sidePart=s1[0], cfPart=s2[1];
+  const rot=pts=>pts.map(p=>rotP(p,g.BP,-g.th));
+  const lowR=rot(g.fSide.concat(sidePart.slice(1)));
+  const sideUp=rev(rot(g.fSide)).concat([g.Uf]);
+  const sideH=13, Ph=atLen(sideUp,sideH).p;
+  const [sideKeep]=(()=>{let s=0;const o=[sideUp[0]];for(let i=1;i<sideUp.length;i++){const d=dist(sideUp[i-1],sideUp[i]);if(s+d>=sideH){o.push(Ph);break}o.push(sideUp[i]);s+=d}return [o]})();
+  const Hn=P(g.bnw+1.5,2), CFt=P(0,g.fnd);
+  const armEdge=cubic(Ph,P(Ph.x-0.5,Ph.y-7),P(c+7,g.cy-6),Hn);
+  const neckEdge=cubic(Hn,P(g.bnw*0.7,g.fnd*0.4),P(g.bnw*0.35,g.fnd),CFt);
+  const Wd2=lowR[lowR.length-1], Wd1=cfPart[0];
+  const waistSide=rot(sidePart);
+  pieces.push({name:"Bodice front",cut:"Cut 1 on fold + 1 lining",edges:[
+    {pts:seg(P(0,g.fHemCF),CFt),sa:0,fold:1},{pts:rev(neckEdge),sa:SA},{pts:rev(armEdge),sa:SA},
+    {pts:sideKeep.slice().reverse(),sa:1.5},{pts:rot(sidePart),sa:SA},{pts:[Wd2,Wd1],sa:SA},{pts:cfPart,sa:SA}],
+    marks:(()=>{const di=dist(Wd1,Wd2),mid=lerp(Wd1,Wd2,0.5);if(di<=7)return [{pts:[Wd1,P(g.BP.x,g.BP.y+2),Wd2],dash:"solid"}];return [{pts:[Wd1,P(g.BP.x-1.8,g.BP.y+3),mid],dash:"solid"},{pts:[mid,P(g.BP.x+1.8,g.BP.y+3),Wd2],dash:"solid"}]})(),grain:[P(3,g.fnd+4),P(3,g.fHemCF-4)],label:P(4,g.BP.y+5),small:1,note:"Sew the halter tie into the top corner"});
+  // back band
+  const wbk=g.Wq-0.5, hb=Math.sqrt(sideH*sideH-1), xs=wbk+1, low=o.backDepth==="waist"?4:12;
+  const top=cubic(P(xs,-hb),P(xs*0.55,-hb*0.85),P(xs*0.25,-low),P(0,-low));
+  pieces.push({name:"Back band",cut:"Cut 1 on fold + 1 lining",edges:[{pts:seg(P(0,0),P(wbk,0)),sa:SA},{pts:seg(P(wbk,0),P(xs,-hb)),sa:1.5},{pts:top,sa:SA},{pts:seg(P(0,-low),P(0,0)),sa:0,fold:1}],
+    grain:[P(3,-1),P(3,-low+1)],label:P(xs*0.45,-hb*0.6),small:1});
+  pieces.push({name:"Halter tie",cut:"Cut 2",edges:[{pts:[P(0,0),P(55,0),P(55,4.5),P(0,4.5),P(0,0)],sa:SA}],marks:[{pts:seg(P(0,2.25),P(55,2.25)),dash:"fold"}],grain:[P(5,1.1),P(50,1.1)],label:P(1,-3.8),small:1,note:"Sew into a tube, turn, tie behind the neck"});
+  const fw=plen(cfPart)+plen(waistSide), Wc=2*(fw+wbk);
+  goreSkirt(Wc,m.gownLength,o.bskirt==="half"?0.5:0.25,SA,pieces,checks,Math.min(140,S.roll-6),"Seams fall at centre front, back and sides. Zip in the left side seam");
+  checks.unshift([true,`Finished bust ${g.B.toFixed(1)} cm (+4), waist ${Wc.toFixed(1)} cm (+${(Wc-m.wWaist).toFixed(1)})`]);
+  checks.push([true,`Bust dart ${g.D.toFixed(1)} cm moved into the waist dart. Side seam ${sideH} cm high; zip in the left side`]);
+  checks.push([true,"Open back: stay-tape the front armhole edges so they hug the body and don't gape"]);
+  const di=dist(Wd1,Wd2);checks.push([di<=16,di>7?`Waist shaping ${di.toFixed(1)} cm, split into two darts of ${(di/2).toFixed(1)} cm`:`Waist dart ${di.toFixed(1)} cm`]);
+  return {pieces,checks,sk:{kind:"gown",type:"backless",g,L:m.gownLength,hemHalf:Wc/4+m.gownLength*(o.bskirt==="half"?0.3:0.2),sideH,low,Ph,Hn,fin:{bust:g.B/4,waist:Wc/4}}};
+}
+function sketchGown(sk,o,view){
+  const back=view==="back",sh=[],dt=[],g=sk.g,f=sk.fin;
+  const yW=g.yW, L=sk.L, hemY=yW+L;
+  const n=sk.gathered?5:4, amp=1.4;
+  const skirtSide=cubic(P(f.waist,yW),P(f.waist+(sk.hemHalf-f.waist)*0.12,yW+L*0.3),P(sk.hemHalf-(sk.hemHalf-f.waist)*0.05,yW+L*0.85),P(sk.hemHalf,hemY));
+  const hem=[];for(let i=0;i<=n*16;i++){const x=sk.hemHalf*(1-i/(n*16));hem.push(P(x,hemY+amp*Math.sin(Math.PI*i/16)))}
+  let top;
+  if(sk.type==="flow"){
+    const SP=P(g.SPb.x-1,g.SPb.y), cy=g.cy;
+    const neck=back?g.backNeck:rev(g.frontNeck);
+    const arm=cubic(SP,P(SP.x-1.2,SP.y+0.55*(cy-SP.y)),P(f.bust-0.7*(f.bust-SP.x),cy),P(f.bust,cy));
+    const side=cubic(P(f.bust,cy),P(f.bust,cy+(yW-cy)*0.4),P(f.waist,yW-6),P(f.waist,yW));
+    top=neck.concat([SP]).concat(arm.slice(1)).concat(side.slice(1));
+    const a2=arm.map(p=>P(p.x-1,p.y+0.4));dt.push({d:pathD(a2,false)+pathD(mir(a2),false),dash:1});
+    if(back)dt.push({d:pathD([P(0,g.br+1),P(0,yW+18)],false)});
+  } else {
+    const xs=f.waist+1.6, ys=yW-sk.sideH;
+    if(back){top=[P(0,yW-sk.low)].concat(cubic(P(0,yW-sk.low),P(xs*0.25,yW-sk.low),P(xs*0.55,ys+1.5),P(xs,ys)).slice(1)).concat([P(f.waist,yW)]);
+      const t1=[P(g.bnw+1,1),P(1.5,2.5)];sh.push({d:pathD([P(-g.bnw-1,0.2),P(g.bnw+1,0.2),P(g.bnw+1,1.6),P(-g.bnw-1,1.6)]),role:"trim"});
+      sh.push({d:pathD([P(-0.6,1.5),P(-3,8),P(-1.6,8.4),P(0,2)])+pathD([P(0.6,1.5),P(2.6,8.2),P(1.2,8.6),P(0,2)]),role:"trim"})}
+    else{const CFt=P(0,g.fnd), Hn=P(g.bnw+1.5,2);
+      top=[CFt].concat(cubic(CFt,P(g.bnw*0.35,g.fnd),P(g.bnw*0.7,g.fnd*0.4),Hn).slice(1)).concat(cubic(Hn,P(f.bust-3,g.cy-6),P(xs-0.5,ys-7),P(xs,ys)).slice(1)).concat([P(f.waist,yW)]);
+      sh.push({d:pathD([P(-g.bnw-1.5,0.3),P(g.bnw+1.5,0.3),P(g.bnw+1.5,2),P(-g.bnw-1.5,2)]),role:"trim"});
+      const dl=[P(g.BP.x,g.BP.y+2),P(g.BP.x-0.4,yW)];dt.push({d:pathD(dl,false)+pathD(mir(dl),false)})}
+  }
+  const right=top.concat(skirtSide.slice(1)).concat(hem.slice(1));
+  sh.push({d:pathD(fullOutline(right)),role:"body"});
+  dt.push({d:pathD([P(-f.waist,yW),P(f.waist,yW)],false)});
+  for(let i=0;i<n;i++){const t=(i*16+8)/(n*16);const xb=sk.hemHalf*(1-t),xt=f.waist*(1-t)*0.95;if(xb<1&&!back)continue;const fl=[P(xt,yW+(sk.gathered?1:8)),P(xb,hemY+amp-0.3)];dt.push({d:pathD(fl,false)+pathD(mir(fl),false),thin:1})}
+  if(sk.gathered){let d="";for(let x=-f.waist+0.8;x<f.waist;x+=1.1)d+=`M${x.toFixed(2)} ${(yW+0.4).toFixed(2)}L${(x*1.04).toFixed(2)} ${(yW+3.5).toFixed(2)}`;dt.push({d,thin:1})}
+  return {sh,dt};
+}
+
 // ---------- assemble drawing primitives per piece ----------
 function buildPiece(pc){
   const prims=[];
@@ -939,10 +1063,12 @@ const FIN={
   shirt:o=>[["Yoke seams","Burrito yoke"],o.sleeve==="none"?["Armholes","Bias facing, turned inside + topstitched"]:["Sleeve to armhole","Flat-felled (sew sleeve in flat)"],[o.sleeve==="none"?"Side seams":"Side + underarm","Flat-felled or French"],["Front facing edge","Turn-and-stitch"],["Collar, stand"+(o.sleeve==="long"?", cuffs":""),"Enclosed, nothing needed"],["Hem"+(o.sleeve==="short"?" + sleeve hems":""),"Narrow double-fold"]].concat(o.pocket==="yes"?[["Chest pocket","Double-fold top, sides pressed under"]]:[]),
   trousers:o=>[["Side seams, inside leg","French or flat-felled"],["Crotch seam","Double-stitch, trim, zigzag"],["Pocket bags","French seam"],["Waistband","Enclosed by the fold"]].concat(o.waistStyle==="fitted"?[["Fly facing","Turn-and-stitch or bias bound"]]:[]).concat([["Leg hems","Double-fold"]])
 };
-FIN.shorts=FIN.trousers;
+FIN.shorts=FIN.trousers;FIN.bells=FIN.trousers;
 FIN.wshirt=o=>[["Fabric","Cotton poplin, lawn, linen or viscose"],["Darts"+(o.shaping==="princess"?" / princess seams":""),o.shaping==="princess"?"Sew, clip the curve, press towards centre, topstitch":"Sew to a point, press bust dart down"],["Side seams","French seam"],o.sleeve==="none"?["Armholes","Bias facing, turned inside + topstitched"]:["Sleeve to armhole","Sew, then zigzag both layers together, press to sleeve"],["Front facing","Turn-and-stitch"],["Collar, stand"+(o.sleeve==="long"?", cuffs":""),"Enclosed, nothing needed"],["Hem","Narrow double-fold (0.5 + 0.5 cm) round the curve"]];
 FIN.bodycon=o=>[["Fabric","Stretch knit: jersey with spandex, ponte, rib"],["All seams","Narrow zigzag or stretch stitch; knit doesn't fray"],["Shoulders","Add clear elastic so they don't stretch out"],["Neck"+(o.sleeve==="none"?" + armholes":""),"Band: stretch to fit, zigzag, topstitch"],["Hem","Turn 2.5 cm, twin needle or zigzag"]];
 FIN.corset=o=>o.corset==="laced"?[["Fabric","Fashion fabric over coutil (a strong cotton)"],["Seams","Sew, press open, then stitch bone channels over them"],["Boning","Spiral or flat steel, 1 cm shorter than the channel"],["Waist tape","Grosgrain ribbon at the waist line inside"],["Top + bottom","Bias binding, hand-finished inside"],["Back","Grommets with a setter, flat steel either side"]]:[["Fabric","Brocade, satin, denim or cotton drill + lining"],["Seams","Sew, press open, topstitch both sides"],["Boning","Optional plastic boning on each seam"],["Zip","Invisible zip at centre back"],["Top edge","Lining turned in, understitched"],["Bottom","Bias binding or lining turned in"]];
+FIN.flowgown=o=>[["Fabric","Chiffon, georgette, crepe or soft satin + lining for the bodice"],["Bodice","Lined: sew lining to neck + armholes, turn, understitch"],["Darts","Sew to a point, press bust dart down, waist darts to centre"],["Skirt seams","French seams"],["Waist seam","Sew bodice to skirt, zigzag allowances together, press up"],["Zip","Invisible zip at centre back"],["Hem","Hang 24 h, level, narrow rolled hem"]];
+FIN.backless=o=>[["Fabric","Crepe, satin or jersey-backed crepe + lining"],["Bodice","Fully lined; stay-tape the armhole edge before turning"],["Halter tie","Sew into a tube, turn, catch into the top corner"],["Back band","Lined, understitched"],["Skirt seams","French seams; left side holds the zip"],["Zip","Invisible zip in the left side"],["Hem","Hang 24 h, level, narrow rolled hem"]];
 FIN.flare=o=>[["Fabric","Drapey cotton, rayon, crepe or linen"],["Side seams","French seam"+(o.skWaist==="elastic"?"":"; left side: press open, zigzag edges, invisible zip")],["Waist","Enclosed by the "+(o.skWaist==="elastic"?"casing":"waistband")],["Hem","Hang 24 h, level, then narrow double-fold (0.5 + 0.5 cm)"]];
 FIN.pencil=o=>[["Fabric","Firm woven with a little stretch: twill, suiting, denim"],["Darts","Sew to a fine point, press towards the centre"],["Side + CB seams","Press open, zigzag or bias-bind each edge"],["Zip","Invisible zip in centre back"],[o.vent==="pleat"?"Kick pleat":"Slit","Press to one side, stitch across the top"],["Hem","Turn 4 cm, slip-stitch by hand (blind hem)"]];
 FIN.tee=o=>[["Fabric","Knit (jersey). It doesn't fray"],["Shoulder seams","Stretch/zigzag stitch + clear elastic or tape"],[o.sleeve==="none"?"Side seams":"Side + sleeve seams","Stretch or narrow zigzag, press to back"],["Neckband","Zigzag on, then topstitch the seam down"]].concat(o.sleeve==="none"?[["Armholes","Binding: same band method as the neck, cut at 90% of armhole"]]:[]).concat([,["Hems","Twin needle or wide zigzag, single fold"]]);
@@ -1065,7 +1191,7 @@ const FABRICS={
 function shade(hex,k){const n=parseInt(hex.slice(1),16);let r=n>>16&255,g=n>>8&255,b=n&255;const f=v=>Math.max(0,Math.min(255,Math.round(k<0?v*(1+k):v+(255-v)*k)));return "#"+[f(r),f(g),f(b)].map(v=>v.toString(16).padStart(2,"0")).join("")}
 
 function sketchSVG(sk,o,views,colored,color,fabric){
-  const parts=views.map(v=>sk.kind==="bottom"?sketchBottom(sk,o,v):sk.kind==="skirt"?sketchSkirt(sk,o,v):sk.kind==="wtop"?sketchW(sk,o,v):sk.kind==="corset"?sketchCorset(sk,o,v):sketchTop(sk,o,v));
+  const parts=views.map(v=>sk.kind==="bottom"?sketchBottom(sk,o,v):sk.kind==="skirt"?sketchSkirt(sk,o,v):sk.kind==="wtop"?sketchW(sk,o,v):sk.kind==="corset"?sketchCorset(sk,o,v):sk.kind==="gown"?sketchGown(sk,o,v):sketchTop(sk,o,v));
   // bounds
   const bb=d=>{const nums=d.match(/-?\d+(\.\d+)?/g).map(Number);const xs=[],ys=[];for(let i=0;i+1<nums.length;i+=2){xs.push(nums[i]);ys.push(nums[i+1])}return [Math.min(...xs),Math.max(...xs),Math.min(...ys),Math.max(...ys)]};
   let W=0,minY=1e9,maxY=-1e9;const widths=[];
@@ -1100,10 +1226,13 @@ const ICONS={
   flare:'<path d="M8 3h8v3H8z"/><path d="M8 6L3 19c3 2 15 2 18 0L16 6"/><path d="M10 7l-2 13M14 7l2 13"/>',
   wshirt:'<path d="M9 3l3 2 3-2 5 2.5-1.5 5-2.5-1c-.6 3-.6 5 .3 7.5L16 21H8l-.3-6.5c.9-2.5.9-4.5.3-7.5l-2.5 1L4 5.5z"/><path d="M12 5v16"/>',
   bodycon:'<path d="M9 3c.5 1.6 1.6 2.4 3 2.4S14.5 4.6 15 3l2 1-1 5c-.6 2-.6 3.5 0 5.5L15 21H9l-1-6.5c.6-2 .6-3.5 0-5.5L7 4z"/>',
+  bells:'<path d="M7 3h10l.5 9 2.5 9h-6L12 9l-2 12H4l2.5-9z"/><path d="M7 6h10"/>',
+  flowgown:'<path d="M9 3l1.5 3.5h3L15 3l1 1-1 5.5 6 12.5H3l6-12.5L8 4z"/>',
+  backless:'<path d="M10 3h4l-.5 1.5 2.5 5L20 21H4l4-11.5 2.5-5z"/><path d="M10 3c-1 0-2 .5-2 1.2"/>',
   corset:'<path d="M6 6c2-1 4 1 6 0s4-1 6 0l-1 6c-.3 2 0 3.5 1 6H6c1-2.5 1.3-4 1-6z"/><path d="M9.5 6v12M14.5 6v12"/>',
   pencil:'<path d="M8 3h8v3H8z"/><path d="M8 6c-.6 3-.8 5 0 8l.5 7h7l.5-7c.8-3 .6-5 0-8"/><path d="M12 17v4"/>'
 };
-const GNAMES={shirt:"Shirt",tee:"T-shirt",jacket:"Jacket",trousers:"Trousers",shorts:"Shorts",flare:"Flared skirt",pencil:"Fitted skirt",wshirt:"Shirt",bodycon:"Bodycon",corset:"Corset top"};
+const GNAMES={shirt:"Shirt",tee:"T-shirt",jacket:"Jacket",trousers:"Trousers",shorts:"Shorts",flare:"Flared skirt",pencil:"Fitted skirt",wshirt:"Shirt",bodycon:"Bodycon",corset:"Corset top",flowgown:"Flowing gown",backless:"Backless gown",bells:"Bell bottoms"};
 const PALETTE=["#f4f1ea","#1f2937","#6b7280","#1e3a5f","#3b5bdb","#0f766e","#4d7c0f","#a16207","#c2410c","#9f1239","#7c3aed","#b08968"];
 if(!S.color)S.color="#1e3a5f"; if(!S.fabric)S.fabric="linen"; if(!S.view)S.view="both";
 let current=null;
@@ -1162,7 +1291,7 @@ function renderAppearance(){
 function draft(){
   const m={};for(const k in M)m[k]=+S.m[k]||M[k].d;
   const SA=+S.sa;
-  const r=["shirt","tee","jacket"].includes(S.g)?draftTop(m,S.o,S.fit,SA,S.g):["flare","pencil"].includes(S.g)?draftSkirt(m,S.o,S.fit,SA,S.g):S.g==="wshirt"?draftWShirt(m,S.o,S.fit,SA):S.g==="bodycon"?draftBodycon(m,S.o,S.fit,SA):S.g==="corset"?draftCorset(m,S.o,S.fit,SA):draftTrousers(m,S.o,S.fit,SA,S.g==="shorts");
+  const r=["shirt","tee","jacket"].includes(S.g)?draftTop(m,S.o,S.fit,SA,S.g):["flare","pencil"].includes(S.g)?draftSkirt(m,S.o,S.fit,SA,S.g):S.g==="wshirt"?draftWShirt(m,S.o,S.fit,SA):S.g==="bodycon"?draftBodycon(m,S.o,S.fit,SA):S.g==="corset"?draftCorset(m,S.o,S.fit,SA):S.g==="bells"?draftTrousers(Object.assign({},m,{waist:m.wWaist,seat:m.wHip,rise:m.wRise,inseam:m.wInseam,thigh:m.wThigh,hem:m.bellHem,_bells:{knee:m.wKnee,hem:m.bellHem}}),S.o,S.fit,SA,false):S.g==="flowgown"?draftFlowGown(m,S.o,S.fit,SA):S.g==="backless"?draftBackless(m,S.o,S.fit,SA):draftTrousers(m,S.o,S.fit,SA,S.g==="shorts");
   const items=[testSquare()].concat(r.pieces.map(buildPiece));
   const sheet=layout(items,+S.roll);
   const prims=flatten(items);
@@ -1188,7 +1317,7 @@ async function offer(filename,data,mime){
   catch(e){if(e&&e.code==="declined"){toast("Download cancelled");return}if(e&&e.code==="rate_limited"){toast("A save prompt is already open");return}}
   try{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:mime}));a.download=filename;document.body.appendChild(a);a.click();a.remove();toast("Downloading "+filename)}catch(e){toast("Downloads aren't available in this view")}
 }
-const fname=ext=>S.g==="bodycon"?`bodycon-${S.o.stretch}-stretch-${S.o.sleeve}-1to1.${ext}`:S.g==="corset"?`corset-${S.o.corset}-1to1.${ext}`:S.g==="wshirt"?`womens-shirt-${S.o.shaping}-${S.o.sleeve}-sleeve-${S.fit}-1to1.${ext}`:S.g==="flare"?`flared-skirt-${S.o.flare}-circle-1to1.${ext}`:S.g==="pencil"?`fitted-skirt-${S.o.shape}-${S.fit}-1to1.${ext}`:`${S.g}-${S.fit}${S.g==="shirt"||S.g==="tee"?"-"+S.o.sleeve+"-sleeve":S.g==="jacket"?"":"-"+S.o.waistStyle}-1to1.${ext}`;
+const fname=ext=>S.g==="bells"?`bell-bottoms-${S.o.waistStyle}-${S.fit}-1to1.${ext}`:S.g==="flowgown"?`flowing-gown-${S.o.gskirt}-1to1.${ext}`:S.g==="backless"?`backless-halter-gown-${S.o.bskirt}-1to1.${ext}`:S.g==="bodycon"?`bodycon-${S.o.stretch}-stretch-${S.o.sleeve}-1to1.${ext}`:S.g==="corset"?`corset-${S.o.corset}-1to1.${ext}`:S.g==="wshirt"?`womens-shirt-${S.o.shaping}-${S.o.sleeve}-sleeve-${S.fit}-1to1.${ext}`:S.g==="flare"?`flared-skirt-${S.o.flare}-circle-1to1.${ext}`:S.g==="pencil"?`fitted-skirt-${S.o.shape}-${S.fit}-1to1.${ext}`:`${S.g}-${S.fit}${S.g==="shirt"||S.g==="tee"?"-"+S.o.sleeve+"-sleeve":S.g==="jacket"?"":"-"+S.o.waistStyle}-1to1.${ext}`;
 $("pdf").onclick=()=>{if(current)offer(fname("pdf"),toPDF(current.sheet,current.prims),"application/pdf")};
 $("svg").onclick=()=>{if(current)offer(fname("svg"),toSVG(current.sheet,current.prims,true),"image/svg+xml")};
 const ONSITE=/saintbuilds/.test(location.hostname);
