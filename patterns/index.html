@@ -255,7 +255,7 @@ const SECT={men:["shirt","tee","jacket","trousers","shorts"],women:["wshirt","co
 const NOFIT=["flare","bodycon","corset","flowgown","backless"];
 let S = {g:"shirt",fit:"regular",units:"cm",sa:1,roll:91.4,m:{},o:{sleeve:"short",pocket:"yes",lowerPockets:"yes",waistStyle:"elastic",backPocket:"yes",flare:"half",skWaist:"band",shape:"pencil",vent:"pleat",shaping:"darts",stretch:"med",neckline:"scoop",corset:"fashion",gskirt:"circle",gneck:"v",bskirt:"aline",backDepth:"waist"},zoom:1,sec:"men",last:{}};
 for(const k in M) S.m[k]=M[k].d;
-function load(){try{const j=JSON.parse(localStorage.getItem("pd-state")||"null");if(j){S=Object.assign(S,j);S.m=Object.assign({},S.m,j.m);S.o=Object.assign({},S.o,j.o);}}catch(e){}}
+function load(){try{const j=JSON.parse(localStorage.getItem("pd-state")||"null");if(j){const dm=Object.assign({},S.m),dO=Object.assign({},S.o);S=Object.assign(S,j);S.m=Object.assign(dm,j.m||{});S.o=Object.assign(dO,j.o||{});}}catch(e){}}
 function save(){try{localStorage.setItem("pd-state",JSON.stringify(S))}catch(e){}}
 
 // ---------- geometry helpers ----------
