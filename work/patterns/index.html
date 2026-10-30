@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pattern Drafter: sewing patterns from measurements — Saint Daniel</title>
+<meta name="description" content="Case study: designing and shipping Pattern Drafter, a free browser tool that turns body measurements into true-scale sewing patterns for 13 garments.">
+<meta property="og:title" content="Pattern Drafter — case study by Saint Daniel">
+<meta property="og:description" content="Measurements in, true-scale sewing patterns out. From a personal sewing tool to 25K views and a womenswear release in one day.">
+<meta property="og:image" content="https://saintbuilds.com/patterns/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://saintbuilds.com/patterns/og-image.jpg">
+<meta property="og:url" content="https://saintbuilds.com/work/patterns/">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0C0C0C;--fg:#D7E2EA;--muted:#8F9AA3;--line:rgba(215,226,234,.14);--card:#15171B;--accent:#00DD4F}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--fg);font-family:'Kanit',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.col{max-width:680px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:24px 0;font-size:15px}
+nav a{text-decoration:none;opacity:.8}nav a:hover{opacity:1}
+.grad{background:linear-gradient(180deg,#646973 0%,#BBCCD7 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:500}
+h1{font-size:clamp(36px,7vw,64px);font-weight:700;line-height:1.05;letter-spacing:-.02em;margin:12px 0 20px}
+h2{font-size:clamp(26px,4vw,36px);font-weight:700;line-height:1.15;letter-spacing:-.01em;margin-bottom:16px}
+h3{font-size:20px;font-weight:500;margin-bottom:8px}
+p,li{font-weight:300;font-size:17px;line-height:1.65;color:#C4CFD7}
+p+p{margin-top:14px}
+strong{font-weight:500;color:var(--fg)}
+.lede{font-size:20px;color:var(--fg)}
+.hero{display:grid;gap:40px;align-items:center;padding:32px 0 64px}
+@media(min-width:860px){.hero{grid-template-columns:1.2fr .8fr}}
+.hero img{border-radius:28px;max-height:620px;width:auto;margin:0 auto}
+.meta{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:32px;padding-top:24px;border-top:1px solid var(--line)}
+@media(min-width:640px){.meta{grid-template-columns:repeat(4,1fr)}}
+.meta small{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.meta span{font-size:15px;font-weight:400}
+section{padding:56px 0;border-top:1px solid var(--line)}
+.num{color:var(--accent);font-weight:500;font-size:15px;margin-bottom:8px;display:block}
+.split{display:grid;gap:32px;align-items:start;margin-top:8px}
+@media(min-width:860px){.split{grid-template-columns:1fr 1fr}.split.rev>figure{order:-1}}
+figure{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:20px;overflow:hidden}
+figure img{border-radius:12px;margin:0 auto}
+figure.phone img{max-height:640px;width:auto}
+figure.wide{margin-top:28px}
+figcaption{font-size:14px;color:var(--muted);margin-top:14px;line-height:1.5;font-weight:300}
+.phones{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.phones img{max-height:560px;width:auto}
+ul.ticks{list-style:none;margin-top:16px}
+ul.ticks li{padding-left:22px;position:relative;margin-top:8px}
+ul.ticks li::before{content:"";position:absolute;left:0;top:.7em;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px}
+@media(min-width:640px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+.stat b{display:block;font-size:30px;font-weight:700;color:var(--fg)}
+.stat span{font-size:14px;color:var(--muted);font-weight:300}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.cta a{border:1px solid var(--line);border-radius:999px;padding:12px 22px;text-decoration:none;font-size:15px}
+.cta a.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+footer{padding:40px 0 56px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+.quote{border-left:3px solid var(--accent);padding:4px 0 4px 18px;margin-top:18px}
+.quote p{color:var(--fg)}
+.steps{counter-reset:s;list-style:none;margin-top:16px}
+.steps li{counter-increment:s;padding-left:38px;position:relative;margin-top:12px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:2px;width:26px;height:26px;border-radius:50%;border:1px solid var(--line);font-size:13px;display:grid;place-items:center;color:var(--accent)}
+figure.light{background:#fff}
+table{width:100%;border-collapse:collapse;margin-top:20px;font-size:15px}
+td,th{text-align:left;padding:10px 8px;border-top:1px solid var(--line);font-weight:300;color:#C4CFD7;vertical-align:top}
+th{font-weight:500;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+td b{font-weight:500;color:var(--fg)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav><a href="/work/">← All work</a><a href="mailto:letsbuild@saintbuilds.com">Contact</a></nav>
+
+  <header class="hero">
+    <div>
+      <span class="eyebrow">Case study · Tool design</span>
+      <h1 class="grad">Pattern Drafter: measurements in, sewing patterns out</h1>
+      <p class="lede">A free browser tool that turns body measurements into sewing patterns you print at actual size. I built it to make clothes that fit me. After I posted it, people asked for women's outfits, so I added eight of them the same day.</p>
+      <div class="meta">
+        <div><small>Role</small><span>Product designer &amp; builder</span></div>
+        <div><small>Timeline</small><span>Mar – Oct 2026</span></div>
+        <div><small>Platform</small><span>Web, desktop + mobile</span></div>
+        <div><small>Output</small><span>1:1 PDF + SVG</span></div>
+      </div>
+    </div>
+    <img src="img/hero.webp" alt="Pattern Drafter on a phone showing the backless halter gown" width="647" height="1402">
+  </header>
+
+  <section>
+    <div class="col">
+      <span class="num">The problem</span>
+      <h2>Drafting a pattern by hand takes an afternoon of maths</h2>
+      <p>Ready-made clothes always had one issue or another for me, and I like mine loose and breathable. Getting clothes made to fit starts with a pattern. Drafting from scratch means taking a dozen measurements, working out ease and curves on paper, then drawing every piece at full size with a ruler and a French curve.</p>
+      <p>Tailors live with the same cost at scale. Every client brings new measurements, so the tailor redrafts the same shirt or trouser block again and again.</p>
+      <p><strong>The goal:</strong> type in measurements, pick a garment, and print a pattern that is ready to cut, at true scale, with the sewing details a beginner would otherwise miss.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>13</b><span>garments, men + women</span></div>
+      <div class="stat"><b>25K</b><span>views on the launch post</span></div>
+      <div class="stat"><b>797</b><span>bookmarks</span></div>
+      <div class="stat"><b>1 day</b><span>from request to womenswear live</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="num">First attempt · March 2026</span>
+      <h2>A tool for every tailor, which was too much</h2>
+      <p>My first version aimed at tailors and fashion designers: enter a client's measurements, get draft cut-outs for men and women. I started with a men's trouser based on the Aldrich drafting method, then added long- and short-sleeve shirts. The first build needed a React setup to run, so I rewrote it as one HTML file that opens with a double-click.</p>
+      <p>It drew the pieces, but it was a sketch, not a tool:</p>
+      <ul class="ticks">
+        <li><strong>No seam allowance.</strong> You still had to add it by hand before cutting.</li>
+        <li><strong>Screen-only output.</strong> The SVG had no reliable true scale, so nobody could print and cut from it.</li>
+        <li><strong>Scope with no edges.</strong> Men's and women's blocks, every garment, a client database. I couldn't test any of it properly.</li>
+      </ul>
+      <p>I parked it.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="num">The reframe · October 2026</span>
+      <h2>Design for one user first: me</h2>
+      <p>When I came back to it, three questions shaped the rebuild:</p>
+      <table>
+        <tr><th>Question</th><th>Answer</th><th>What it changed</th></tr>
+        <tr><td>Who is it for?</td><td><b>Me</b></td><td>I can check every pattern against my own measurements before anyone else trusts it</td></tr>
+        <tr><td>Which styles first?</td><td><b>Shirts, trousers, shorts</b></td><td>Simple, breathable, casual. Three garments done well beat ten done roughly</td></tr>
+        <tr><td>How does it print?</td><td><b>1:1 on my large-format printer</b></td><td>True scale became the core requirement, not a feature</td></tr>
+      </table>
+      <p style="margin-top:18px">I also kept it as one self-contained page: no sign-up, no server. Measurements save in the browser, so they're there next time.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">Decision 01</span>
+    <div class="split">
+      <div class="col">
+        <h2>Print at true scale, on one sheet</h2>
+        <p>The PDF uses real centimetres, sized to the paper roll you choose: 24, 36, 42 or 60 inches. The layout packs pieces across the roll and rotates any piece that would otherwise run off the edge, so a shirt prints as one continuous sheet you can lay on fabric.</p>
+        <ul class="ticks">
+          <li><strong>A 10 cm test square</strong> on every sheet. Measure it before cutting; if it isn't 10 cm, the printer scaled it.</li>
+          <li><strong>Seam allowance built in</strong> and adjustable (none, 0.6, 1 or 1.5 cm). Solid line means cut, dashed line means stitch.</li>
+          <li><strong>Everything a sewist needs on the piece:</strong> grainlines, notches that match between pieces, fold lines, darts, and how many to cut ("Cut 2, mirror").</li>
+        </ul>
+      </div>
+      <figure class="light"><img src="img/pattern-sheet.webp" alt="Pattern sheet for the women's princess-seam shirt" width="1014" height="1630" loading="lazy"><figcaption>A women's princess-seam shirt laid out on a 36-inch roll: centre front, side front, back, sleeve, collar and stand.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">Decision 02</span>
+    <div class="split rev">
+      <div class="col">
+        <h2>Check the fit before anyone cuts fabric</h2>
+        <p>A drafting mistake usually shows up after you've cut and sewn, which wastes fabric and a weekend. So every draft runs a set of checks and shows a green or yellow dot for each:</p>
+        <ul class="ticks">
+          <li>Ease at chest or bust, waist and hip, with the finished measurement.</li>
+          <li>Sleeve width against the upper arm, and armhole against sleeve head.</li>
+          <li>Seams that get sewn together come out the same length (side seams, inside leg, princess seams, corset panels).</li>
+          <li>Collar neckline against the neck measurement.</li>
+        </ul>
+        <p>A status line above the sketch says "Fit checks OK" or how many need a look, and tapping it opens the details. Every measurement field says where to put the tape, because a wrong measurement breaks the whole draft.</p>
+      </div>
+      <figure><img src="img/drawer.webp" alt="Measurements drawer with fit checks and finishing guide" width="2000" height="1125" loading="lazy"><figcaption>The measurements drawer: inputs with how-to-measure hints, output settings, fit checks and the finishing guide.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="num">Decision 03</span>
+      <h2>Add "Oversized" because that's how I dress</h2>
+      <p>Slim, regular and relaxed covered the usual range, but I wear my clothes very loose. I added a fourth fit, <strong>Oversized (super free)</strong>. It isn't just a bigger size: each garment has its own ease values, and oversized tops drop the shoulder and deepen the armhole so the volume hangs right. One fit chip switches it for every garment.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">Decision 04</span>
+    <div class="split">
+      <div class="col">
+        <h2>Finish seams neatly without an overlocker</h2>
+        <p>Most home sewists don't own an overlocker, the machine that stops raw edges fraying. I don't either. Linen and loose cotton, the breathable fabrics I wanted, fray fast.</p>
+        <p>So the tool tells you how to finish each seam with a normal machine: French seams, flat-felled seams, a "burrito" yoke, bias binding. A <strong>Finishing</strong> panel lists the right finish for every seam of the garment you're drafting. If those seams need 1.5 cm allowance and yours is set lower, it offers to fix it in one tap.</p>
+        <p>The first illustrated guide didn't work: its diagrams were hard to read. I rebuilt it with table-top views where the right and wrong sides of the fabric are shaded differently, clear stitch and fold marks, and QR codes linking to short video demos of the harder techniques.</p>
+      </div>
+      <figure class="light"><img src="img/guide.webp" alt="Seam finishing guide PDF, first two pages" width="1354" height="936" loading="lazy"><figcaption>The seam finishing guide (v2): which finish goes where, then illustrated steps with video QR codes.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="num">Decision 05</span>
+      <h2>A studio layout, without pretending to do 3D</h2>
+      <p>I wanted the tool to feel like a design studio rather than a form, and I had a reference: a sidebar of garments, a flat sketch, a 3D view of the garment, and the pattern. Real 3D fabric draping isn't something a single web page can do well, and a fake one would mislead people about fit.</p>
+      <p>I chose <strong>flat sketches drawn from the pattern itself</strong>. The sketch uses the same geometry as the pieces, so when you change a measurement or an option, the sketch changes too. Next to it, a colour view lets you try 12 colours and 6 fabric looks, including Adire.</p>
+      <ul class="ticks">
+        <li><strong>Three panels:</strong> technical sketch (front, back or both), colour view, pattern sheet.</li>
+        <li><strong>Options as chips</strong> under the sketch: fit, sleeves, pocket, waist style. One tap, instant redraw.</li>
+        <li><strong>Measurements in a slide-out drawer</strong>, so the design stays on screen.</li>
+        <li><strong>Actions in plain sight.</strong> PDF, SVG, Measure and Finishing first lived in a menu. I moved them to visible buttons, because downloading the PDF is the whole point.</li>
+      </ul>
+    </div>
+    <figure class="wide light"><img src="img/studio-men.webp" alt="Pattern Drafter studio layout showing a men's shirt" width="2000" height="1125" loading="lazy"><figcaption>The studio: garment sidebar, technical sketch, colour view and the pattern sheet ready to print.</figcaption></figure>
+    <figure class="wide light"><img src="img/range-men.webp" alt="Menswear range: shirt, T-shirt, jacket, trousers, shorts" width="2400" height="560" loading="lazy"><figcaption>Menswear: shirt (long, short or sleeveless), T-shirt, jacket, trousers and shorts, each with elastic or fitted waist options where they apply.</figcaption></figure>
+  </section>
+
+  <section>
+    <span class="num">Launch</span>
+    <div class="split">
+      <div class="col">
+        <h2>Posted in reply to “Drop your project URL”</h2>
+        <p>The tool went live at saintbuilds.com/patterns with a link preview built from a real screenshot of the page. I shared it on X in reply to a post asking builders to drop their project URLs, aimed at two groups: fashion lovers who want to start sewing, and tailors who want to stop redrafting.</p>
+        <div class="stats" style="grid-template-columns:repeat(2,1fr)">
+          <div class="stat"><b>25K</b><span>views</span></div>
+          <div class="stat"><b>442</b><span>likes</span></div>
+          <div class="stat"><b>797</b><span>bookmarks</span></div>
+          <div class="stat"><b>98</b><span>reposts</span></div>
+        </div>
+        <p style="margin-top:18px">Bookmarks outnumbered likes almost two to one. People were saving it to use, not just reacting to it.</p>
+        <p>Two replies changed the roadmap:</p>
+        <div class="quote"><p>One reply asked for female outfits and promised to watch the page for updates.</p></div>
+        <div class="quote"><p>Someone learning to sew wondered whether fabric type is considered.</p></div>
+      </div>
+      <figure><img src="img/tweet.webp" alt="Launch post on X with 25K views" width="900" height="1065" loading="lazy"><figcaption>The launch post, 30 October 2026.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="num">Womenswear · same day</span>
+      <h2>Eight garments, built on three engines</h2>
+      <p>I chose eight garments to start: a button-down shirt, corset top, flared skirt, fitted skirt, backless gown, flowing gown, bodycon dress and bell bottoms. Before building, I researched how each one is drafted: bodice blocks with bust darts, dart size against bust size, circle-skirt maths, negative ease for stretch knits, corset panel drafting, and why low backs gape.</p>
+      <p>The research changed the plan. None of the eight could reuse the menswear shirt block, because women's tops shape the bust with darts or seams. But they shared three foundations, so I built those instead of eight separate garments:</p>
+      <ol class="steps">
+        <li><strong>A bodice engine</strong> that drafts a front with a bust dart and can move that dart: to the side, into princess seams, or into the waist. It powers the shirt, bodycon and both gowns.</li>
+        <li><strong>A skirt engine</strong> for circle skirts, fitted skirts and gown skirts.</li>
+        <li><strong>A women's trouser block</strong> built on the menswear trouser code, for bell bottoms.</li>
+      </ol>
+      <p style="margin-top:18px">I made four product calls before any code: womenswear gets its own section rather than a mixed list; the corset ships in both versions (a fashion top with a zip, and a laced, boned corset); the backless gown uses a halter neck; the flowing gown offers both a circle and a gathered skirt.</p>
+    </div>
+    <figure class="wide light"><img src="img/range-women.webp" alt="Womenswear range: shirt, corset, bodycon, flowing gown, backless gown, flared skirt, fitted skirt, bell bottoms" width="2080" height="1400" loading="lazy"><figcaption>Womenswear: button-down shirt, corset top, bodycon, flowing gown, backless halter gown, flared skirt, fitted skirt and bell bottoms.</figcaption></figure>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="num">Built in phases</span>
+      <h2>Easy wins first, the hard engine second</h2>
+      <p>I ordered the work so each phase shipped something testable, and kept womenswear off the live site until all eight were done.</p>
+      <table>
+        <tr><th>Phase</th><th>Garments</th><th>What made it work</th></tr>
+        <tr><td>1</td><td><b>Flared + fitted skirts</b></td><td>Circle skirts are pure geometry: the waist radius comes from the waist measurement. The tool warns when a full circle won't fit 150 cm fabric folded in half. Fitted-skirt darts are sized from the waist-to-hip difference, with a kick pleat or slit for walking.</td></tr>
+        <tr><td>2</td><td><b>Bodice + shirt</b></td><td>The hardest part. Bust darts scale with bust size. For princess seams, the engine rotates the bust dart into the seam and checks both seam edges come out the same length.</td></tr>
+        <tr><td>3</td><td><b>Bodycon + corset</b></td><td>The bodycon is cut smaller than the body, by an amount set by how much the fabric stretches. The corset is six panels per side from bust, underbust, waist and high-hip measurements, checked seam by seam.</td></tr>
+        <tr><td>4</td><td><b>Both gowns</b></td><td>A floor-length circle skirt can't print as one piece, so the skirt splits into equal panels narrow enough for the paper roll. The gathered option is just rectangles, so the tool gives cutting sizes instead of wasting paper.</td></tr>
+        <tr><td>5</td><td><b>Bell bottoms</b></td><td>The trouser block, fitted to the knee and flaring to the hem width you enter.</td></tr>
+      </table>
+    </div>
+    <figure class="wide light"><img src="img/corset.webp" alt="Laced corset: sketch, colour view and panel pattern" width="2000" height="1125" loading="lazy"><figcaption>Laced corset: lacing and boning in the sketch, six panels per side, eyelet marks and a modesty panel in the pattern.</figcaption></figure>
+  </section>
+
+  <section>
+    <span class="num">Details that came from the research</span>
+    <div class="split">
+      <div class="col">
+        <h2>Small calls that stop real problems</h2>
+        <ul class="ticks">
+          <li><strong>Backless gowns gape at the open edges.</strong> The pattern tells you to stay-tape the armhole edges, and the finishing guide repeats it.</li>
+          <li><strong>A halter front has nowhere for a side dart.</strong> The bust shaping moves into the waist. At standard sizes that makes a 12.9 cm dart, too big to sew cleanly, so the tool splits it into two.</li>
+          <li><strong>The laced corset pulls the waist in by 5 cm (2 inches),</strong> the gentle end of what corset makers recommend, and lists how many bones to buy.</li>
+          <li><strong>Buttons sit at the bust point</strong> on the women's shirt, so the front doesn't gape between buttons.</li>
+        </ul>
+      </div>
+      <figure class="light"><img src="img/studio-women.webp" alt="Women's princess-seam shirt in the studio" width="2000" height="1125" loading="lazy"><figcaption>Women's shirt with princess seams. The Men / Women switch sits at the top of the sidebar.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="num">Answering the fabric question</span>
+      <h2>Fabric shapes the pattern where it matters</h2>
+      <p>The learner's question was a good one. Fabric changes a pattern most where stretch or drape is part of the fit, so that's where the tool asks:</p>
+      <ul class="ticks">
+        <li><strong>Bodycon:</strong> choose the fabric's stretch (low, medium or high) and the draft gets smaller to match. A check spells out the minimum stretch, and that a woven won't fit.</li>
+        <li><strong>Skirts and gowns:</strong> the tool checks pieces against fabric width, and tells you to hang circle skirts for 24 hours before hemming because the bias drops.</li>
+        <li><strong>Every garment's finishing panel</strong> names fabrics that suit it: poplin or lawn for the shirt, coutil under the laced corset, chiffon or crepe for the flowing gown.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="num">Testing</span>
+      <h2>64 drafts at the extremes, then a private preview</h2>
+      <p>I ran every women's garment at small and large sizes, in two fits and two option sets: 64 drafts, checked for broken geometry and failed fit checks. That caught two real bugs: sleeves came out narrower than the arm on small sizes, and collars came out slightly small on large ones. The sleeve now lowers its cap until it's wide enough, and the neckline is a little wider.</p>
+      <p>Before going live, I tried the whole release on my phone from a private preview link. It went live the same evening, and I replied in the thread to tell the people who asked.</p>
+      <p>While writing this case study I found one more: returning visitors had settings saved from the old version, so the new measurement fields showed up blank. I fixed it the same day.</p>
+    </div>
+    <div class="phones" style="margin-top:28px">
+      <figure class="phone light"><img src="img/mobile-men.webp" alt="Pattern Drafter on mobile, menswear" width="647" height="1402" loading="lazy"><figcaption>On mobile, the sidebar becomes a scrolling row.</figcaption></figure>
+      <figure class="phone light"><img src="img/hero.webp" alt="Pattern Drafter on mobile, backless gown" width="647" height="1402" loading="lazy"><figcaption>Backless halter gown: front, open back and halter tie.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="num">How I worked</span>
+      <h2>Designer as builder, with AI as the pair</h2>
+      <p>I designed and shipped this end to end, working with Claude as my build partner. I set the direction, made the product calls (who it's for, the scope, Oversized, flat sketches over 3D, the womenswear choices), and tested every release on screen and on paper. Claude wrote most of the drafting code and did the drafting research with me. Working this way, one person could go from a reply on X to eight new garments, live, in a day.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="num">What's next</span>
+      <h2>Prove it on real bodies</h2>
+      <p>These patterns come from standard drafting formulas, so the tool tells everyone to sew a test version (a toile) in cheap fabric first. Next:</p>
+      <ul class="ticks">
+        <li><strong>Toile-test the womenswear</strong> on real bodies and with professional tailors, and adjust the formulas from what we see.</li>
+        <li><strong>Remember fit fixes,</strong> such as “add 2 cm to the seat”, so every future draft includes them.</li>
+        <li><strong>Print on A4,</strong> tiled with alignment marks, for people without a large-format printer.</li>
+        <li><strong>Nigerian styles</strong> such as agbada, buba and kaftan, alongside the Western blocks.</li>
+      </ul>
+      <div class="cta">
+        <a class="primary" href="/patterns/">Try Pattern Drafter</a>
+        <a href="https://x.com/saintbuilds/status/2115991443365830769" target="_blank" rel="noopener">See the launch post</a>
+        <a href="/work/">More work</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 Saint Daniel · saintbuilds.com</footer>
+</div>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c88fe0fcee394e7b98590512f8b620fe"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
