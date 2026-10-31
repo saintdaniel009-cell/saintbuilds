@@ -50,7 +50,10 @@ button{font:inherit;color:inherit}
 .chip i{font-style:normal;color:#c9c5bc}
 .patbox{flex:1;min-height:0;overflow:auto;padding:6px 14px 14px;touch-action:pan-x pan-y pinch-zoom}
 .patbox svg{display:block}
-.fabbar{border-top:1px solid var(--line);padding:10px 18px 12px;font-size:12px;color:#6f6b63;display:flex;flex-direction:column;gap:2px}.fabbar b{color:var(--ink);font-weight:700}.fabbar .fhint{font-size:11px;color:var(--mute)}
+.fabbar{border-top:1px solid var(--line);padding:10px 18px 12px;font-size:12px;color:#6f6b63;display:flex;flex-direction:column;gap:2px}.fabbar b{color:var(--ink);font-weight:700}.fabbar .fhint{font-size:11px;color:var(--mute)}.fabbar .fthanks{font-size:11.5px;color:#6f6b63;margin-top:4px}.fabbar .fthanks a{color:var(--acc);font-weight:600;text-decoration:none}
+#thanks{position:fixed;right:18px;bottom:18px;z-index:40;width:min(320px,calc(100% - 36px));background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.14);padding:14px 16px;display:none;font-size:13px;line-height:1.45}
+#thanks.on{display:block}#thanks b{display:block;font-size:14px;margin-bottom:4px}#thanks .row{display:flex;gap:8px;margin-top:10px}
+#thanks a{background:var(--acc);color:#fff;text-decoration:none;border-radius:9px;padding:8px 12px;font-weight:600}#thanks button{border:0;background:#f3f2ee;border-radius:9px;padding:8px 12px;cursor:pointer}
 .pinfo{font-size:11.5px;color:var(--mute);padding:0 18px 4px}
 .tb{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
 .tbtn{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
@@ -175,6 +178,7 @@ input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border
   </div>
 </aside>
 <div id="toast"></div>
+<div id="thanks" role="dialog" aria-label="Say thanks"><b>Your pattern is saving</b>Pattern Drafter is free to use. If it saved you time or fabric, a small tip helps keep it that way.<div class="row"><a href="https://selar.com/showlove/saintbuilds" target="_blank" rel="noopener" id="thanksGo">Say thanks ♥</a><button id="thanksX">Maybe later</button></div></div>
 <script>
 
 "use strict";
@@ -1315,7 +1319,7 @@ function fabricHTML(r){
   const add=(w)=>{if(!extra)return 0;const per=Math.max(1,Math.floor(w/extra.w));return Math.ceil(extra.k/per)*(extra.h+1)};
   const a=fabricNeed(r.pieces,150,false)+add(148), b=fabricNeed(r.pieces,115,false)+add(113);
   const ln=fabricNeed(r.pieces,150,true);
-  return `<span>Fabric needed (approx.): ${fmt(a)} at 150 cm wide · ${fmt(b)} at 115 cm${ln>0?` · lining ${fmt(ln)} at 150 cm`:""}</span><span class="fhint">Includes 10% for shrinkage and straightening. Buy a little extra for stripes and checks.</span>`;
+  return `<span>Fabric needed (approx.): ${fmt(a)} at 150 cm wide · ${fmt(b)} at 115 cm${ln>0?` · lining ${fmt(ln)} at 150 cm`:""}</span><span class="fhint">Includes 10% for shrinkage and straightening. Buy a little extra for stripes and checks.</span><span class="fthanks">Pattern Drafter is free. If it helped, <a href="https://selar.com/showlove/saintbuilds" target="_blank" rel="noopener">say thanks ♥</a></span>`;
 }
 function draft(){
   const m={};for(const k in M)m[k]=+S.m[k]||M[k].d;
@@ -1348,8 +1352,10 @@ async function offer(filename,data,mime){
   try{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:mime}));a.download=filename;document.body.appendChild(a);a.click();a.remove();toast("Downloading "+filename)}catch(e){toast("Downloads aren't available in this view")}
 }
 const fname=ext=>S.g==="bells"?`bell-bottoms-${S.o.waistStyle}-${S.fit}-1to1.${ext}`:S.g==="flowgown"?`flowing-gown-${S.o.gskirt}-1to1.${ext}`:S.g==="backless"?`backless-halter-gown-${S.o.bskirt}-1to1.${ext}`:S.g==="bodycon"?`bodycon-${S.o.stretch}-stretch-${S.o.sleeve}-1to1.${ext}`:S.g==="corset"?`corset-${S.o.corset}-1to1.${ext}`:S.g==="wshirt"?`womens-shirt-${S.o.shaping}-${S.o.sleeve}-sleeve-${S.fit}-1to1.${ext}`:S.g==="flare"?`flared-skirt-${S.o.flare}-circle-1to1.${ext}`:S.g==="pencil"?`fitted-skirt-${S.o.shape}-${S.fit}-1to1.${ext}`:`${S.g}-${S.fit}${S.g==="shirt"||S.g==="tee"?"-"+S.o.sleeve+"-sleeve":S.g==="jacket"?"":"-"+S.o.waistStyle}-1to1.${ext}`;
-$("pdf").onclick=()=>{if(current)offer(fname("pdf"),toPDF(current.sheet,current.prims),"application/pdf")};
-$("svg").onclick=()=>{if(current)offer(fname("svg"),toSVG(current.sheet,current.prims,true),"image/svg+xml")};
+function showThanks(){try{if(sessionStorage.getItem("pd-thx"))return;sessionStorage.setItem("pd-thx","1")}catch(e){}setTimeout(()=>$("thanks").classList.add("on"),1200)}
+$("thanksX").onclick=()=>$("thanks").classList.remove("on");$("thanksGo").addEventListener("click",()=>$("thanks").classList.remove("on"));
+$("pdf").onclick=()=>{if(current){offer(fname("pdf"),toPDF(current.sheet,current.prims),"application/pdf");showThanks()}};
+$("svg").onclick=()=>{if(current){offer(fname("svg"),toSVG(current.sheet,current.prims,true),"image/svg+xml");showThanks()}};
 const ONSITE=/saintbuilds/.test(location.hostname);
 $("guideBtn").onclick=()=>{if(ONSITE){window.open("seam-finishing-guide.pdf","_blank");return}openM();setTimeout(()=>$("finH").scrollIntoView({behavior:"smooth"}),260)};
 if(ONSITE)$("pdfLink").innerHTML='<a href="seam-finishing-guide.pdf" target="_blank">Open the illustrated seam finishing guide (PDF)</a>';
