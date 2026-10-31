@@ -63,6 +63,7 @@ span.chip{border-style:dashed}
 select.mini{width:auto;padding:2px 22px 2px 6px;font-size:11.5px;border-radius:6px;display:inline-block}
 .pinfo{font-size:11.5px;color:var(--mute);padding:0 18px 4px}
 .tb{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.useg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}.useg button{border:0;background:transparent;padding:6px 9px;font-size:12px;font-weight:600;cursor:pointer;color:#6f6b63}.useg button.on{background:#1f1d1a;color:#fff}
 .tbtn{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
 .tbtn:hover{border-color:#cfcac0}
 .tbtn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -118,7 +119,7 @@ input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border
 .x{border:0;background:#f3f2ee;border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:16px}
 #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:9px 14px;border-radius:10px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60}
 #toast.on{opacity:1}
-@media(max-width:1420px) and (min-width:1001px){.tbtn svg{display:none}.tbtn{padding:6px 7px}}
+@media(max-width:1560px) and (min-width:1001px){.ph:has(#pdf) .pt{display:none}.tbtn svg{display:none}.tbtn{padding:6px 7px}}
 @media(max-width:1000px){
   .app{grid-template-columns:1fr;height:auto;grid-template-rows:auto}
   .side{flex-direction:row;overflow-x:auto;padding:8px;gap:2px;position:sticky;top:0;z-index:10;border-bottom:1px solid var(--line);align-items:center}
@@ -157,7 +158,7 @@ input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border
   </section>
   <section class="panel">
     <div class="ph"><span class="pt">Pattern</span>
-      <div class="tb"><button class="tbtn dark" id="pdf"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14"/></svg>PDF 1:1</button><button class="tbtn" id="svg">SVG</button><button class="tbtn" id="openM2" title="Measurements & settings"><svg viewBox="0 0 24 24"><path d="M3 8h18v8H3zM7 8v3M11 8v4M15 8v3M19 8v4"/></svg>Measure</button><button class="tbtn" id="guideBtn" title="Seam finishing guide"><svg viewBox="0 0 24 24"><path d="M6 4h9l3 3v13H6zM9 11h6M9 15h6"/></svg>Finishing</button></div></div>
+      <div class="tb"><div class="useg" id="useg" role="group" aria-label="Units"><button data-u="in" type="button">in</button><button data-u="cm" type="button">cm</button></div><button class="tbtn dark" id="pdf"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14"/></svg>PDF 1:1</button><button class="tbtn" id="svg">SVG</button><button class="tbtn" id="openM2" title="Measurements & settings"><svg viewBox="0 0 24 24"><path d="M3 8h18v8H3zM7 8v3M11 8v4M15 8v3M19 8v4"/></svg>Measure</button><button class="tbtn" id="guideBtn" title="Seam finishing guide"><svg viewBox="0 0 24 24"><path d="M6 4h9l3 3v13H6zM9 11h6M9 15h6"/></svg>Finishing</button></div></div>
     <div class="sample" id="sample"><span><b>These are sample measurements.</b> Add yours so the pattern fits you.</span><button id="sampleBtn">Add my measurements</button></div>
     <div class="pinfo" id="info" style="display:flex;justify-content:space-between;align-items:center"></div>
     <div class="patbox" id="prev"></div>
@@ -181,14 +182,14 @@ input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border
     <div id="meas" class="grid2"></div>
     <h2>Output</h2>
     <div class="grid2">
-      <div><label>Seam allowance</label><select id="sa"><option value="1">1 cm</option><option value="1.5">1.5 cm</option><option value="0.6">0.6 cm</option><option value="0">None</option></select></div>
+      <div><label>Seam allowance</label><select id="sa"></select></div>
       <div><label>Print on</label><select id="paper"><option value="roll">Large-format roll</option><option value="a4">A4 pages (taped)</option><option value="letter">US Letter pages (taped)</option></select></div>
       <div><label>Paper roll width</label><select id="roll"><option value="61">24 in (61 cm)</option><option value="91.4">36 in (91.4 cm)</option><option value="106.7">42 in (106.7 cm)</option><option value="152.4">60 in (152.4 cm)</option></select></div>
     </div>
     <h2>Fit checks</h2><ul class="checks" id="checks"></ul>
     <h2 id="finH">Finishing (no overlocker)</h2><div id="fin"></div><p class="note" id="pdfLink"></p>
     <h2>Printing</h2>
-    <p class="note">Print the PDF at <b>100% / actual size</b> and measure the 10 cm test square before cutting. Solid line = cut, dashed = stitch. Seam allowance is included. Make a toile in cheap fabric first.</p>
+    <p class="note">Print the PDF at <b>100% / actual size</b> and measure the <span id="tsqN">10 cm</span> test square before cutting. Solid line = cut, dashed = stitch. Seam allowance is included. Make a toile in cheap fabric first.</p>
     <p class="note"><button class="chip" id="reset">Reset measurements</button></p>
   </div>
 </aside>
@@ -282,7 +283,7 @@ const OPTS = {
 };
 const SECT={men:["shirt","tee","jacket","trousers","shorts"],women:["wshirt","corset","bodycon","flowgown","backless","tunic","flare","pencil","pullon","bells"]};
 const NOFIT=["flare","bodycon","corset","flowgown","backless"];
-let S = {g:"shirt",fit:"regular",units:"cm",sa:1,roll:91.4,m:{},o:{sleeve:"short",pocket:"yes",lowerPockets:"yes",waistStyle:"elastic",backPocket:"yes",flare:"half",skWaist:"band",shape:"pencil",vent:"pleat",shaping:"darts",stretch:"med",neckline:"scoop",corset:"fashion",gskirt:"circle",gneck:"v",bskirt:"aline",backDepth:"waist",tneck:"round",slits:"yes",fpocket:"slant"},zoom:1,sec:"men",last:{}};
+let S = {g:"shirt",fit:"regular",units:"in",sa:1,roll:91.4,m:{},o:{sleeve:"short",pocket:"yes",lowerPockets:"yes",waistStyle:"elastic",backPocket:"yes",flare:"half",skWaist:"band",shape:"pencil",vent:"pleat",shaping:"darts",stretch:"med",neckline:"scoop",corset:"fashion",gskirt:"circle",gneck:"v",bskirt:"aline",backDepth:"waist",tneck:"round",slits:"yes",fpocket:"slant"},zoom:1,sec:"men",last:{}};
 for(const k in M) S.m[k]=M[k].d;
 function load(){try{const j=JSON.parse(localStorage.getItem("pd-state")||"null");if(j){const dm=Object.assign({},S.m),dO=Object.assign({},S.o);S=Object.assign(S,j);S.m=Object.assign(dm,j.m||{});S.o=Object.assign(dO,j.o||{});}}catch(e){}}
 function save(){try{localStorage.setItem("pd-state",JSON.stringify(S))}catch(e){}}
@@ -423,10 +424,10 @@ function draftTop(m,o,fit,SA,kind){
   if(kind==="jacket"&&o.lowerPockets==="yes")pieces.push({name:"Lower patch pocket",cut:"Cut 2",edges:[{pts:seg(P(0,0),P(17,0)),sa:4},{pts:[P(17,0),P(17,19),P(0,19),P(0,0)],sa:SA}],grain:[P(8.5,4),P(8.5,16)],label:P(1,-3.8),small:1});
   const checks=[];
   checks.push([W*2-m.chest>=(kind==="tee"?4:10),`Chest ease ${(W*2-m.chest).toFixed(1)} cm (finished chest ${(W*2).toFixed(1)} cm)`]);
-  const sw=wb+wf;if(!sleeveless)checks.push([sw>=m.bicep+(kind==="tee"?2:5),`Sleeve width ${sw.toFixed(1)} cm vs bicep ${m.bicep} (+${(sw-m.bicep).toFixed(1)})`]);
+  const sw=wb+wf;if(!sleeveless)checks.push([sw>=m.bicep+(kind==="tee"?2:5),`Sleeve width ${sw.toFixed(1)} cm vs bicep ${m.bicep} cm (+${(sw-m.bicep).toFixed(1)} cm)`]);
   checks.push([true,sleeveless?`Armhole ${AH.toFixed(1)} cm (shoulder set 1.5 cm in, armhole ${fit==="oversized"?"cut deep":"raised"})`:`Armhole ${AH.toFixed(1)} cm, sleeve head ${(plen(cb)+plen(cf)).toFixed(1)} cm`]);
   if(kind==="tee")checks.push([true,`Neckline ${(NL*2).toFixed(1)} cm, band ${(NL*2*0.85).toFixed(1)} cm (85%)`]);
-  else checks.push([NL*2>=m.neck,`Collar neckline ${(NL*2).toFixed(1)} cm (your neck ${m.neck})`]);
+  else checks.push([NL*2>=m.neck,`Collar neckline ${(NL*2).toFixed(1)} cm (your neck ${m.neck} cm)`]);
   return {pieces,checks,sk:{kind,NP,SPf,SPb,frontArm,backArm,frontNeck,backNeck,Uf,Ub,half,hy,sideHem,hemCurve,fnd,br,bnw,sleeveless,sl,hemW,bw:(wb+wf)/2,long,cy,curved}};
 }
 
@@ -529,13 +530,13 @@ function draftTrousers(m,o,fit,SA,shorts){
   // checks
   const legW=Cf.x+ (Cb.x - Math.min(0,...bSideFull.map(p=>p.x))*0);
   const legCirc=(Cf.x-0)+(Cb.x-0);
-  checks.push([legCirc>=m.thigh+6,`Thigh ease +${(legCirc-m.thigh).toFixed(1)} cm (leg ${legCirc.toFixed(1)} vs thigh ${m.thigh})`]);
+  checks.push([legCirc>=m.thigh+6,`Thigh ease +${(legCirc-m.thigh).toFixed(1)} cm (leg ${legCirc.toFixed(1)} cm vs thigh ${m.thigh} cm)`]);
   if(m._bells)checks.push([m._bells.hem>=m._bells.knee+15,`Knee ${(kneeF+kneeB).toFixed(1)} cm, flaring to ${m._bells.hem} cm at the hem`]);
   else if(fit==="oversized"&&!shorts)checks.push([m.hem>=50,`Leg opening ${m.hem} cm${m.hem<50?": use 50 to 56 cm for a wide, airy leg":" (wide and straight)"}`]);
-  const seatF=(fs+bs)*2;checks.push([true,`Finished seat ${seatF.toFixed(1)} cm (+${(seatF-m.seat).toFixed(1)})`]);
-  const di=plen(fInFull)-plen(bInFull);checks.push([Math.abs(di)<1.2,`Inside leg seams: front ${plen(fInFull).toFixed(1)}, back ${plen(bInFull).toFixed(1)} cm`]);
-  const sF=plen(fSideFull)+plen(fHip), sB=plen(bSideFull)+plen(bHip);checks.push([Math.abs(sF-sB)<1.2,`Side seams: front ${sF.toFixed(1)}, back ${sB.toFixed(1)} cm`]);
-  if(elastic)checks.push([(fwEdge+bwEdge)*2>=m.seat,`Waist opening ${((fwEdge+bwEdge)*2).toFixed(1)} cm pulls over hips ${m.seat}`]);
+  const seatF=(fs+bs)*2;checks.push([true,`Finished seat ${seatF.toFixed(1)} cm (+${(seatF-m.seat).toFixed(1)} cm)`]);
+  const di=plen(fInFull)-plen(bInFull);checks.push([Math.abs(di)<1.2,`Inside leg seams: front ${plen(fInFull).toFixed(1)} cm, back ${plen(bInFull).toFixed(1)} cm`]);
+  const sF=plen(fSideFull)+plen(fHip), sB=plen(bSideFull)+plen(bHip);checks.push([Math.abs(sF-sB)<1.2,`Side seams: front ${sF.toFixed(1)} cm, back ${sB.toFixed(1)} cm`]);
+  if(elastic)checks.push([(fwEdge+bwEdge)*2>=m.seat,`Waist opening ${((fwEdge+bwEdge)*2).toFixed(1)} cm pulls over hips ${m.seat} cm`]);
   else checks.push([true,`Finished waist ${((fwEdge+bwEdge-4.5)*2).toFixed(1)} cm after pleat + dart`]);
   return {pieces,checks,sk:{kind:"bottom",R,ys,yk,yh,hemY,fs,bs,Cf,Cb,kneeF,kneeB,hemF,hemB,elastic,shorts,waist:m.waist,fwEdge,bwEdge,fp:o._fp||"seam"}};
 }
@@ -561,7 +562,7 @@ function draftSkirt(m,o,fit,SA,kind){
     const w=(r+L)*Math.sin(th);
     checks.push([true,`Waist radius ${r.toFixed(1)} cm, hem radius ${(r+L).toFixed(1)} cm`]);
     checks.push([w<=72,w<=72?`Fits 150 cm fabric folded in half (needs ${w.toFixed(0)} of 75 cm)`:`Needs ${w.toFixed(0)} cm across, but 150 cm fabric folded gives 75. Pick half circle or a shorter length`]);
-    checks.push([true,el?`Waist opening ${Wc.toFixed(0)} cm pulls over hips ${m.wHip}`:`Finished waist ${Wc.toFixed(1)} cm (+1 ease)`]);
+    checks.push([true,el?`Waist opening ${Wc.toFixed(0)} cm pulls over hips ${m.wHip} cm`:`Finished waist ${Wc.toFixed(1)} cm (+1 cm ease)`]);
     checks.push([true,"Hang the skirt for 24 h before levelling the hem; the bias drops"]);
     const ww=m.wWaist/4, k={1:0.5,0.5:0.36,0.25:0.22}[fr];
     return {pieces,checks,sk:{kind:"skirt",type:"flare",w:ww,hem:ww+L*k,L,fr,elastic:el}};
@@ -594,7 +595,7 @@ function draftSkirt(m,o,fit,SA,kind){
     note:o.vent==="pleat"?"Zip in centre back to the notch. Kick pleat at hem":"Zip to the upper notch. Slit open below the lower notch"},bp));
   const Lb=Wt+3;pieces.push({name:"Waistband",cut:"Cut 1 + interfacing",edges:[{pts:[P(0,0),P(Lb,0),P(Lb,8),P(0,8),P(0,0)],sa:SA}],marks:[{pts:seg(P(0,4),P(Lb,4)),dash:"fold"},{pts:seg(P(Lb-3,0),P(Lb-3,8)),dash:"cf"}],grain:[P(3,2),P(Lb-6,2)],gh:1,label:P(1,-3.8),small:1,note:"Ends meet the centre-back zip; 3 cm overlap for a hook"});
   const maxD=Math.max(F.each,B.each);
-  checks.push([true,`Finished hip ${H.toFixed(1)} cm (+${eh}), waist ${Wt.toFixed(1)} cm (+${ew})`]);
+  checks.push([true,`Finished hip ${H.toFixed(1)} cm (+${eh} cm), waist ${Wt.toFixed(1)} cm (+${ew} cm)`]);
   checks.push([maxD<=3.5,`Darts: front ${F.n} × ${F.each.toFixed(1)} cm, back ${B.n} × ${B.each.toFixed(1)} cm${maxD>3.5?". Big darts: check waist and hip, or add a third dart in a toile":""}`]);
   checks.push([wh>=14&&wh<=28,`Waist to hip ${wh} cm${wh<14||wh>28?": usually 18 to 23 cm, measure again":""}`]);
   const hemC=2*((Hf-t)+(Hb-t));checks.push([true,`Hem ${hemC.toFixed(0)} cm around; the ${o.vent==="pleat"?"kick pleat":"slit"} gives walking room`]);
@@ -717,9 +718,9 @@ function wSleeve(m,o,fit,SA,AHb,AHf,drop,pieces,checks,knit){
     notches:[{pts:cf,at:AHf*0.4,n:1},{pts:cb,at:AHb*0.4,n:2},{pts:cb,at:plen(cb)-0.01,n:1}]});
   if(long&&!knit){const cl=m.wWrist+6;pieces.push({name:"Cuff",cut:"Cut 4 (+ interfacing 2)",edges:[{pts:[P(0,0),P(cl,0),P(cl,5),P(0,5),P(0,0)],sa:SA}],grain:[P(2,2.5),P(cl-2,2.5)],label:P(1,-3.8),small:1});
     pieces.push({name:"Sleeve slit binding",cut:"Cut 2 on the bias",edges:[{pts:[P(0,0),P(20,0),P(20,3),P(0,3),P(0,0)],sa:0}],grain:[P(3,1.5),P(6,1.5)],label:P(1,-3.8),small:1,note:"Binds the 9 cm slit"})}
-  checks.push([wb+wf>=m.wBicep+(knit?-3:4),`Sleeve width ${(wb+wf).toFixed(1)} cm vs bicep ${m.wBicep} (+${(wb+wf-m.wBicep).toFixed(1)})`]);
+  checks.push([wb+wf>=m.wBicep+(knit?-3:4),`Sleeve width ${(wb+wf).toFixed(1)} cm vs bicep ${m.wBicep} cm (+${(wb+wf-m.wBicep).toFixed(1)} cm)`]);
   checks.push([true,`Armhole ${AH.toFixed(1)} cm, sleeve head ${(plen(cb)+plen(cf)).toFixed(1)} cm${knit?"":" (0.8 cm ease)"}`]);
-  if(m._bh){const tot=m._bh.T+wb+wf, e=tot-m.wBearHug;checks.push([e>=m._bh.tgt-0.6,`Bear hug: pattern ${tot.toFixed(1)} cm vs yours ${m.wBearHug} (${e>=0?"+":""}${e.toFixed(1)} ease)${e<m._bh.tgt-0.6?": too tight for a set-in sleeve. Try Relaxed fit or check the measurement":m._bh.grew?", back + sleeve widened to fit":""}`])}
+  if(m._bh){const tot=m._bh.T+wb+wf, e=tot-m.wBearHug;checks.push([e>=m._bh.tgt-0.6,`Bear hug: pattern ${tot.toFixed(1)} cm vs yours ${m.wBearHug} cm (${e>=0?"+":""}${e.toFixed(1)} cm ease)${e<m._bh.tgt-0.6?": too tight for a set-in sleeve. Try Relaxed fit or check the measurement":m._bh.grew?", back + sleeve widened to fit":""}`])}
   if(tq)checks.push([hemW>=foreArm+1,`¾ sleeve ends ${sl.toFixed(1)} cm down, opening ${hemW.toFixed(1)} cm`]);
   return {sl,hemW,long,tq,bw:(wb+wf)/2};
 }
@@ -770,7 +771,7 @@ function draftWShirt(m,o,fit,SA){
     pieces.push({name:"Side front",cut:"Cut 2 (mirror)",edges:[{pts:armBotR,sa:SA},{pts:[UfR,g.S2],sa:sideSA},{pts:g.fSide.slice(1),sa:sideSA},{pts:hemSide.length>1?rev(hemSide).reverse():hemSide,sa:SA},{pts:rev(sdSeam),sa:sideSA}],
       grain:[P(g.Fw*0.75,g.BP.y+2),P(g.Fw*0.75,g.fSideY-8)],label:P(d.c+3,g.BP.y+6),notches:[{pts:sdSeam,at:dist(A2,g.BP),n:2},{pts:armBotR,at:plen(armBotR)*0.4,n:1}]});
     const lc=plen(cfSeam),ls=plen(sdSeam);
-    checks.push([Math.abs(lc-ls)<1,`Princess seams: centre ${lc.toFixed(1)}, side ${ls.toFixed(1)} cm`]);
+    checks.push([Math.abs(lc-ls)<1,`Princess seams: centre ${lc.toFixed(1)} cm, side ${ls.toFixed(1)} cm`]);
   }
   const sleeveless=o.sleeve==="none";
   const AHb=plen(g.backArm),AHf=plen(g.frontArm);
@@ -781,11 +782,11 @@ function draftWShirt(m,o,fit,SA){
   wCollar(NL,SA,pieces,plen(g.backNeck));
   // checks
   const finW=(g.Bw-g.bs.s-(g.bs.d||0)+g.Fw-g.fs.s-(g.fs.d||0))*2;
-  checks.push([g.B-m.wBust>=4,`Bust ease ${(g.B-m.wBust).toFixed(1)} cm (finished bust ${g.B.toFixed(1)})`]);
-  checks.push([finW>=m.wWaist+4,`Finished waist ${finW.toFixed(1)} cm (+${(finW-m.wWaist).toFixed(1)})`]);
+  checks.push([g.B-m.wBust>=4,`Bust ease ${(g.B-m.wBust).toFixed(1)} cm (finished bust ${g.B.toFixed(1)} cm)`]);
+  checks.push([finW>=m.wWaist+4,`Finished waist ${finW.toFixed(1)} cm (+${(finW-m.wWaist).toFixed(1)} cm)`]);
   const sb=plen(g.bSide), sf=dist(g.Uf,g.S1)+plen(g.fSide);
-  checks.push([Math.abs(sb-sf)<1,`Side seams: back ${sb.toFixed(1)}, front ${sf.toFixed(1)} cm (dart closed)`]);
-  checks.push([NL*2>=m.wNeck,`Collar neckline ${(NL*2).toFixed(1)} cm (your neck ${m.wNeck})`]);
+  checks.push([Math.abs(sb-sf)<1,`Side seams: back ${sb.toFixed(1)} cm, front ${sf.toFixed(1)} cm (dart closed)`]);
+  checks.push([NL*2>=m.wNeck,`Collar neckline ${(NL*2).toFixed(1)} cm (your neck ${m.wNeck} cm)`]);
   const sk={kind:"wtop",type:"wshirt",g,o,shaping:o.shaping,sleeveless,sl:sv.sl,hemW:sv.hemW,long:sv.long,tq:sv.tq,bw:sv.bw,
     fin:{bust:g.B/4,waist:finW/4,hip:g.Hq}};
   return {pieces,checks,sk};
@@ -877,9 +878,9 @@ function draftBodycon(m,o,fit,SA){
   const NL=(plen(g.backNeck)+plen(g.frontNeck))*2, NB=NL*0.85;
   pieces.push({name:"Neckband",cut:"Cut 1",edges:[{pts:[P(0,0),P(NB,0),P(NB,5),P(0,5),P(0,0)],sa:SA}],marks:[{pts:seg(P(0,2.5),P(NB,2.5)),dash:"fold"}],grain:[P(NB/2-3,1),P(NB/2+3,1)],label:P(1,-3.8),small:1,note:"85% of the neckline. Join ends, fold, stretch to fit"});
   const fb=g.B, fw=(g.Bw-g.bs.s+g.Fw-g.fs.s)*2, fh=g.Hq*4;
-  checks.push([true,`Finished bust ${fb.toFixed(1)} (${(fb-m.wBust).toFixed(1)}), waist ${fw.toFixed(1)} (${(fw-m.wWaist).toFixed(1)}), hip ${fh.toFixed(1)} cm (${(fh-m.wHip).toFixed(1)})`]);
+  checks.push([true,`Finished bust ${fb.toFixed(1)} cm (${(fb-m.wBust).toFixed(1)} cm), waist ${fw.toFixed(1)} cm (${(fw-m.wWaist).toFixed(1)} cm), hip ${fh.toFixed(1)} cm (${(fh-m.wHip).toFixed(1)} cm)`]);
   checks.push([true,`Negative ease: knit must stretch at least ${[25,45,65][st]}% across. A woven won't fit`]);
-  const sb=plen(g.bSide),sf=plen(fside);checks.push([Math.abs(sb-sf)<1,`Side seams: back ${sb.toFixed(1)}, front ${sf.toFixed(1)} cm`]);
+  const sb=plen(g.bSide),sf=plen(fside);checks.push([Math.abs(sb-sf)<1,`Side seams: back ${sb.toFixed(1)} cm, front ${sf.toFixed(1)} cm`]);
   checks.push([m.dressLength>m.napeWaist+m.waistHip+5,`Dress length ${m.dressLength} cm from the back neck`]);
   return {pieces,checks,sk:{kind:"wtop",type:"bodycon",g,sleeveless,sl:sv.sl,hemW:sv.hemW,long:sv.long,tq:sv.tq,curved:false,flareHem:-2,fin:{bust:fb/4,waist:fw/4,hip:fh/4}}};
 }
@@ -921,9 +922,9 @@ function draftCorset(m,o,fit,SA){
   if(laced){const H=edgesR[n-1][edgesR[n-1].length-1].y-edgesR[n-1][0].y;pieces.push({name:"Modesty panel",cut:"Cut 2 (+ interfacing)",edges:[{pts:[P(0,0),P(12,0),P(12,H),P(0,H),P(0,0)],sa:SA}],grain:[P(6,3),P(6,H-3)],label:P(1,-3.8),small:1,note:"Sits under the lacing. Sew to one back edge"})}
   let worst=0;for(let i=0;i<n-1;i++)worst=Math.max(worst,Math.abs(plen(edgesR[i])-plen(edgesL[i+1])));
   const fin=x=>(x+gap)*2;
-  checks.push([true,`Finished bust ${fin(half.b).toFixed(1)}, underbust ${fin(half.u).toFixed(1)}, waist ${fin(half.w).toFixed(1)}, hip ${fin(half.h).toFixed(1)} cm${laced?" with a 5 cm lacing gap":""}`]);
+  checks.push([true,`Finished bust ${fin(half.b).toFixed(1)} cm, underbust ${fin(half.u).toFixed(1)} cm, waist ${fin(half.w).toFixed(1)} cm, hip ${fin(half.h).toFixed(1)} cm${laced?" with a 5 cm lacing gap":""}`]);
   checks.push([worst<1,`Seams match within ${worst.toFixed(1)} cm${worst>=1?": ease the longer edge when sewing":""}`]);
-  checks.push([m.wWaist-fin(half.w)<=10,laced?`Waist reduction ${(m.wWaist-fin(half.w)).toFixed(0)} cm (about 2 in). Gentle; fine for all-day wear`:`No waist reduction; the zip closes it to your waist`]);
+  checks.push([m.wWaist-fin(half.w)<=10,laced?`Waist reduction ${(m.wWaist-fin(half.w)).toFixed(0)} cm. Gentle; fine for all-day wear`:`No waist reduction; the zip closes it to your waist`]);
   checks.push([true,laced?`Boning: steel or synthetic whalebone in every seam + panel centre (${(n-1)*2+ (n-2)*2+4} bones), 2 flat steels at the lacing`:`Optional plastic boning in each seam (${(n-1)*2} bones). Topstitch seams flat for the corset look`]);
   return {pieces,checks,sk:{kind:"corset",laced,half,PR,fTop,fBot,yB,yU,yBot,gap}};
 }
@@ -965,7 +966,7 @@ function goreSkirt(Wc,L,frac,SA,pieces,checks,maxW,zipNote){
 }
 function gatherSkirt(Wc,L,ratio,SA,checks,fin){
   const tot=Wc*ratio, k=Math.max(2,Math.ceil(tot/140)), w=tot/k+2*SA, h=L+3+SA;
-  checks.push([true,`Skirt: cut ${k} rectangles ${w.toFixed(0)} × ${h.toFixed(0)} cm straight from the fabric (no paper needed). Gathers ${ratio}× the waist`]);
+  checks.push([true,`Skirt: cut ${k} rectangles ${w.toFixed(0)} cm × ${h.toFixed(0)} cm straight from the fabric (no paper needed). Gathers ${ratio}× the waist`]);
   fin.rect={k,w,h};
 }
 function bodiceToWaist(m,cfg){return wBlock(m,Object.assign({curved:false,waistDarts:true,len:m.napeWaist,cyAdj:-1},cfg))}
@@ -986,7 +987,7 @@ function draftFlowGown(m,o,fit,SA){
   if(o.gskirt==="gathered")gatherSkirt(Wc,m.gownLength,2,SA,checks,fin);
   else goreSkirt(Wc,m.gownLength,0.5,SA,pieces,checks,Math.min(140,S.roll-6),"Seams fall at centre front, back and sides. Zip in the centre-back seam");
   const rect=fin.rect;
-  checks.unshift([true,`Finished bust ${g.B.toFixed(1)} cm (+5), waist ${Wc.toFixed(1)} cm (+${(Wc-m.wWaist).toFixed(1)})`]);
+  checks.unshift([true,`Finished bust ${g.B.toFixed(1)} cm (+5 cm), waist ${Wc.toFixed(1)} cm (+${(Wc-m.wWaist).toFixed(1)} cm)`]);
   checks.push([true,`Bust dart ${g.D.toFixed(1)} cm at the side, plus waist darts`]);
   const hemHalf=o.gskirt==="gathered"?Wc/4*1.7:Wc/4+m.gownLength*0.3;
   return {pieces,checks,sk:{kind:"gown",type:"flow",rect,g,v,L:m.gownLength,hemHalf,gathered:o.gskirt==="gathered",fin:{bust:g.B/4,waist:Wc/4}}};
@@ -1019,7 +1020,7 @@ function draftBackless(m,o,fit,SA){
   pieces.push({name:"Halter tie",cut:"Cut 2",edges:[{pts:[P(0,0),P(55,0),P(55,4.5),P(0,4.5),P(0,0)],sa:SA}],marks:[{pts:seg(P(0,2.25),P(55,2.25)),dash:"fold"}],grain:[P(5,1.1),P(50,1.1)],label:P(1,-3.8),small:1,note:"Sew into a tube, turn, tie behind the neck"});
   const fw=plen(cfPart)+plen(waistSide), Wc=2*(fw+wbk);
   goreSkirt(Wc,m.gownLength,o.bskirt==="half"?0.5:0.25,SA,pieces,checks,Math.min(140,S.roll-6),"Seams fall at centre front, back and sides. Zip in the left side seam");
-  checks.unshift([true,`Finished bust ${g.B.toFixed(1)} cm (+4), waist ${Wc.toFixed(1)} cm (+${(Wc-m.wWaist).toFixed(1)})`]);
+  checks.unshift([true,`Finished bust ${g.B.toFixed(1)} cm (+4 cm), waist ${Wc.toFixed(1)} cm (+${(Wc-m.wWaist).toFixed(1)} cm)`]);
   checks.push([true,`Bust dart ${g.D.toFixed(1)} cm moved into the waist dart. Side seam ${sideH} cm high; zip in the left side`]);
   checks.push([true,"Open back: stay-tape the front armhole edges so they hug the body and don't gape"]);
   const di=dist(Wd1,Wd2);checks.push([di<=16,di>7?`Waist shaping ${di.toFixed(1)} cm, split into two darts of ${(di/2).toFixed(1)} cm`:`Waist dart ${di.toFixed(1)} cm`]);
@@ -1081,7 +1082,7 @@ function draftTunic(m,o,fit,SA){
   else pieces.push({name:"Armhole bias facing",cut:"Cut 2 on the bias (45 deg)",edges:[{pts:[P(0,0),P(AHb+AHf+3,0),P(AHb+AHf+3,3.5),P(0,3.5),P(0,0)],sa:0}],marks:[{pts:seg(P(0,1),P(AHb+AHf+3,1)),dash:"fold"}],grain:[P(4,1.75),P(7,1.75)],label:P(1,-3.8),small:1,note:"Seam allowance included"});
   pieces.push({name:"Neckline bias facing",cut:"Cut 1 on the bias (45 deg)",edges:[{pts:[P(0,0),P(NL+4,0),P(NL+4,3.5),P(0,3.5),P(0,0)],sa:0}],marks:[{pts:seg(P(0,1),P(NL+4,1)),dash:"fold"}],grain:[P(4,1.75),P(7,1.75)],label:P(1,-3.8),small:1,note:v?"Join into a loop, mitre at the V point":"Join into a loop, stretch slightly round the curve"});
   const fh=g.Hq*4;
-  checks.unshift([true,`Finished bust ${g.B.toFixed(1)} cm (+${(g.B-m.wBust).toFixed(0)}), hip ${fh.toFixed(1)} cm (+${(fh-m.wHip).toFixed(0)})`]);
+  checks.unshift([true,`Finished bust ${g.B.toFixed(1)} cm (+${(g.B-m.wBust).toFixed(0)} cm), hip ${fh.toFixed(1)} cm (+${(fh-m.wHip).toFixed(0)} cm)`]);
   checks.push([NL>=62||needKey,needKey?`Neckline ${NL.toFixed(0)} cm is small for pulling over the head, so the back has a keyhole opening`:`Neckline ${NL.toFixed(0)} cm pulls over the head`]);
   if(g.D>0.5)checks.push([true,`Small bust dart ${g.D.toFixed(1)} cm so it hangs straight at the front`]);
   checks.push([m.tunicLength>m.napeWaist+m.waistHip,`Tunic length ${m.tunicLength} cm from the back neck${slit?`, side slits ${slit} cm`:""}`]);
@@ -1104,14 +1105,14 @@ function buildPiece(pc){
   const lp=pc.label, s=pc.small?0.75:1.4;
   prims.push({t:"text",p:lp,s:s,v:pc.name.toUpperCase(),c:"#111",b:1});
   prims.push({t:"text",p:add(lp,P(0,s*1.25)),s:s*0.6,v:pc.cut,c:"#333"});
-  if(pc.note)prims.push({t:"text",p:add(lp,P(0,s*2.2)),s:s*0.5,v:pc.note,c:"#555"});
-  (pc.tags||[]).forEach(tg=>prims.push({t:"text",p:tg.p,s:0.7,v:tg.t,c:"#555"}));
+  if(pc.note)prims.push({t:"text",p:add(lp,P(0,s*2.2)),s:s*0.5,v:U(pc.note),c:"#555"});
+  (pc.tags||[]).forEach(tg=>prims.push({t:"text",p:tg.p,s:0.7,v:U(tg.t),c:"#555"}));
   // bbox
   const all=cut.concat(seam);prims.forEach(p=>{if(p.t==="text"){all.push(p.p);all.push(add(p.p,P(p.v.length*p.s*0.6,-p.s)))}});
   const minx=Math.min(...all.map(p=>p.x)),maxx=Math.max(...all.map(p=>p.x)),miny=Math.min(...all.map(p=>p.y)),maxy=Math.max(...all.map(p=>p.y));
   return {prims,box:{x:minx,y:miny,w:maxx-minx,h:maxy-miny}};
 }
-function testSquare(name){const pr=[{t:"poly",pts:[P(0,0),P(10,0),P(10,10),P(0,10)],closed:1,w:0.05,c:"#111"},{t:"text",p:P(1,4.5),s:0.8,v:"10 cm TEST",c:"#111",b:1},{t:"text",p:P(1,5.7),s:0.5,v:"Measure before cutting",c:"#333"}];if(name)pr.push({t:"text",p:P(1,8.3),s:0.6,v:"For "+String(name).slice(0,16),c:"#111",b:1});return {prims:pr,box:{x:0,y:0,w:10,h:10}}}
+function testSquare(name){const q=TSQ();const pr=[{t:"poly",pts:[P(0,0),P(q,0),P(q,q),P(0,q)],closed:1,w:0.05,c:"#111"},{t:"text",p:P(1,4.5),s:0.8,v:TSL()+" TEST",c:"#111",b:1},{t:"text",p:P(1,5.7),s:0.5,v:"Measure before cutting",c:"#333"}];if(name)pr.push({t:"text",p:P(1,8.3),s:0.6,v:"For "+String(name).slice(0,16),c:"#111",b:1});return {prims:pr,box:{x:0,y:0,w:q,h:q}}}
 
 function layout(items,roll){
   const margin=1.5,gap=2.5,usable=roll-margin*2;
@@ -1158,14 +1159,14 @@ function toPDFTiled(sheet,prims,title){
   let c="1 J 1 j\n";
   c+=txt(1.5,2.2,16,"Pattern Drafter: "+title,true);
   c+=txt(1.5,3.0,9,`${rows*cols} ${P.l} pages: ${rows} rows (A-${String.fromCharCode(64+rows)}) x ${cols} columns. Print at 100% / Actual size, never "Fit to page".`,false,"#333333");
-  c+=txt(1.5,3.55,9,"1. Measure the 10 cm square below. 2. Trim the right and bottom margin of each page along the grey line.",false,"#333333");
+  c+=txt(1.5,3.55,9,"1. Measure the "+TSL()+" square below. 2. Trim the right and bottom margin of each page along the grey line.",false,"#333333");
   c+=txt(1.5,4.1,9,"3. Lay each page over its neighbour so the grey lines meet and the diamonds line up. Tape, then cut out the pieces.",false,"#333333");
   const mapTop=5,mapH=Ph-5-13.5,mapW=Pw-3,s=Math.min(mapW/sheet.W,mapH/sheet.H),ox=1.5,oy=mapTop;
   const MX=x=>(ox+x*s),MY=y=>(oy+y*s);
   prims.forEach(p=>{if(p.t!=="poly"||!p.closed||p.w<0.05)return;c+=`0.5 w ${rgb("#555555")} RG [] 0 d\n${X(MX(p.pts[0].x))} ${Y(MY(p.pts[0].y))} m\n`;for(let i=1;i<p.pts.length;i++)c+=`${X(MX(p.pts[i].x))} ${Y(MY(p.pts[i].y))} l\n`;c+="h S\n"});
   c+=`0.6 w ${rgb("#c2410c")} RG\n`;
   for(let r=0;r<rows;r++)for(let cc=0;cc<cols;cc++){const x0=MX(cc*tw),y0=MY(r*th);c+=`${X(x0)} ${Y(y0+th*s)} ${(tw*s*k).toFixed(2)} ${(th*s*k).toFixed(2)} re S\n`;c+=txt(x0+0.2,y0+0.55,8,lab(r,cc),true,"#c2410c")}
-  const sq=Ph-12;c+=`0.8 w ${rgb("#111111")} RG ${X(1.5)} ${Y(sq+10)} ${(10*k).toFixed(2)} ${(10*k).toFixed(2)} re S\n`;c+=txt(2,sq+4.8,11,"10 cm TEST SQUARE",true);c+=txt(2,sq+5.6,8,"Measure before printing the rest",false,"#333333");
+  const q=TSQ(),sq=Ph-12;c+=`0.8 w ${rgb("#111111")} RG ${X(1.5)} ${Y(sq+q)} ${(q*k).toFixed(2)} ${(q*k).toFixed(2)} re S\n`;c+=txt(2,sq+4.8,11,TSL()+" TEST SQUARE",true);c+=txt(2,sq+5.6,8,"Measure before printing the rest",false,"#333333");
   pages.push(c);
   for(let r=0;r<rows;r++)for(let cc=0;cc<cols;cc++){
     const x0=cc*tw,y0=r*th,PX=x=>TM+x-x0,PY=y=>TM+y-y0;let c="1 J 1 j\nq\n"+`${X(TM)} ${Y(TM+th)} ${(tw*k).toFixed(2)} ${(th*k).toFixed(2)} re W n\n`;
@@ -1225,10 +1226,10 @@ FIN.pencil=o=>[["Fabric","Firm woven with a little stretch: twill, suiting, deni
 FIN.tee=o=>[["Fabric","Knit (jersey). It doesn't fray"],["Shoulder seams","Stretch/zigzag stitch + clear elastic or tape"],[o.sleeve==="none"?"Side seams":"Side + sleeve seams","Stretch or narrow zigzag, press to back"],["Neckband","Zigzag on, then topstitch the seam down"]].concat(o.sleeve==="none"?[["Armholes","Binding: same band method as the neck, cut at 90% of armhole"]]:[]).concat([,["Hems","Twin needle or wide zigzag, single fold"]]);
 FIN.jacket=o=>[["Fabric","Medium cotton/linen canvas or twill"],["Side + sleeve seams","Flat-felled"],["Sleeve to armhole","Flat-felled or bias bound"],["Shoulders","Flat-felled"],["Facing edge","Turn-and-stitch"],["Collar","Enclosed, nothing needed"],["Patch pockets","Fold top twice, sides under 1 cm"],["Hem + sleeve hems","Double-fold (1 + 3 cm)"]];
 function renderFin(){
-  const rows=FIN[S.g](S.o).map(([a,b])=>`<li><span>${a}</span><b>${b}</b></li>`).join("");
-  const warn=+S.sa<1.5?`<div class="saw"><span>French and flat-felled seams need 1.5 cm allowance.</span><button id="use15">Use 1.5 cm</button></div>`:"";
+  const rows=FIN[S.g](S.o).filter(Boolean).map(([a,b])=>`<li><span>${a}</span><b>${U(b)}</b></li>`).join("");
+  const big=S.units==="in"?1.5875:1.5;const warn=+S.sa<1.45?`<div class="saw"><span>French and flat-felled seams need ${L(big)} allowance.</span><button id="use15">Use ${L(big)}</button></div>`:"";
   document.getElementById("fin").innerHTML=`<ul class="fin">${rows}</ul>${warn}`;
-  const b=document.getElementById("use15");if(b)b.onclick=()=>{S.sa=1.5;document.getElementById("sa").value="1.5";save();draft()};
+  const b=document.getElementById("use15");if(b)b.onclick=()=>{S.sa=big;saOptions();save();draft()};
 }
 
 
@@ -1461,12 +1462,13 @@ function fabricNeed(pieces,fabW,lining){
   return Math.max(area/(Wf*0.8),maxH+2)+open;
 }
 function fabricHTML(r){
-  const fmt=cm=>{const m=Math.ceil(cm*1.1/10+1)/10;return `<b>${m.toFixed(1)} m</b> (${(Math.ceil(m*1.0936*4)/4).toFixed(2).replace(/\.00$/,"").replace(/0$/,"")} yd)`};
+  const fmt=cm=>{const m=Math.ceil(cm*1.1/10+1)/10,yd=(Math.ceil(m*1.0936*4)/4).toFixed(2).replace(/\.00$/,"").replace(/0$/,"");return S.units==="in"?`<b>${yd} yd</b> (${m.toFixed(1)} m)`:`<b>${m.toFixed(1)} m</b> (${yd} yd)`};
   const extra=r.sk&&r.sk.rect?r.sk.rect:null;
   const add=(w)=>{if(!extra)return 0;const per=Math.max(1,Math.floor(w/extra.w));return Math.ceil(extra.k/per)*(extra.h+1)};
   const a=fabricNeed(r.pieces,150,false)+add(148), b=fabricNeed(r.pieces,115,false)+add(113);
   const ln=fabricNeed(r.pieces,150,true);
-  return `<span>Fabric needed (approx.): ${fmt(a)} at 150 cm wide · ${fmt(b)} at 115 cm${ln>0?` · lining ${fmt(ln)} at 150 cm`:""}</span><span class="fhint">Includes 10% for shrinkage and straightening. Buy a little extra for stripes and checks.</span><span class="fthanks">Pattern Drafter is free. If it helped, <a href="https://selar.com/showlove/saintbuilds" target="_blank" rel="noopener">say thanks ♥</a></span>`;
+  const IN=S.units==="in",w1=IN?"60 in":"150 cm",w2=IN?"45 in":"115 cm";
+  return `<span>Fabric needed (approx.): ${fmt(a)} at ${w1} wide · ${fmt(b)} at ${w2}${ln>0?` · lining ${fmt(ln)} at ${w1}`:""}</span><span class="fhint">Includes 10% for shrinkage and straightening. Buy a little extra for stripes and checks.</span><span class="fthanks">Pattern Drafter is free. If it helped, <a href="https://selar.com/showlove/saintbuilds" target="_blank" rel="noopener">say thanks ♥</a></span>`;
 }
 function draft(){
   const m={};for(const k in M)m[k]=+S.m[k]||M[k].d;
@@ -1482,21 +1484,32 @@ function draft(){
   try{const ks=SETS[S.g](S.o);$("sample").classList.toggle("on",ks.every(k=>Math.abs((+S.m[k])-M[k].d)<0.05))}catch(e){}
   try{$("fabric").innerHTML=fabricHTML(r)}catch(e){$("fabric").innerHTML=""}
   $("prev").innerHTML=toSVG(sheet,prims,false);
-  $("info").innerHTML=`<span>${multi()?`For <b>${esc(profName())}</b> · `:""}${r.pieces.length} pieces · ${sheet.W.toFixed(0)} × ${sheet.H.toFixed(0)} cm ${paged?"· "+(()=>{const g=tileGrid(sheet);return `${g.rows*g.cols+1} ${PAPER[S.paper].l} pages`})():`(${(sheet.H/100).toFixed(2)} m of paper)`} · <select class="mini" id="paperQ" aria-label="Print on"><option value="roll"${!paged?" selected":""}>Roll</option><option value="a4"${S.paper==="a4"?" selected":""}>A4</option><option value="letter"${S.paper==="letter"?" selected":""}>Letter</option></select></span><span class="zm"><button class="dots" id="zo" title="Zoom out">−</button><button class="dots" id="zi" title="Zoom in">+</button></span>`;bindZoom();
+  $("info").innerHTML=`<span>${multi()?`For <b>${esc(profName())}</b> · `:""}${r.pieces.length} pieces · ${S.units==="in"?`${Math.round(sheet.W/2.54)} × ${Math.round(sheet.H/2.54)} in`:`${sheet.W.toFixed(0)} × ${sheet.H.toFixed(0)} cm`} ${paged?"· "+(()=>{const g=tileGrid(sheet);return `${g.rows*g.cols+1} ${PAPER[S.paper].l} pages`})():(S.units==="in"?`(${(sheet.H/91.44).toFixed(2)} yd of paper)`:`(${(sheet.H/100).toFixed(2)} m of paper)`)} · <select class="mini" id="paperQ" aria-label="Print on"><option value="roll"${!paged?" selected":""}>Roll</option><option value="a4"${S.paper==="a4"?" selected":""}>A4</option><option value="letter"${S.paper==="letter"?" selected":""}>Letter</option></select></span><span class="zm"><button class="dots" id="zo" title="Zoom out">−</button><button class="dots" id="zi" title="Zoom in">+</button></span>`;bindZoom();
   const ch=r.checks.slice();if(sheet.tooWide.length)ch.push([false,"A piece is wider than the roll. Pick a wider roll."]);if(sheet.H>500)ch.push([false,"Sheet is over 5 m; some printers cap PDF length."]);
-  $("checks").innerHTML=ch.map(([ok,t])=>`<li><span class="dot ${ok?"ok":"warn"}"></span><span>${esc(t)}</span></li>`).join("");
+  $("checks").innerHTML=ch.map(([ok,t])=>`<li><span class="dot ${ok?"ok":"warn"}"></span><span>${esc(U(t))}</span></li>`).join("");
   const bad=ch.filter(c=>!c[0]).length;
   $("status").innerHTML=`<b style="background:${bad?"var(--warn)":"var(--ok)"}"></b>${bad?bad+" fit check"+(bad>1?"s":"")+" to review":"Fit checks OK"}`;
   $("status").style.cursor="pointer";$("status").onclick=openM;
   renderFin();renderAppearance();
 }
-function fmt(v){return S.units==="in"?(+(v/2.54).toFixed(2)):(+(+v).toFixed(1))}
+
+// ---------- units: everything is stored and drafted in cm; this only changes what is shown ----------
+const FR=["","⅛","¼","⅜","½","⅝","¾","⅞"];
+function inch(cm,sign){const neg=cm<0,e=Math.round(Math.abs(cm)/2.54*8),w=Math.floor(e/8),f=e%8;const t=(w||!f?String(w):"")+FR[f];return (neg?"-":sign?"+":"")+t}
+function L(cm){return S.units==="in"?inch(cm)+" in":(+(+cm).toFixed(1))+" cm"}
+function U(t){if(S.units!=="in"||t==null)return t;return String(t).replace(/([+-]?)(\d+(?:\.\d+)?)\s?cm\b/g,(x,sg,n)=>{const v=(sg==="-"?-1:1)*parseFloat(n);return inch(v,sg==="+")+" in"})}
+const TSQ=()=>S.units==="in"?10.16:10, TSL=()=>S.units==="in"?"4 in":"10 cm";
+const SAO={cm:[[1,"1 cm"],[1.5,"1.5 cm"],[0.6,"0.6 cm"],[0,"None"]],in:[[0.9525,"⅜ in"],[1.5875,"⅝ in"],[0.635,"¼ in"],[0,"None"]]};
+function saOptions(){const o=SAO[S.units==="in"?"in":"cm"];let best=o[0][0],bd=1e9;o.forEach(([v])=>{const d=Math.abs(v-(+S.sa));if(d<bd){bd=d;best=v}});S.sa=best;$("sa").innerHTML=o.map(([v,l])=>`<option value="${v}"${v===best?" selected":""}>${l}</option>`).join("")}
+function syncUnitsUI(){document.querySelectorAll("#useg button").forEach(b=>b.classList.toggle("on",b.dataset.u===S.units));try{$("units").value=S.units;$("tsqN").textContent=TSL()}catch(e){}}
+function setUnits(u){if(u===S.units){syncUnitsUI();return}S.units=u;renderForm();syncUnitsUI();save();draft();toast(u==="in"?"Showing inches":"Showing centimetres")}
+function fmt(v){return S.units==="in"?(Math.round(v/2.54*4)/4):(+(+v).toFixed(1))}
 function setMeasH(){try{const n=profName().trim(),me=/^(me|myself|mine|my\s.*|unnamed|)$/i.test(n);$("measH").textContent=me?"Your measurements":`${n}${/s$/i.test(n)?"'":"'s"} measurements`}catch(e){}}
 function renderForm(){
   setMeasH();
-  $("fit").value=S.fit;$("units").value=S.units;$("sa").value=String(S.sa);$("roll").value=String(S.roll);$("paper").value=S.paper||"roll";
+  $("fit").value=S.fit;$("units").value=S.units;saOptions();$("roll").value=String(S.roll);$("paper").value=S.paper||"roll";
   const u=S.units==="in"?"in":"cm";
-  $("meas").innerHTML=SETS[S.g](S.o).map(k=>`<div><label>${M[k].l} (${u})</label><input type="number" inputmode="decimal" step="0.1" data-m="${k}" value="${fmt(S.m[k])}"><div class="hint">${M[k].h}</div></div>`).join("");
+  $("meas").innerHTML=SETS[S.g](S.o).map(k=>`<div><label>${M[k].l} (${u})</label><input type="number" inputmode="decimal" step="${u==="in"?0.125:0.1}" data-m="${k}" value="${fmt(S.m[k])}"><div class="hint">${M[k].h}</div></div>`).join("");
 }
 async function offer(filename,data,mime){
   try{const dl=window.claude&&window.claude.use?await window.claude.use("downloads"):null;
@@ -1518,10 +1531,11 @@ $("guideBtn").onclick=()=>{if(ONSITE){window.open("seam-finishing-guide.pdf","_b
 if(ONSITE)$("pdfLink").innerHTML='<a href="seam-finishing-guide.pdf" target="_blank">Open the illustrated seam finishing guide (PDF)</a>';
 function openM(){$("drawer").classList.add("open");$("scrim").classList.add("open")}
 function closeM(){$("drawer").classList.remove("open");$("scrim").classList.remove("open")}
+$("useg").addEventListener("click",e=>{const b=e.target.closest("button[data-u]");if(b)setUnits(b.dataset.u)});
 $("openM").onclick=openM;$("sampleBtn").onclick=()=>{openM();setTimeout(()=>{const f=document.querySelector("#meas input");if(f)f.focus()},280)};$("openM2").onclick=openM;$("closeM").onclick=closeM;$("scrim").onclick=closeM;
 $("reset").onclick=()=>{for(const k in M)S.m[k]=M[k].d;save();renderForm();draft();toast("Measurements reset")};
 $("drawer").addEventListener("change",e=>{const el=e.target;
-  if(el.id==="fit")S.fit=el.value;else if(el.id==="units"){S.units=el.value;renderForm()}else if(el.id==="sa")S.sa=+el.value;else if(el.id==="roll")S.roll=+el.value;else if(el.id==="paper")S.paper=el.value;else return;
+  if(el.id==="fit")S.fit=el.value;else if(el.id==="units"){setUnits(el.value);return}else if(el.id==="sa")S.sa=+el.value;else if(el.id==="roll")S.roll=+el.value;else if(el.id==="paper")S.paper=el.value;else return;
   save();draft()});
 $("meas").addEventListener("input",e=>{const el=e.target;if(!el.dataset.m)return;const v=parseFloat(el.value);if(!(v>0))return;S.m[el.dataset.m]=S.units==="in"?v*2.54:v;save();draft()});
 
@@ -1561,7 +1575,7 @@ $("profFile").onchange=e=>{const f=e.target.files&&e.target.files[0];if(!f)retur
   catch(err){toast("That file isn't a Pattern Drafter export")}e.target.value=""};rd.readAsText(f)};
 function bindZoom(){$("zi").onclick=()=>{S.zoom=Math.min(4,S.zoom*1.25);draft()};$("zo").onclick=()=>{S.zoom=Math.max(0.2,S.zoom/1.25);draft()}}
 load();initProfiles();if(!S.sec)S.sec="men";if(!S.last)S.last={};if(!SECT[S.sec].includes(S.g))S.g=SECT[S.sec][0];if(!S.zoom||S.zoom===1)S.zoom=0.55;if(!S.color)S.color="#1e3a5f";if(!S.fabric)S.fabric="linen";if(!S.view)S.view="both";
-renderGarments();renderViews();renderProfiles();renderForm();draft();
+renderGarments();renderViews();renderProfiles();renderForm();draft();syncUnitsUI();
 
 </script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c88fe0fcee394e7b98590512f8b620fe"}'></script><!-- End Cloudflare Web Analytics -->
