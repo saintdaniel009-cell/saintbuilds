@@ -177,7 +177,7 @@ input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border
     <div class="prof"><select id="prof" aria-label="Choose a person"></select><input id="profName" type="text" maxlength="40" placeholder="Name" aria-label="Person's name"><button class="chip" id="profDel" type="button">Delete</button></div>
     <div class="hint">Save measurements for each person you sew for. They stay in this browser, so export a backup now and then.</div>
     <div class="profio"><button class="chip" id="profExp" type="button">Export all</button><button class="chip" id="profImp" type="button">Import</button><input type="file" id="profFile" accept=".json,application/json" hidden></div>
-    <h2>Their measurements</h2>
+    <h2 id="measH">Your measurements</h2>
     <div id="meas" class="grid2"></div>
     <h2>Output</h2>
     <div class="grid2">
@@ -1491,7 +1491,9 @@ function draft(){
   renderFin();renderAppearance();
 }
 function fmt(v){return S.units==="in"?(+(v/2.54).toFixed(2)):(+(+v).toFixed(1))}
+function setMeasH(){try{const n=profName().trim(),me=/^(me|myself|mine|my\s.*|unnamed|)$/i.test(n);$("measH").textContent=me?"Your measurements":`${n}${/s$/i.test(n)?"'":"'s"} measurements`}catch(e){}}
 function renderForm(){
+  setMeasH();
   $("fit").value=S.fit;$("units").value=S.units;$("sa").value=String(S.sa);$("roll").value=String(S.roll);$("paper").value=S.paper||"roll";
   const u=S.units==="in"?"in":"cm";
   $("meas").innerHTML=SETS[S.g](S.o).map(k=>`<div><label>${M[k].l} (${u})</label><input type="number" inputmode="decimal" step="0.1" data-m="${k}" value="${fmt(S.m[k])}"><div class="hint">${M[k].h}</div></div>`).join("");
@@ -1541,7 +1543,7 @@ function switchTo(id){S.pid=id;S.m=S.profiles[id].m;save();renderProfiles();rend
 $("prof").onchange=e=>{const v=e.target.value;
   if(v==="__new"){const d={};for(const k in M)d[k]=M[k].d;const id="p"+Date.now().toString(36);S.profiles[id]={name:"Client "+Object.keys(S.profiles).length,m:d};switchTo(id);setTimeout(()=>{$("profName").focus();$("profName").select()},60);toast("New person added. Type their name")}
   else{switchTo(v);toast("Measuring for "+profName())}};
-$("profName").oninput=e=>{S.profiles[S.pid].name=e.target.value.slice(0,40);save();const o=$("prof").querySelector('option[value="'+S.pid+'"]');if(o)o.textContent=e.target.value||"Unnamed";draft()};
+$("profName").oninput=e=>{S.profiles[S.pid].name=e.target.value.slice(0,40);save();const o=$("prof").querySelector('option[value="'+S.pid+'"]');if(o)o.textContent=e.target.value||"Unnamed";setMeasH();draft()};
 $("profDel").onclick=e=>{const b=e.currentTarget;if(Object.keys(S.profiles).length<2)return;
   if(!b.dataset.arm){b.dataset.arm="1";b.textContent="Tap again";setTimeout(()=>{if(b.dataset.arm){b.dataset.arm="";b.textContent="Delete"}},3000);return}
   const nm=profName();delete S.profiles[S.pid];switchTo(Object.keys(S.profiles)[0]);toast("Deleted "+nm)};
