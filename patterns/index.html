@@ -102,6 +102,7 @@ span.chip{border-style:dashed}
 .db h2{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--mute);margin:18px 0 6px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 label{display:block;font-size:12px;font-weight:600;color:#6f6b63;margin-bottom:4px}
+.profio{display:flex;gap:8px;margin-top:8px}
 .prof{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center}
 select,input[type=number],input[type=text]{width:100%;font:inherit;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
 input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border-color:transparent}
@@ -173,7 +174,8 @@ input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border
     </div>
     <h2>Measuring for</h2>
     <div class="prof"><select id="prof" aria-label="Choose a person"></select><input id="profName" type="text" maxlength="40" placeholder="Name" aria-label="Person's name"><button class="chip" id="profDel" type="button">Delete</button></div>
-    <div class="hint">Save measurements for each person you sew for. They stay in this browser.</div>
+    <div class="hint">Save measurements for each person you sew for. They stay in this browser, so export a backup now and then.</div>
+    <div class="profio"><button class="chip" id="profExp" type="button">Export all</button><button class="chip" id="profImp" type="button">Import</button><input type="file" id="profFile" accept=".json,application/json" hidden></div>
     <h2>Their measurements</h2>
     <div id="meas" class="grid2"></div>
     <h2>Output</h2>
@@ -1404,6 +1406,18 @@ $("profName").oninput=e=>{S.profiles[S.pid].name=e.target.value.slice(0,40);save
 $("profDel").onclick=e=>{const b=e.currentTarget;if(Object.keys(S.profiles).length<2)return;
   if(!b.dataset.arm){b.dataset.arm="1";b.textContent="Tap again";setTimeout(()=>{if(b.dataset.arm){b.dataset.arm="";b.textContent="Delete"}},3000);return}
   const nm=profName();delete S.profiles[S.pid];switchTo(Object.keys(S.profiles)[0]);toast("Deleted "+nm)};
+$("profExp").onclick=()=>{const out={app:"pattern-drafter",version:1,units:"cm",exported:new Date().toISOString(),profiles:Object.values(S.profiles).map(p=>({name:p.name||"Unnamed",m:p.m}))};
+  const d=new Date().toISOString().slice(0,10);offer(`pattern-drafter-measurements-${d}.json`,JSON.stringify(out,null,2),"application/json")};
+$("profImp").onclick=()=>$("profFile").click();
+$("profFile").onchange=e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const rd=new FileReader();
+  rd.onload=()=>{try{const j=JSON.parse(rd.result);const list=Array.isArray(j.profiles)?j.profiles:null;if(!list||j.app!=="pattern-drafter")throw 0;
+    const d={};for(const k in M)d[k]=M[k].d;let n=0,last=null;const same=(a,b)=>Object.keys(M).every(k=>Math.abs((+a[k]||0)-(+b[k]||0))<0.01);
+    list.forEach((pp,i)=>{if(!pp||typeof pp.m!=="object")return;const m={};for(const k in M){const v=parseFloat(pp.m[k]);m[k]=v>0&&v<400?v:d[k]}
+      let name=String(pp.name||"Imported").slice(0,40);const ex=Object.values(S.profiles).find(q=>q.name===name);
+      if(ex&&same(ex.m,m))return;if(ex)name=(name+" (imported)").slice(0,40);
+      const id="p"+Date.now().toString(36)+i;S.profiles[id]={name,m};n++;last=id});
+    if(last){switchTo(last);toast(`Imported ${n} ${n===1?"person":"people"}`)}else toast("Nothing new to import")}
+  catch(err){toast("That file isn't a Pattern Drafter export")}e.target.value=""};rd.readAsText(f)};
 function bindZoom(){$("zi").onclick=()=>{S.zoom=Math.min(4,S.zoom*1.25);draft()};$("zo").onclick=()=>{S.zoom=Math.max(0.2,S.zoom/1.25);draft()}}
 load();initProfiles();if(!S.sec)S.sec="men";if(!S.last)S.last={};if(!SECT[S.sec].includes(S.g))S.g=SECT[S.sec][0];if(!S.zoom||S.zoom===1)S.zoom=0.55;if(!S.color)S.color="#1e3a5f";if(!S.fabric)S.fabric="linen";if(!S.view)S.view="both";
 renderGarments();renderViews();renderProfiles();renderForm();draft();
