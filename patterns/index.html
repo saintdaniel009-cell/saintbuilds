@@ -60,6 +60,7 @@ span.chip{border-style:dashed}
 #thanks.on{display:block}#thanks b{display:block;font-size:14px;margin-bottom:4px}#thanks .row{display:flex;gap:8px;margin-top:10px}
 #thanks a{background:var(--acc);color:#fff;text-decoration:none;border-radius:9px;padding:8px 12px;font-weight:600}#thanks button{border:0;background:#f3f2ee;border-radius:9px;padding:8px 12px;cursor:pointer}
 .sample{display:none;margin:4px 18px 8px;background:#fff4e6;border:1px solid #fed7aa;border-radius:10px;padding:9px 10px 9px 12px;font-size:12.5px;line-height:1.4;align-items:center;justify-content:space-between;gap:10px}.sample.on{display:flex}.sample b{font-weight:700}.sample button{flex:none;border:0;background:var(--acc);color:#fff;border-radius:8px;padding:7px 11px;font:inherit;font-weight:600;font-size:12px;cursor:pointer}
+select.mini{width:auto;padding:2px 22px 2px 6px;font-size:11.5px;border-radius:6px;display:inline-block}
 .pinfo{font-size:11.5px;color:var(--mute);padding:0 18px 4px}
 .tb{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
 .tbtn{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
@@ -181,6 +182,7 @@ input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border
     <h2>Output</h2>
     <div class="grid2">
       <div><label>Seam allowance</label><select id="sa"><option value="1">1 cm</option><option value="1.5">1.5 cm</option><option value="0.6">0.6 cm</option><option value="0">None</option></select></div>
+      <div><label>Print on</label><select id="paper"><option value="roll">Large-format roll</option><option value="a4">A4 pages (taped)</option><option value="letter">US Letter pages (taped)</option></select></div>
       <div><label>Paper roll width</label><select id="roll"><option value="61">24 in (61 cm)</option><option value="91.4">36 in (91.4 cm)</option><option value="106.7">42 in (106.7 cm)</option><option value="152.4">60 in (152.4 cm)</option></select></div>
     </div>
     <h2>Fit checks</h2><ul class="checks" id="checks"></ul>
@@ -1058,6 +1060,56 @@ function toSVG(sheet,prims,forFile){
   });
   return s+"</svg>";
 }
+
+// ---------- tiled printing (A4 / Letter) ----------
+const PAPER={a4:{w:21,h:29.7,l:"A4"},letter:{w:21.59,h:27.94,l:"Letter"}};
+const TM=1;
+function tileDims(){const P=PAPER[S.paper];return {P,tw:P.w-2*TM,th:P.h-2*TM}}
+function pagedWidth(items){const {tw}=tileDims();let need=0;items.forEach(it=>need=Math.max(need,Math.min(it.box.w,it.box.h)));return Math.max(3,Math.ceil((need+3.5)/tw))*tw}
+function tileGrid(sheet){const {tw,th}=tileDims();return {cols:Math.round(sheet.W/tw),rows:Math.max(1,Math.ceil(sheet.H/th))}}
+function toPDFTiled(sheet,prims,title){
+  const {P,tw,th}=tileDims(),{cols,rows}=tileGrid(sheet),k=72/2.54,Pw=P.w,Ph=P.h;
+  const rgb=h=>{const n=parseInt(h.slice(1).length===3?h.slice(1).split("").map(c=>c+c).join(""):h.slice(1),16);return [(n>>16&255)/255,(n>>8&255)/255,(n&255)/255].map(v=>v.toFixed(3)).join(" ")};
+  const pesc=t=>String(t).replace(/[^\x20-\x7e]/g,"").replace(/([()\\])/g,"\\$1");
+  const X=x=>(x*k).toFixed(2),Y=y=>((Ph-y)*k).toFixed(2);
+  const txt=(x,y,size,str,bold,col)=>`BT /${bold?"F2":"F1"} ${(size).toFixed(2)} Tf ${rgb(col||"#111111")} rg 1 0 0 1 ${X(x)} ${Y(y)} Tm (${pesc(str)}) Tj ET\n`;
+  const lab=(r,c)=>String.fromCharCode(65+r)+(c+1);
+  const bb=prims.map(p=>{if(p.t!=="poly")return [p.p.x,p.p.y,p.p.x+(p.v.length*p.s*0.6),p.p.y];const xs=p.pts.map(q=>q.x),ys=p.pts.map(q=>q.y);return [Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)]});
+  const pages=[];
+  // cover page
+  let c="1 J 1 j\n";
+  c+=txt(1.5,2.2,16,"Pattern Drafter: "+title,true);
+  c+=txt(1.5,3.0,9,`${rows*cols} ${P.l} pages: ${rows} rows (A-${String.fromCharCode(64+rows)}) x ${cols} columns. Print at 100% / Actual size, never "Fit to page".`,false,"#333333");
+  c+=txt(1.5,3.55,9,"1. Measure the 10 cm square below. 2. Trim the right and bottom margin of each page along the grey line.",false,"#333333");
+  c+=txt(1.5,4.1,9,"3. Lay each page over its neighbour so the grey lines meet and the diamonds line up. Tape, then cut out the pieces.",false,"#333333");
+  const mapTop=5,mapH=Ph-5-13.5,mapW=Pw-3,s=Math.min(mapW/sheet.W,mapH/sheet.H),ox=1.5,oy=mapTop;
+  const MX=x=>(ox+x*s),MY=y=>(oy+y*s);
+  prims.forEach(p=>{if(p.t!=="poly"||!p.closed||p.w<0.05)return;c+=`0.5 w ${rgb("#555555")} RG [] 0 d\n${X(MX(p.pts[0].x))} ${Y(MY(p.pts[0].y))} m\n`;for(let i=1;i<p.pts.length;i++)c+=`${X(MX(p.pts[i].x))} ${Y(MY(p.pts[i].y))} l\n`;c+="h S\n"});
+  c+=`0.6 w ${rgb("#c2410c")} RG\n`;
+  for(let r=0;r<rows;r++)for(let cc=0;cc<cols;cc++){const x0=MX(cc*tw),y0=MY(r*th);c+=`${X(x0)} ${Y(y0+th*s)} ${(tw*s*k).toFixed(2)} ${(th*s*k).toFixed(2)} re S\n`;c+=txt(x0+0.2,y0+0.55,8,lab(r,cc),true,"#c2410c")}
+  const sq=Ph-12;c+=`0.8 w ${rgb("#111111")} RG ${X(1.5)} ${Y(sq+10)} ${(10*k).toFixed(2)} ${(10*k).toFixed(2)} re S\n`;c+=txt(2,sq+4.8,11,"10 cm TEST SQUARE",true);c+=txt(2,sq+5.6,8,"Measure before printing the rest",false,"#333333");
+  pages.push(c);
+  for(let r=0;r<rows;r++)for(let cc=0;cc<cols;cc++){
+    const x0=cc*tw,y0=r*th,PX=x=>TM+x-x0,PY=y=>TM+y-y0;let c="1 J 1 j\nq\n"+`${X(TM)} ${Y(TM+th)} ${(tw*k).toFixed(2)} ${(th*k).toFixed(2)} re W n\n`;
+    prims.forEach((p,i)=>{const b=bb[i];if(b[2]<x0-1||b[0]>x0+tw+1||b[3]<y0-1||b[1]>y0+th+1)return;
+      if(p.t==="poly"){c+=`${(p.w*k).toFixed(2)} w ${rgb(p.c)} RG [${p.dash?p.dash.map(d=>(d*k).toFixed(2)).join(" "):""}] 0 d\n${X(PX(p.pts[0].x))} ${Y(PY(p.pts[0].y))} m\n`;for(let j=1;j<p.pts.length;j++)c+=`${X(PX(p.pts[j].x))} ${Y(PY(p.pts[j].y))} l\n`;c+=p.closed?"h S\n":"S\n"}
+      else{const fs=(p.s*k).toFixed(2),x=X(PX(p.p.x)),y=Y(PY(p.p.y));c+=`BT /${p.b?"F2":"F1"} ${fs} Tf ${rgb(p.c)} rg `+(p.rot?`0 -1 1 0 ${x} ${y} Tm`:`1 0 0 1 ${x} ${y} Tm`)+` (${pesc(p.v)}) Tj ET\n`}});
+    c+="Q\n";
+    c+=`0.5 w ${rgb("#9a958b")} RG [] 0 d ${X(TM)} ${Y(TM+th)} ${(tw*k).toFixed(2)} ${(th*k).toFixed(2)} re S\n`;
+    const dia=(x,y)=>{const d=0.35;return `${X(x)} ${Y(y-d)} m ${X(x+d)} ${Y(y)} l ${X(x)} ${Y(y+d)} l ${X(x-d)} ${Y(y)} l h f\n`};
+    c+=`${rgb("#c2410c")} rg\n`;[[TM+tw/2,TM],[TM+tw/2,TM+th],[TM,TM+th/2],[TM+tw,TM+th/2]].forEach(([x,y])=>c+=dia(x,y));
+    c+=txt(TM,0.65,9,`${lab(r,cc)}`,true,"#c2410c")+txt(TM+1.2,0.65,7.5,`row ${String.fromCharCode(65+r)}, column ${cc+1}  ·  ${title}  ·  print at 100%`,false,"#6f6b63");
+    if(cc<cols-1)c+=txt(TM+tw+0.15,TM+th/2+1.2,7,lab(r,cc+1),true,"#9a958b");
+    if(r<rows-1)c+=txt(TM+tw/2+0.5,TM+th+0.55,7,lab(r+1,cc),true,"#9a958b");
+    pages.push(c)}
+  const Wp=(Pw*k).toFixed(2),Hp=(Ph*k).toFixed(2),n=pages.length;
+  const objs=["<< /Type /Catalog /Pages 2 0 R >>",`<< /Type /Pages /Kids [${pages.map((_,i)=>`${5+i*2} 0 R`).join(" ")}] /Count ${n} >>`,
+    "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>","<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>"];
+  pages.forEach((pc,i)=>{objs.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${Wp} ${Hp}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${6+i*2} 0 R >>`);objs.push(`<< /Length ${pc.length} >>\nstream\n${pc}endstream`)});
+  let out="%PDF-1.4\n";const offs=[];objs.forEach((o,i)=>{offs.push(out.length);out+=`${i+1} 0 obj\n${o}\nendobj\n`});
+  const xref=out.length;out+=`xref\n0 ${objs.length+1}\n0000000000 65535 f \n`+offs.map(o=>String(o).padStart(10,"0")+" 00000 n \n").join("")+`trailer\n<< /Size ${objs.length+1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
+  return out;
+}
 function toPDF(sheet,prims){
   const k=72/2.54, Hc=sheet.H, X=x=>(x*k).toFixed(2), Y=y=>((Hc-y)*k).toFixed(2);
   const rgb=h=>{const n=parseInt(h.slice(1).length===3?h.slice(1).split("").map(c=>c+c).join(""):h.slice(1),16);return [(n>>16&255)/255,(n>>8&255)/255,(n&255)/255].map(v=>v.toFixed(3)).join(" ")};
@@ -1339,13 +1391,16 @@ function draft(){
   const SA=+S.sa;
   const r=["shirt","tee","jacket"].includes(S.g)?draftTop(m,S.o,S.fit,SA,S.g):["flare","pencil"].includes(S.g)?draftSkirt(m,S.o,S.fit,SA,S.g):S.g==="wshirt"?draftWShirt(m,S.o,S.fit,SA):S.g==="bodycon"?draftBodycon(m,S.o,S.fit,SA):S.g==="corset"?draftCorset(m,S.o,S.fit,SA):S.g==="bells"?draftTrousers(Object.assign({},m,{waist:m.wWaist,seat:m.wHip,rise:m.wRise,inseam:m.wInseam,thigh:m.wThigh,hem:m.bellHem,_bells:{knee:m.wKnee,hem:m.bellHem}}),S.o,S.fit,SA,false):S.g==="flowgown"?draftFlowGown(m,S.o,S.fit,SA):S.g==="backless"?draftBackless(m,S.o,S.fit,SA):draftTrousers(m,S.o,S.fit,SA,S.g==="shorts");
   const items=[testSquare(multi()?profName():"")].concat(r.pieces.map(buildPiece));
-  const sheet=layout(items,+S.roll);
+  const paged=S.paper&&S.paper!=="roll";
+  let sheet;
+  if(paged){const {tw,th}=tileDims(),w0=pagedWidth(items);let best=w0,bp=1e9;for(let w=w0;w<=w0+3*tw+0.01;w+=tw){const sh=layout(items,w);const pg=Math.round(w/tw)*Math.ceil(sh.H/th);if(pg<bp){bp=pg;best=w}}sheet=layout(items,best)}
+  else sheet=layout(items,+S.roll);
   const prims=flatten(items);
   current={sheet,prims,checks:r.checks,sk:r.sk};
   try{const ks=SETS[S.g](S.o);$("sample").classList.toggle("on",ks.every(k=>Math.abs((+S.m[k])-M[k].d)<0.05))}catch(e){}
   try{$("fabric").innerHTML=fabricHTML(r)}catch(e){$("fabric").innerHTML=""}
   $("prev").innerHTML=toSVG(sheet,prims,false);
-  $("info").innerHTML=`<span>${multi()?`For <b>${esc(profName())}</b> · `:""}${r.pieces.length} pieces · ${sheet.W.toFixed(0)} × ${sheet.H.toFixed(0)} cm (${(sheet.H/100).toFixed(2)} m of paper)</span><span class="zm"><button class="dots" id="zo" title="Zoom out">−</button><button class="dots" id="zi" title="Zoom in">+</button></span>`;bindZoom();
+  $("info").innerHTML=`<span>${multi()?`For <b>${esc(profName())}</b> · `:""}${r.pieces.length} pieces · ${sheet.W.toFixed(0)} × ${sheet.H.toFixed(0)} cm${paged?" · "+(()=>{const g=tileGrid(sheet);return `${g.rows*g.cols+1} ${PAPER[S.paper].l} pages`})():`(${(sheet.H/100).toFixed(2)} m of paper)`} · <select class="mini" id="paperQ" aria-label="Print on"><option value="roll"${!paged?" selected":""}>Roll</option><option value="a4"${S.paper==="a4"?" selected":""}>A4</option><option value="letter"${S.paper==="letter"?" selected":""}>Letter</option></select></span><span class="zm"><button class="dots" id="zo" title="Zoom out">−</button><button class="dots" id="zi" title="Zoom in">+</button></span>`;bindZoom();
   const ch=r.checks.slice();if(sheet.tooWide.length)ch.push([false,"A piece is wider than the roll. Pick a wider roll."]);if(sheet.H>500)ch.push([false,"Sheet is over 5 m; some printers cap PDF length."]);
   $("checks").innerHTML=ch.map(([ok,t])=>`<li><span class="dot ${ok?"ok":"warn"}"></span><span>${esc(t)}</span></li>`).join("");
   const bad=ch.filter(c=>!c[0]).length;
@@ -1355,7 +1410,7 @@ function draft(){
 }
 function fmt(v){return S.units==="in"?(+(v/2.54).toFixed(2)):(+(+v).toFixed(1))}
 function renderForm(){
-  $("fit").value=S.fit;$("units").value=S.units;$("sa").value=String(S.sa);$("roll").value=String(S.roll);
+  $("fit").value=S.fit;$("units").value=S.units;$("sa").value=String(S.sa);$("roll").value=String(S.roll);$("paper").value=S.paper||"roll";
   const u=S.units==="in"?"in":"cm";
   $("meas").innerHTML=SETS[S.g](S.o).map(k=>`<div><label>${M[k].l} (${u})</label><input type="number" inputmode="decimal" step="0.1" data-m="${k}" value="${fmt(S.m[k])}"><div class="hint">${M[k].h}</div></div>`).join("");
 }
@@ -1366,11 +1421,13 @@ async function offer(filename,data,mime){
   try{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:mime}));a.download=filename;document.body.appendChild(a);a.click();a.remove();toast("Downloading "+filename)}catch(e){toast("Downloads aren't available in this view")}
 }
 const slug=t=>String(t).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
-const fname=ext=>(multi()&&slug(profName())?slug(profName())+"-":"")+fname0(ext);
+const fname=ext=>(multi()&&slug(profName())?slug(profName())+"-":"")+fname1(ext);
+const fname1=ext=>fname0(ext).replace("-1to1.",(S.paper&&S.paper!=="roll"?"-"+S.paper:"")+"-1to1.");
 const fname0=ext=>S.g==="bells"?`bell-bottoms-${S.o.waistStyle}-${S.fit}-1to1.${ext}`:S.g==="flowgown"?`flowing-gown-${S.o.gskirt}-1to1.${ext}`:S.g==="backless"?`backless-halter-gown-${S.o.bskirt}-1to1.${ext}`:S.g==="bodycon"?`bodycon-${S.o.stretch}-stretch-${S.o.sleeve}-1to1.${ext}`:S.g==="corset"?`corset-${S.o.corset}-1to1.${ext}`:S.g==="wshirt"?`womens-shirt-${S.o.shaping}-${S.o.sleeve}-sleeve-${S.fit}-1to1.${ext}`:S.g==="flare"?`flared-skirt-${S.o.flare}-circle-1to1.${ext}`:S.g==="pencil"?`fitted-skirt-${S.o.shape}-${S.fit}-1to1.${ext}`:`${S.g}-${S.fit}${S.g==="shirt"||S.g==="tee"?"-"+S.o.sleeve+"-sleeve":S.g==="jacket"?"":"-"+S.o.waistStyle}-1to1.${ext}`;
 function showThanks(){try{if(sessionStorage.getItem("pd-thx"))return;sessionStorage.setItem("pd-thx","1")}catch(e){}setTimeout(()=>$("thanks").classList.add("on"),1200)}
 $("thanksX").onclick=()=>$("thanks").classList.remove("on");$("thanksGo").addEventListener("click",()=>$("thanks").classList.remove("on"));
-$("pdf").onclick=()=>{if(current){offer(fname("pdf"),toPDF(current.sheet,current.prims),"application/pdf");showThanks()}};
+$("pdf").onclick=()=>{if(current){const paged=S.paper&&S.paper!=="roll";const t=(GNAMES[S.g]||S.g)+(multi()?" for "+profName():"");offer(fname("pdf"),paged?toPDFTiled(current.sheet,current.prims,t):toPDF(current.sheet,current.prims),"application/pdf");showThanks()}};
+$("info").addEventListener("change",e=>{if(e.target.id==="paperQ"){S.paper=e.target.value;$("paper").value=S.paper;save();draft();toast(S.paper==="roll"?"Printing on a large-format roll":"Printing on "+PAPER[S.paper].l+" pages")}});
 $("svg").onclick=()=>{if(current){offer(fname("svg"),toSVG(current.sheet,current.prims,true),"image/svg+xml");showThanks()}};
 const ONSITE=/saintbuilds/.test(location.hostname);
 $("guideBtn").onclick=()=>{if(ONSITE){window.open("seam-finishing-guide.pdf","_blank");return}openM();setTimeout(()=>$("finH").scrollIntoView({behavior:"smooth"}),260)};
@@ -1380,7 +1437,7 @@ function closeM(){$("drawer").classList.remove("open");$("scrim").classList.remo
 $("openM").onclick=openM;$("sampleBtn").onclick=()=>{openM();setTimeout(()=>{const f=document.querySelector("#meas input");if(f)f.focus()},280)};$("openM2").onclick=openM;$("closeM").onclick=closeM;$("scrim").onclick=closeM;
 $("reset").onclick=()=>{for(const k in M)S.m[k]=M[k].d;save();renderForm();draft();toast("Measurements reset")};
 $("drawer").addEventListener("change",e=>{const el=e.target;
-  if(el.id==="fit")S.fit=el.value;else if(el.id==="units"){S.units=el.value;renderForm()}else if(el.id==="sa")S.sa=+el.value;else if(el.id==="roll")S.roll=+el.value;else return;
+  if(el.id==="fit")S.fit=el.value;else if(el.id==="units"){S.units=el.value;renderForm()}else if(el.id==="sa")S.sa=+el.value;else if(el.id==="roll")S.roll=+el.value;else if(el.id==="paper")S.paper=el.value;else return;
   save();draft()});
 $("meas").addEventListener("input",e=>{const el=e.target;if(!el.dataset.m)return;const v=parseFloat(el.value);if(!(v>0))return;S.m[el.dataset.m]=S.units==="in"?v*2.54:v;save();draft()});
 
