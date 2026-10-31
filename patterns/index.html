@@ -228,7 +228,7 @@ const M = {
   bustHeight:{l:"Bust point height",d:26,h:"Side of neck down to the bust point"},
   bustSpan:{l:"Bust point to bust point",d:19,h:"Straight across, point to point"},
   wTopLength:{l:"Top length",d:66,h:"Back neck bone to the hem"},
-  wShoulderDrop:{l:"Shoulder slope",d:4.5,h:"Hold a ruler level from the base of your neck to the shoulder bone; measure straight down to the bone. Square ≈ 2.5, average ≈ 4.5, sloped ≈ 6.5"},
+  wShoulderDrop:{l:"Shoulder slope",d:4.5,h:"Hold a ruler level from the base of your neck to the shoulder bone; measure straight down to the bone. Square ≈ 2.5 cm, average ≈ 4.5 cm, sloped ≈ 6.5 cm"},
   wBearHug:{l:"Bear hug (optional)",d:0,h:"Arms relaxed at your sides: tape across the high bust, over the outside of both upper arms and across the upper back. Checks room across chest, back and sleeves. Leave 0 to skip"},
   wSleeve:{l:"Sleeve length",d:58,h:"Shoulder bone to wrist, arm relaxed"},
   wShortSleeve:{l:"Short sleeve length",d:20,h:"Shoulder bone to where it should end"},
@@ -244,7 +244,7 @@ const M = {
   wThigh:{l:"Thigh",d:56,h:"Fullest part of the upper thigh"},
   wKnee:{l:"Knee",d:36,h:"Around the knee"},
   bellHem:{l:"Bell hem (around)",d:64,h:"Leg-opening circumference you want"},
-  tunicLength:{l:"Tunic length",d:88,h:"Back neck bone to the hem (mid-thigh is about 85 to 95)"},
+  tunicLength:{l:"Tunic length",d:88,h:"Back neck bone to the hem (mid-thigh is about 85 cm to 95 cm)"},
   wLegOpen:{l:"Leg opening (around)",d:46,h:"Hem circumference you want; same width from knee down"}
 };
 const SETS = {
@@ -1509,7 +1509,7 @@ function renderForm(){
   setMeasH();
   $("fit").value=S.fit;$("units").value=S.units;saOptions();$("roll").value=String(S.roll);$("paper").value=S.paper||"roll";
   const u=S.units==="in"?"in":"cm";
-  $("meas").innerHTML=SETS[S.g](S.o).map(k=>`<div><label>${M[k].l} (${u})</label><input type="number" inputmode="decimal" step="${u==="in"?0.125:0.1}" data-m="${k}" value="${fmt(S.m[k])}"><div class="hint">${M[k].h}</div></div>`).join("");
+  $("meas").innerHTML=SETS[S.g](S.o).map(k=>`<div><label>${M[k].l} (${u})</label><input type="number" inputmode="decimal" step="${u==="in"?0.125:0.1}" data-m="${k}" value="${fmt(S.m[k])}"><div class="hint">${U(M[k].h)}</div></div>`).join("");
 }
 async function offer(filename,data,mime){
   try{const dl=window.claude&&window.claude.use?await window.claude.use("downloads"):null;
