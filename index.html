@@ -58,6 +58,17 @@ main{overflow-x:clip}
 .nav a:hover{opacity:.7}
 @media(min-width:768px){.nav{padding-top:32px}.nav a{font-size:18px}}
 @media(min-width:1024px){.nav a{font-size:1.4rem}}
+.nav{flex-direction:column;gap:12px}
+.nav-row{display:flex;justify-content:space-between;gap:12px}
+.nav-pages a::after{content:"\2197";font-size:.75em;margin-left:3px;opacity:.6}
+@media(min-width:640px){.nav{flex-direction:row;justify-content:space-between;gap:0}.nav-row{display:contents}}
+@media(min-width:640px) and (max-width:1023px){.nav a{font-size:15px}}
+.hero-actions{display:flex;flex-direction:column;align-items:flex-end;gap:14px}
+.hero-links{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.pill-link{display:inline-flex;align-items:center;border-radius:999px;border:1.5px solid rgba(215,226,234,.55);color:var(--fg);font-weight:500;text-transform:uppercase;letter-spacing:.1em;font-size:11px;padding:8px 14px;white-space:nowrap;transition:background .2s,border-color .2s;background:rgba(12,12,12,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.pill-link:hover{background:rgba(215,226,234,.12);border-color:var(--fg)}
+@media(min-width:768px){.pill-link{font-size:13px;padding:10px 20px}}
+@media(max-width:639px){.hero-bottom{flex-wrap:wrap}.hero-actions{display:contents}.hero-links{order:-1;width:100%;justify-content:center}.hero-bottom{row-gap:14px}}
 .hero-title-wrap{overflow:hidden;margin-top:24px}
 @media(min-width:640px){.hero-title-wrap{margin-top:16px}}
 @media(min-width:768px){.hero-title-wrap{margin-top:-20px}}
@@ -87,7 +98,7 @@ main{overflow-x:clip}
 @keyframes wheel{0%{opacity:0;transform:translateY(-3px)}30%{opacity:1}70%{opacity:1;transform:translateY(8px)}100%{opacity:0;transform:translateY(10px)}}
 .scroll-cue.gone{opacity:0!important;pointer-events:none}
 .scroll-cue:hover{color:#fff}
-@media(max-width:639px){.scroll-cue{bottom:118px}}
+@media(max-width:639px){.scroll-cue{bottom:172px}}
 .head-hint{bottom:16%!important}
 @media (prefers-reduced-motion:reduce){.scroll-cue .mouse span{animation:none}}
 .head-bubble{position:absolute;left:62%;top:8%;background:#fff;color:#0C0C0C;font-weight:600;font-size:15px;padding:10px 16px;border-radius:18px 18px 18px 4px;
@@ -212,7 +223,8 @@ html.ng .no-ng{display:none!important}
 <!-- ================= HERO ================= -->
 <section class="hero px" id="top">
   <nav class="nav fi" style="--fy:-20px">
-    <a href="#about">About</a><a href="#services">Services</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
+    <div class="nav-row"><a href="#about">About</a><a href="#services">Services</a><a href="#projects">Projects</a><a href="#contact">Contact</a></div>
+    <div class="nav-row nav-pages"><a href="/work/">Work</a><a href="/videos/">Videos</a><a href="/patterns/">Patterns</a></div>
   </nav>
   <div class="hero-title-wrap fi" style="--fy:40px;--fdelay:.15s">
     <h1 class="hero-heading" id="heroTitle">Hi, I&apos;m Saint</h1>
@@ -229,7 +241,10 @@ html.ng .no-ng{display:none!important}
 
   <div class="hero-bottom">
     <p class="fi" style="--fy:20px;--fdelay:.35s">I build websites that turn local searches into calls and bookings</p>
-    <div class="fi" style="--fy:20px;--fdelay:.5s"><a class="contact-btn magnet" href="#contact">Contact Me</a></div>
+    <div class="hero-actions fi" style="--fy:20px;--fdelay:.5s">
+      <div class="hero-links"><a class="pill-link" href="/work/">Work</a><a class="pill-link" href="/videos/">Videos</a><a class="pill-link" href="/patterns/">Patterns</a></div>
+      <a class="contact-btn magnet" href="#contact">Contact Me</a>
+    </div>
   </div>
 </section>
 
