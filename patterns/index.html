@@ -59,6 +59,7 @@ span.chip{border-style:dashed}
 #thanks{position:fixed;right:18px;bottom:18px;z-index:40;width:min(320px,calc(100% - 36px));background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.14);padding:14px 16px;display:none;font-size:13px;line-height:1.45}
 #thanks.on{display:block}#thanks b{display:block;font-size:14px;margin-bottom:4px}#thanks .row{display:flex;gap:8px;margin-top:10px}
 #thanks a{background:var(--acc);color:#fff;text-decoration:none;border-radius:9px;padding:8px 12px;font-weight:600}#thanks button{border:0;background:#f3f2ee;border-radius:9px;padding:8px 12px;cursor:pointer}
+.sample{display:none;margin:4px 18px 8px;background:#fff4e6;border:1px solid #fed7aa;border-radius:10px;padding:9px 10px 9px 12px;font-size:12.5px;line-height:1.4;align-items:center;justify-content:space-between;gap:10px}.sample.on{display:flex}.sample b{font-weight:700}.sample button{flex:none;border:0;background:var(--acc);color:#fff;border-radius:8px;padding:7px 11px;font:inherit;font-weight:600;font-size:12px;cursor:pointer}
 .pinfo{font-size:11.5px;color:var(--mute);padding:0 18px 4px}
 .tb{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
 .tbtn{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
@@ -154,6 +155,7 @@ input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border
   <section class="panel">
     <div class="ph"><span class="pt">Pattern</span>
       <div class="tb"><button class="tbtn dark" id="pdf"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14"/></svg>PDF 1:1</button><button class="tbtn" id="svg">SVG</button><button class="tbtn" id="openM2" title="Measurements & settings"><svg viewBox="0 0 24 24"><path d="M3 8h18v8H3zM7 8v3M11 8v4M15 8v3M19 8v4"/></svg>Measure</button><button class="tbtn" id="guideBtn" title="Seam finishing guide"><svg viewBox="0 0 24 24"><path d="M6 4h9l3 3v13H6zM9 11h6M9 15h6"/></svg>Finishing</button></div></div>
+    <div class="sample" id="sample"><span><b>These are sample measurements.</b> Add yours so the pattern fits you.</span><button id="sampleBtn">Add my measurements</button></div>
     <div class="pinfo" id="info" style="display:flex;justify-content:space-between;align-items:center"></div>
     <div class="patbox" id="prev"></div>
     <div class="fabbar" id="fabric"></div>
@@ -1334,6 +1336,7 @@ function draft(){
   const sheet=layout(items,+S.roll);
   const prims=flatten(items);
   current={sheet,prims,checks:r.checks,sk:r.sk};
+  try{const ks=SETS[S.g](S.o);$("sample").classList.toggle("on",ks.every(k=>Math.abs((+S.m[k])-M[k].d)<0.05))}catch(e){}
   try{$("fabric").innerHTML=fabricHTML(r)}catch(e){$("fabric").innerHTML=""}
   $("prev").innerHTML=toSVG(sheet,prims,false);
   $("info").innerHTML=`<span>${r.pieces.length} pieces · ${sheet.W.toFixed(0)} × ${sheet.H.toFixed(0)} cm (${(sheet.H/100).toFixed(2)} m of paper)</span><span class="zm"><button class="dots" id="zo" title="Zoom out">−</button><button class="dots" id="zi" title="Zoom in">+</button></span>`;bindZoom();
@@ -1366,7 +1369,7 @@ $("guideBtn").onclick=()=>{if(ONSITE){window.open("seam-finishing-guide.pdf","_b
 if(ONSITE)$("pdfLink").innerHTML='<a href="seam-finishing-guide.pdf" target="_blank">Open the illustrated seam finishing guide (PDF)</a>';
 function openM(){$("drawer").classList.add("open");$("scrim").classList.add("open")}
 function closeM(){$("drawer").classList.remove("open");$("scrim").classList.remove("open")}
-$("openM").onclick=openM;$("openM2").onclick=openM;$("closeM").onclick=closeM;$("scrim").onclick=closeM;
+$("openM").onclick=openM;$("sampleBtn").onclick=()=>{openM();setTimeout(()=>{const f=document.querySelector("#meas input");if(f)f.focus()},280)};$("openM2").onclick=openM;$("closeM").onclick=closeM;$("scrim").onclick=closeM;
 $("reset").onclick=()=>{for(const k in M)S.m[k]=M[k].d;save();renderForm();draft();toast("Measurements reset")};
 $("drawer").addEventListener("change",e=>{const el=e.target;
   if(el.id==="fit")S.fit=el.value;else if(el.id==="units"){S.units=el.value;renderForm()}else if(el.id==="sa")S.sa=+el.value;else if(el.id==="roll")S.roll=+el.value;else return;
