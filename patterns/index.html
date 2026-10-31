@@ -227,6 +227,7 @@ const M = {
   bustHeight:{l:"Bust point height",d:26,h:"Side of neck down to the bust point"},
   bustSpan:{l:"Bust point to bust point",d:19,h:"Straight across, point to point"},
   wTopLength:{l:"Top length",d:66,h:"Back neck bone to the hem"},
+  wShoulderDrop:{l:"Shoulder slope",d:4.5,h:"Hold a ruler level from the base of your neck to the shoulder bone; measure straight down to the bone. Square ≈ 2.5, average ≈ 4.5, sloped ≈ 6.5"},
   wSleeve:{l:"Sleeve length",d:58,h:"Shoulder bone to wrist, arm relaxed"},
   wShortSleeve:{l:"Short sleeve length",d:20,h:"Shoulder bone to where it should end"},
   wWrist:{l:"Wrist",d:16,h:"Around the wrist bone"},
@@ -252,14 +253,14 @@ const SETS = {
   shorts:()=>["waist","seat","rise","shortsLength","thigh"],
   flare:o=>o.skWaist==="elastic"?["wWaist","wHip","skirtLength"]:["wWaist","skirtLength"],
   pencil:()=>["wWaist","wHip","waistHip","skirtLength"],
-  bodycon:o=>["wBust","wWaist","wHip","wNeck","wShoulder","napeWaist","waistHip","dressLength"].concat(o.sleeve==="none"?[]:(o.sleeve==="long"||o.sleeve==="three")?["wSleeve","wWrist","wBicep"]:["wShortSleeve","wBicep"]),
-  tunic:o=>["wBust","wHip","wNeck","wShoulder","napeWaist","waistHip","bustHeight","bustSpan","tunicLength"].concat(o.sleeve==="none"?[]:(o.sleeve==="long"||o.sleeve==="three")?["wSleeve","wWrist","wBicep"]:["wShortSleeve","wBicep"]),
+  bodycon:o=>["wBust","wWaist","wHip","wNeck","wShoulder","wShoulderDrop","napeWaist","waistHip","dressLength"].concat(o.sleeve==="none"?[]:(o.sleeve==="long"||o.sleeve==="three")?["wSleeve","wWrist","wBicep"]:["wShortSleeve","wBicep"]),
+  tunic:o=>["wBust","wHip","wNeck","wShoulder","wShoulderDrop","napeWaist","waistHip","bustHeight","bustSpan","tunicLength"].concat(o.sleeve==="none"?[]:(o.sleeve==="long"||o.sleeve==="three")?["wSleeve","wWrist","wBicep"]:["wShortSleeve","wBicep"]),
   pullon:()=>["wWaist","wHip","wRise","wInseam","wThigh","wLegOpen"],
   bells:()=>["wWaist","wHip","wRise","wInseam","wThigh","wKnee","bellHem"],
-  flowgown:()=>["wBust","wWaist","wNeck","wShoulder","napeWaist","bustHeight","bustSpan","gownLength"],
+  flowgown:()=>["wBust","wWaist","wNeck","wShoulder","wShoulderDrop","napeWaist","bustHeight","bustSpan","gownLength"],
   backless:()=>["wBust","wWaist","wNeck","wShoulder","napeWaist","bustHeight","bustSpan","gownLength"],
   corset:()=>["wBust","wUnderbust","wWaist","highHip","napeWaist","bustHeight","corsetBelow"],
-  wshirt:o=>["wBust","wWaist","wHip","wNeck","wShoulder","napeWaist","waistHip","bustHeight","bustSpan","wTopLength"].concat(o.sleeve==="none"?[]:(o.sleeve==="long"||o.sleeve==="three")?["wSleeve","wWrist","wBicep"]:["wShortSleeve","wBicep"])
+  wshirt:o=>["wBust","wWaist","wHip","wNeck","wShoulder","wShoulderDrop","napeWaist","waistHip","bustHeight","bustSpan","wTopLength"].concat(o.sleeve==="none"?[]:(o.sleeve==="long"||o.sleeve==="three")?["wSleeve","wWrist","wBicep"]:["wShortSleeve","wBicep"])
 };
 const OPTS = {
   shirt:[{k:"sleeve",l:"Sleeves",v:[["short","Short"],["long","Long + cuff"],["none","Sleeveless"]]},{k:"pocket",l:"Chest pocket",v:[["yes","Yes"],["no","No"]]}],
@@ -636,15 +637,20 @@ function wBlock(m,cfg){
   const bnw=cfg.neck.bnw, br=cfg.neck.br, fnd=cfg.neck.fnd, drop=cfg.drop||0;
   const B=m.wBust+cfg.eB, Bw=B/4-0.5, Fw=B/4+0.5;
   const Wq=(m.wWaist+cfg.eW)/4, Hq=(m.wHip+cfg.eH)/4;
-  const cy=br+m.wBust/10+10.5+(cfg.cyAdj||0);
+  const sd=Math.max(1,Math.min(9,m.wShoulderDrop||4.5));
+  const cy=br+m.wBust/10+10.5+(cfg.cyAdj||0)+(sd-4.5); // square shoulders lift the underarm with the shoulder
   const yW=br+m.napeWaist, yH=yW+m.waistHip, hy=br+cfg.len;
   const sideHem=cfg.curved?hy-4:hy;
   // back
   const N=P(0,br), NP=P(bnw,0);
   const backNeck=cubic(N,P(bnw*0.6,br),P(bnw*0.95,0.7),NP);
-  const SPb=P(m.wShoulder/2+drop,4.5-drop*0.3);
+  const SPb=P(m.wShoulder/2+drop,sd-drop*0.3);
   const Ub=P(Bw,cy);
-  const backArm=cubic(SPb,P(SPb.x-0.8,SPb.y+0.55*(cy-SPb.y)),P(Bw-0.6*(Bw-SPb.x),cy),Ub);
+  // cross-back: fuller busts carry a broader upper back than the shoulder bones suggest
+  const xBack=Math.min(m.wBust/8+6,Bw-3);
+  const arm2=(SP,X,U,inK,lowK)=>{const yq=SP.y+0.55*(cy-SP.y),Q=P(X,yq);
+    return cubic(SP,P(SP.x+(X-SP.x)*0.35,SP.y+(yq-SP.y)*0.4),P(X,yq-(yq-SP.y)*0.35),Q).concat(cubic(Q,P(X,yq+(cy-yq)*0.55),P(U.x-lowK*(U.x-X),cy),U).slice(1))};
+  const backArm=xBack>SPb.x-0.8?arm2(SPb,xBack,Ub,0,0.55):cubic(SPb,P(SPb.x-0.8,SPb.y+0.55*(cy-SPb.y)),P(Bw-0.6*(Bw-SPb.x),cy),Ub);
   const split=(full,target)=>{const r=full-target;if(cfg.sideAll)return {s:r,d:0};if(!cfg.waistDarts)return {s:Math.min(r,1.5),d:0};const s=Math.min(r*0.45,2.5);const d=r-s;return d<0.6?{s:r,d:0}:{s,d:Math.min(d,cfg.maxDart||4.5)}};
   const bs=split(Bw,Wq-0.5), fs=split(Fw,Wq+0.5);
   const sideChain=(top,xb,xw,yw,xh,yh,yEnd)=>{let c=cubic(top,P(xb,top.y+(yw-top.y)*0.4),P(xw,yw-6),P(xw,yw)).concat(cubic(P(xw,yw),P(xw,yw+6),P(xh,yh-8),P(xh,yh)).slice(1));
@@ -654,9 +660,10 @@ function wBlock(m,cfg){
   const bHem=cfg.curved?cubic(P(bHemX,sideHem),P(bHemX-1,sideHem+1.6),P(bHemX*0.6,hy),P(0,hy)):seg(P(bHemX,hy),P(0,hy));
   const bDart=bs.d>0?{c:Bw*0.5,top:cy+2,bot:Math.min(yW+13,sideHem-3),w:bs.d}:null;
   // front
-  const shL=dist(NP,SPb)-0.5, SPf=P(bnw+Math.sqrt(Math.max(1,shL*shL-25)),5-drop*0.3);
+  const yF=sd+0.5-drop*0.3, shL=dist(NP,SPb)-0.5, SPf=P(bnw+Math.sqrt(Math.max(1,shL*shL-yF*yF)),yF);
   const Uf=P(Fw,cy);
-  const frontArm=cubic(SPf,P(SPf.x-1.5,SPf.y+0.5*(cy-SPf.y)),P(Fw-0.75*(Fw-SPf.x),cy),Uf);
+  const xChest=Math.min(m.wBust/8+4.6,Fw-4);
+  const frontArm=xChest>SPf.x-1.5?arm2(SPf,xChest,Uf,0,0.7):cubic(SPf,P(SPf.x-1.5,SPf.y+0.5*(cy-SPf.y)),P(Fw-0.75*(Fw-SPf.x),cy),Uf);
   const frontNeck=cubic(NP,P(bnw,fnd*0.55),P(bnw*0.55,fnd),P(0,fnd));
   const D=Math.max(4.5,Math.min(12,7+0.6*(m.wBust-88)/4))*cfg.dartK;
   let BP=P(Math.min(m.bustSpan/2,Fw-6),Math.max(m.bustHeight,cy+1.5));
