@@ -50,6 +50,7 @@ button{font:inherit;color:inherit}
 .chip i{font-style:normal;color:#c9c5bc}
 .patbox{flex:1;min-height:0;overflow:auto;padding:6px 14px 14px;touch-action:pan-x pan-y pinch-zoom}
 .patbox svg{display:block}
+.fabbar{border-top:1px solid var(--line);padding:10px 18px 12px;font-size:12px;color:#6f6b63;display:flex;flex-direction:column;gap:2px}.fabbar b{color:var(--ink);font-weight:700}.fabbar .fhint{font-size:11px;color:var(--mute)}
 .pinfo{font-size:11.5px;color:var(--mute);padding:0 18px 4px}
 .tb{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
 .tbtn{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
@@ -147,6 +148,7 @@ input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border
       <div class="tb"><button class="tbtn dark" id="pdf"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14"/></svg>PDF 1:1</button><button class="tbtn" id="svg">SVG</button><button class="tbtn" id="openM2" title="Measurements & settings"><svg viewBox="0 0 24 24"><path d="M3 8h18v8H3zM7 8v3M11 8v4M15 8v3M19 8v4"/></svg>Measure</button><button class="tbtn" id="guideBtn" title="Seam finishing guide"><svg viewBox="0 0 24 24"><path d="M6 4h9l3 3v13H6zM9 11h6M9 15h6"/></svg>Finishing</button></div></div>
     <div class="pinfo" id="info" style="display:flex;justify-content:space-between;align-items:center"></div>
     <div class="patbox" id="prev"></div>
+    <div class="fabbar" id="fabric"></div>
   </section>
 </div>
 <div class="pop" id="pop"></div>
@@ -890,7 +892,7 @@ function goreSkirt(Wc,L,frac,SA,pieces,checks,maxW,zipNote){
   const arc=(rho,a,b,k=40)=>{const q=[];for(let i=0;i<=k;i++)q.push(pt(rho,a+(b-a)*i/k));return q};
   const left=[pt(r,-ph/2),pt(r+L,-ph/2)], right=[pt(r+L,ph/2),pt(r,ph/2)];
   pieces.push({name:"Skirt panel",cut:`Cut ${n}`,edges:[{pts:arc(r,ph/2,-ph/2),sa:SA},{pts:left,sa:Math.max(SA,1.5)},{pts:arc(r+L,-ph/2,ph/2),sa:1},{pts:right,sa:Math.max(SA,1.5)}],
-    grain:[P(0,6),P(0,L-8)],label:P(-5,L*0.3),note:zipNote,notches:[{pts:left,at:20,n:1}]});
+    grain:[P(0,6),P(0,L-8)],label:P(-5,L*0.3),note:zipNote,notches:[{pts:left,at:20,n:1}],nestW:(r*Math.sin(ph/2)+(r+L)*Math.sin(ph/2))+2});
   checks.push([true,`Skirt: ${frac===0.5?"half":"quarter"} circle in ${n} panels, hem ${(Phi*(r+L)/100).toFixed(1)} m around`]);
   return {r,n};
 }
@@ -916,10 +918,11 @@ function draftFlowGown(m,o,fit,SA){
   const Wc=(g.Bw-g.bs.s-(g.bs.d||0)+g.Fw-g.fs.s-(g.fs.d||0))*2;
   if(o.gskirt==="gathered")gatherSkirt(Wc,m.gownLength,2,SA,checks,fin);
   else goreSkirt(Wc,m.gownLength,0.5,SA,pieces,checks,Math.min(140,S.roll-6),"Seams fall at centre front, back and sides. Zip in the centre-back seam");
+  const rect=fin.rect;
   checks.unshift([true,`Finished bust ${g.B.toFixed(1)} cm (+5), waist ${Wc.toFixed(1)} cm (+${(Wc-m.wWaist).toFixed(1)})`]);
   checks.push([true,`Bust dart ${g.D.toFixed(1)} cm at the side, plus waist darts`]);
   const hemHalf=o.gskirt==="gathered"?Wc/4*1.7:Wc/4+m.gownLength*0.3;
-  return {pieces,checks,sk:{kind:"gown",type:"flow",g,v,L:m.gownLength,hemHalf,gathered:o.gskirt==="gathered",fin:{bust:g.B/4,waist:Wc/4}}};
+  return {pieces,checks,sk:{kind:"gown",type:"flow",rect,g,v,L:m.gownLength,hemHalf,gathered:o.gskirt==="gathered",fin:{bust:g.B/4,waist:Wc/4}}};
 }
 function draftBackless(m,o,fit,SA){
   const g=bodiceToWaist(m,{eB:4,eW:2,eH:6,dartK:1,princess:true,neck:{bnw:m.wNeck/6+0.5,br:2,fnd:6}});
@@ -1288,6 +1291,32 @@ function renderAppearance(){
   renderChips();
 }
 
+
+// ---------- fabric estimate ----------
+function fabricNeed(pieces,fabW,lining){
+  const Wf=fabW/2-1.5;let area=0,maxH=0,open=0,any=false;
+  pieces.forEach(pc=>{
+    const c=pc.cut||"";let n;const fold=/on fold/i.test(c.split("+")[0]);
+    if(lining){const m=c.match(/\+\s*(\d+)\s*(lining|coutil)/i);if(!m)return;n=+m[1]}
+    else{const m=c.match(/Cut\s+(\d+)/i);n=m?+m[1]:1}
+    const cut=cutLine(pc.edges);let A=0;for(let i=0;i<cut.length;i++){const p=cut[i],q=cut[(i+1)%cut.length];A+=p.x*q.y-q.x*p.y}A=Math.abs(A)/2;
+    const xs=cut.map(p=>p.x),ys=cut.map(p=>p.y);let w=Math.max(...xs)-Math.min(...xs),h=Math.max(...ys)-Math.min(...ys);
+    if(pc.gh&&w>Wf&&h<=Wf){const t=w;w=h;h=t}
+    const k=fold?n:Math.ceil(n/2);any=true;
+    if(w>Wf&&!fold){open+=h*n+1;return}
+    area+=A*k;maxH=Math.max(maxH,h);
+  });
+  if(!any)return 0;
+  return Math.max(area/(Wf*0.8),maxH+2)+open;
+}
+function fabricHTML(r){
+  const fmt=cm=>{const m=Math.ceil(cm*1.1/10+1)/10;return `<b>${m.toFixed(1)} m</b> (${(Math.ceil(m*1.0936*4)/4).toFixed(2).replace(/\.00$/,"").replace(/0$/,"")} yd)`};
+  const extra=r.sk&&r.sk.rect?r.sk.rect:null;
+  const add=(w)=>{if(!extra)return 0;const per=Math.max(1,Math.floor(w/extra.w));return Math.ceil(extra.k/per)*(extra.h+1)};
+  const a=fabricNeed(r.pieces,150,false)+add(148), b=fabricNeed(r.pieces,115,false)+add(113);
+  const ln=fabricNeed(r.pieces,150,true);
+  return `<span>Fabric needed (approx.): ${fmt(a)} at 150 cm wide · ${fmt(b)} at 115 cm${ln>0?` · lining ${fmt(ln)} at 150 cm`:""}</span><span class="fhint">Includes 10% for shrinkage and straightening. Buy a little extra for stripes and checks.</span>`;
+}
 function draft(){
   const m={};for(const k in M)m[k]=+S.m[k]||M[k].d;
   const SA=+S.sa;
@@ -1296,6 +1325,7 @@ function draft(){
   const sheet=layout(items,+S.roll);
   const prims=flatten(items);
   current={sheet,prims,checks:r.checks,sk:r.sk};
+  try{$("fabric").innerHTML=fabricHTML(r)}catch(e){$("fabric").innerHTML=""}
   $("prev").innerHTML=toSVG(sheet,prims,false);
   $("info").innerHTML=`<span>${r.pieces.length} pieces · ${sheet.W.toFixed(0)} × ${sheet.H.toFixed(0)} cm (${(sheet.H/100).toFixed(2)} m of paper)</span><span class="zm"><button class="dots" id="zo" title="Zoom out">−</button><button class="dots" id="zi" title="Zoom in">+</button></span>`;bindZoom();
   const ch=r.checks.slice();if(sheet.tooWide.length)ch.push([false,"A piece is wider than the roll. Pick a wider roll."]);if(sheet.H>500)ch.push([false,"Sheet is over 5 m; some printers cap PDF length."]);
