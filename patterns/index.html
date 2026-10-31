@@ -228,6 +228,7 @@ const M = {
   bustSpan:{l:"Bust point to bust point",d:19,h:"Straight across, point to point"},
   wTopLength:{l:"Top length",d:66,h:"Back neck bone to the hem"},
   wShoulderDrop:{l:"Shoulder slope",d:4.5,h:"Hold a ruler level from the base of your neck to the shoulder bone; measure straight down to the bone. Square ≈ 2.5, average ≈ 4.5, sloped ≈ 6.5"},
+  wBearHug:{l:"Bear hug (optional)",d:0,h:"Arms relaxed at your sides: tape across the high bust, over the outside of both upper arms and across the upper back. Checks room across chest, back and sleeves. Leave 0 to skip"},
   wSleeve:{l:"Sleeve length",d:58,h:"Shoulder bone to wrist, arm relaxed"},
   wShortSleeve:{l:"Short sleeve length",d:20,h:"Shoulder bone to where it should end"},
   wWrist:{l:"Wrist",d:16,h:"Around the wrist bone"},
@@ -253,14 +254,14 @@ const SETS = {
   shorts:()=>["waist","seat","rise","shortsLength","thigh"],
   flare:o=>o.skWaist==="elastic"?["wWaist","wHip","skirtLength"]:["wWaist","skirtLength"],
   pencil:()=>["wWaist","wHip","waistHip","skirtLength"],
-  bodycon:o=>["wBust","wWaist","wHip","wNeck","wShoulder","wShoulderDrop","napeWaist","waistHip","dressLength"].concat(o.sleeve==="none"?[]:(o.sleeve==="long"||o.sleeve==="three")?["wSleeve","wWrist","wBicep"]:["wShortSleeve","wBicep"]),
-  tunic:o=>["wBust","wHip","wNeck","wShoulder","wShoulderDrop","napeWaist","waistHip","bustHeight","bustSpan","tunicLength"].concat(o.sleeve==="none"?[]:(o.sleeve==="long"||o.sleeve==="three")?["wSleeve","wWrist","wBicep"]:["wShortSleeve","wBicep"]),
+  bodycon:o=>["wBust","wWaist","wHip","wNeck","wShoulder","wShoulderDrop","napeWaist","waistHip","dressLength"].concat(o.sleeve==="none"?[]:(o.sleeve==="long"||o.sleeve==="three")?["wSleeve","wWrist","wBicep","wBearHug"]:["wShortSleeve","wBicep","wBearHug"]),
+  tunic:o=>["wBust","wHip","wNeck","wShoulder","wShoulderDrop","napeWaist","waistHip","bustHeight","bustSpan","tunicLength"].concat(o.sleeve==="none"?[]:(o.sleeve==="long"||o.sleeve==="three")?["wSleeve","wWrist","wBicep","wBearHug"]:["wShortSleeve","wBicep","wBearHug"]),
   pullon:()=>["wWaist","wHip","wRise","wInseam","wThigh","wLegOpen"],
   bells:()=>["wWaist","wHip","wRise","wInseam","wThigh","wKnee","bellHem"],
   flowgown:()=>["wBust","wWaist","wNeck","wShoulder","wShoulderDrop","napeWaist","bustHeight","bustSpan","gownLength"],
   backless:()=>["wBust","wWaist","wNeck","wShoulder","napeWaist","bustHeight","bustSpan","gownLength"],
   corset:()=>["wBust","wUnderbust","wWaist","highHip","napeWaist","bustHeight","corsetBelow"],
-  wshirt:o=>["wBust","wWaist","wHip","wNeck","wShoulder","wShoulderDrop","napeWaist","waistHip","bustHeight","bustSpan","wTopLength"].concat(o.sleeve==="none"?[]:(o.sleeve==="long"||o.sleeve==="three")?["wSleeve","wWrist","wBicep"]:["wShortSleeve","wBicep"])
+  wshirt:o=>["wBust","wWaist","wHip","wNeck","wShoulder","wShoulderDrop","napeWaist","waistHip","bustHeight","bustSpan","wTopLength"].concat(o.sleeve==="none"?[]:(o.sleeve==="long"||o.sleeve==="three")?["wSleeve","wWrist","wBicep","wBearHug"]:["wShortSleeve","wBicep","wBearHug"])
 };
 const OPTS = {
   shirt:[{k:"sleeve",l:"Sleeves",v:[["short","Short"],["long","Long + cuff"],["none","Sleeveless"]]},{k:"pocket",l:"Chest pocket",v:[["yes","Yes"],["no","No"]]}],
@@ -650,7 +651,7 @@ function wBlock(m,cfg){
   const xBack=Math.min(m.wBust/8+6,Bw-3);
   const arm2=(SP,X,U,inK,lowK)=>{const yq=SP.y+0.55*(cy-SP.y),Q=P(X,yq);
     return cubic(SP,P(SP.x+(X-SP.x)*0.35,SP.y+(yq-SP.y)*0.4),P(X,yq-(yq-SP.y)*0.35),Q).concat(cubic(Q,P(X,yq+(cy-yq)*0.55),P(U.x-lowK*(U.x-X),cy),U).slice(1))};
-  const backArm=xBack>SPb.x-0.8?arm2(SPb,xBack,Ub,0,0.55):cubic(SPb,P(SPb.x-0.8,SPb.y+0.55*(cy-SPb.y)),P(Bw-0.6*(Bw-SPb.x),cy),Ub);
+  let backArm=xBack>SPb.x-0.8?arm2(SPb,xBack,Ub,0,0.55):cubic(SPb,P(SPb.x-0.8,SPb.y+0.55*(cy-SPb.y)),P(Bw-0.6*(Bw-SPb.x),cy),Ub);
   const split=(full,target)=>{const r=full-target;if(cfg.sideAll)return {s:r,d:0};if(!cfg.waistDarts)return {s:Math.min(r,1.5),d:0};const s=Math.min(r*0.45,2.5);const d=r-s;return d<0.6?{s:r,d:0}:{s,d:Math.min(d,cfg.maxDart||4.5)}};
   const bs=split(Bw,Wq-0.5), fs=split(Fw,Wq+0.5);
   const sideChain=(top,xb,xw,yw,xh,yh,yEnd)=>{let c=cubic(top,P(xb,top.y+(yw-top.y)*0.4),P(xw,yw-6),P(xw,yw)).concat(cubic(P(xw,yw),P(xw,yw+6),P(xh,yh-8),P(xh,yh)).slice(1));
@@ -663,7 +664,17 @@ function wBlock(m,cfg){
   const yF=sd+0.5-drop*0.3, shL=dist(NP,SPb)-0.5, SPf=P(bnw+Math.sqrt(Math.max(1,shL*shL-yF*yF)),yF);
   const Uf=P(Fw,cy);
   const xChest=Math.min(m.wBust/8+4.6,Fw-4);
-  const frontArm=xChest>SPf.x-1.5?arm2(SPf,xChest,Uf,0,0.7):cubic(SPf,P(SPf.x-1.5,SPf.y+0.5*(cy-SPf.y)),P(Fw-0.75*(Fw-SPf.x),cy),Uf);
+  let frontArm=xChest>SPf.x-1.5?arm2(SPf,xChest,Uf,0,0.7):cubic(SPf,P(SPf.x-1.5,SPf.y+0.5*(cy-SPf.y)),P(Fw-0.75*(Fw-SPf.x),cy),Uf);
+  // Bear hug (J Stern): tape round chest, both upper arms and upper back = front width + back width + sleeves
+  delete m._bh;
+  if(m.wBearHug>0){const knitB=cfg.eB<0, tgt=knitB?0:Math.max(2.5,cfg.eB*0.5);
+    const wAt=(arm,SP)=>{const x=xAtY(arm,SP.y+0.55*(cy-SP.y));return x===null?SP.x:x};
+    let xb=wAt(backArm,SPb), xf=wAt(frontArm,SPf);
+    const sleeveGuess=m.wBicep+(knitB?-3:4), short=m.wBearHug+tgt-(2*(xb+xf)+sleeveGuess);
+    if(short>0){const addB=Math.min(short/4,Math.max(0,Bw-2-xb));
+      if(addB>0.05){xb+=addB;backArm=arm2(SPb,xb,Ub,0,0.55)}
+    }
+    m._bh={T:2*(xb+xf),tgt,req:m.wBearHug+tgt-2*(xb+xf),grew:short>0}}
   const frontNeck=cubic(NP,P(bnw,fnd*0.55),P(bnw*0.55,fnd),P(0,fnd));
   const D=Math.max(4.5,Math.min(12,7+0.6*(m.wBust-88)/4))*cfg.dartK;
   let BP=P(Math.min(m.bustSpan/2,Fw-6),Math.max(m.bustHeight,cy+1.5));
@@ -685,12 +696,12 @@ const fishMark=(d)=>({pts:[P(d.c,d.top),P(d.c-d.w/2,d.y),P(d.c,d.bot),P(d.c+d.w/
 function wSleeve(m,o,fit,SA,AHb,AHf,drop,pieces,checks,knit){
   const fi={slim:0,regular:1,relaxed:2,oversized:3}[fit], AH=AHb+AHf;
   let ch=knit?Math.max(5,AH*0.22):Math.max(6,AH*[0.31,0.29,0.26,0.21][fi]-drop);
-  const need=m.wBicep+(knit?-3:4);
+  const need=m.wBicep+(knit?-3:4);const need2=m._bh?Math.max(need,m._bh.req):need;
   const capB=w=>cubic(P(-w,ch),P(-w*0.6,ch*0.9),P(-w*0.35,0),P(0,0));
   const capF=w=>cubic(P(w,ch),P(w*0.55,ch*0.98),P(w*0.35,0),P(0,0));
   const solve=(f,t)=>{let lo=ch*0.3,hi=AH;for(let i=0;i<50;i++){const mid=(lo+hi)/2;if(plen(f(mid))<t)lo=mid;else hi=mid}return (lo+hi)/2};
   const ce=knit?0:0.4;let wb=solve(capB,AHb+ce), wf=solve(capF,AHf+ce);
-  while(wb+wf<need&&ch>5){ch-=0.4;wb=solve(capB,AHb+ce);wf=solve(capF,AHf+ce)}
+  while(wb+wf<need2&&ch>5){ch-=0.4;wb=solve(capB,AHb+ce);wf=solve(capF,AHf+ce)}
   const cb=capB(wb), cf=capF(wf);
   const long=o.sleeve==="long";
   let sl,hemW,hemSA;
@@ -708,6 +719,7 @@ function wSleeve(m,o,fit,SA,AHb,AHf,drop,pieces,checks,knit){
     pieces.push({name:"Sleeve slit binding",cut:"Cut 2 on the bias",edges:[{pts:[P(0,0),P(20,0),P(20,3),P(0,3),P(0,0)],sa:0}],grain:[P(3,1.5),P(6,1.5)],label:P(1,-3.8),small:1,note:"Binds the 9 cm slit"})}
   checks.push([wb+wf>=m.wBicep+(knit?-3:4),`Sleeve width ${(wb+wf).toFixed(1)} cm vs bicep ${m.wBicep} (+${(wb+wf-m.wBicep).toFixed(1)})`]);
   checks.push([true,`Armhole ${AH.toFixed(1)} cm, sleeve head ${(plen(cb)+plen(cf)).toFixed(1)} cm${knit?"":" (0.8 cm ease)"}`]);
+  if(m._bh){const tot=m._bh.T+wb+wf, e=tot-m.wBearHug;checks.push([e>=m._bh.tgt-0.6,`Bear hug: pattern ${tot.toFixed(1)} cm vs yours ${m.wBearHug} (${e>=0?"+":""}${e.toFixed(1)} ease)${e<m._bh.tgt-0.6?": too tight for a set-in sleeve. Try Relaxed fit or check the measurement":m._bh.grew?", back + sleeve widened to fit":""}`])}
   if(tq)checks.push([hemW>=foreArm+1,`¾ sleeve ends ${sl.toFixed(1)} cm down, opening ${hemW.toFixed(1)} cm`]);
   return {sl,hemW,long,tq,bw:(wb+wf)/2};
 }
