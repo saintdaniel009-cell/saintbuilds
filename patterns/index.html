@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pattern Drafter · Saint Builds</title>
-<meta name="description" content="Enter your measurements, get 1:1 sewing patterns. Menswear plus womenswear: shirts, corset tops, bodycon, gowns, skirts and bell bottoms.">
+<meta name="description" content="Enter your measurements, get 1:1 sewing patterns. Menswear plus womenswear: shirts, kaftans, kimonos, hoodies, corset tops, bodycon, gowns, skirts and bell bottoms.">
 <meta property="og:title" content="Pattern Drafter · Saint Builds">
-<meta property="og:description" content="Enter your measurements, get 1:1 sewing patterns. Menswear plus womenswear: shirts, corset tops, bodycon, gowns, skirts and bell bottoms.">
+<meta property="og:description" content="Enter your measurements, get 1:1 sewing patterns. Menswear plus womenswear: shirts, kaftans, kimonos, hoodies, corset tops, bodycon, gowns, skirts and bell bottoms.">
 <meta property="og:image" content="https://saintbuilds.com/patterns/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -208,6 +208,10 @@ const M = {
   shortSleeve:{l:"Short sleeve length",d:24,h:"Shoulder bone to where it should end"},
   teeLength:{l:"T-shirt length",d:70,h:"Back neck bone to hem"},
   jacketLength:{l:"Jacket length",d:74,h:"Back neck bone to hem"},
+  kaftanLength:{l:"Kaftan length",d:78,h:"Back neck bone to the hem (hip length is about 72 to 82 cm)"},
+  kimonoLength:{l:"Kimono length",d:76,h:"Back neck bone to the hem"},
+  hoodieLength:{l:"Hoodie length",d:70,h:"Back neck bone to the bottom of the rib band"},
+  headVertical:{l:"Over the head",d:64,h:"Base of the neck on one side, over the crown, to the base of the neck on the other side"},
   wrist:{l:"Wrist",d:18,h:"Around wrist bone"},
   bicep:{l:"Bicep",d:33,h:"Fullest part of upper arm"},
   waist:{l:"Waist",d:84,h:"Where you wear your trousers"},
@@ -251,6 +255,9 @@ const SETS = {
   shirt:o=>["chest","neck","shoulder","shirtLength", ...(o.sleeve==="none"?[]:[o.sleeve==="long"?"sleeve":"shortSleeve", ...(o.sleeve==="long"?["wrist"]:[]),"bicep"])],
   tee:o=>["chest","neck","shoulder","teeLength", ...(o.sleeve==="none"?[]:[o.sleeve==="long"?"sleeve":"shortSleeve", ...(o.sleeve==="long"?["wrist"]:[]),"bicep"])],
   jacket:()=>["chest","neck","shoulder","jacketLength","sleeve","wrist","bicep"],
+  kaftan:()=>["chest","neck","shoulder","kaftanLength","sleeve","bicep"],
+  kimono:()=>["chest","neck","shoulder","kimonoLength","sleeve","bicep"],
+  hoodie:()=>["chest","neck","shoulder","hoodieLength","sleeve","wrist","bicep","headVertical"],
   trousers:()=>["waist","seat","rise","inseam","hem","thigh"],
   shorts:()=>["waist","seat","rise","shortsLength","thigh"],
   flare:o=>o.skWaist==="elastic"?["wWaist","wHip","skirtLength"]:["wWaist","skirtLength"],
@@ -268,6 +275,9 @@ const OPTS = {
   shirt:[{k:"sleeve",l:"Sleeves",v:[["short","Short"],["long","Long + cuff"],["none","Sleeveless"]]},{k:"pocket",l:"Chest pocket",v:[["yes","Yes"],["no","No"]]}],
   tee:[{k:"sleeve",l:"Sleeves",v:[["short","Short"],["long","Long"],["none","Sleeveless"]]}],
   jacket:[{k:"lowerPockets",l:"Lower pockets",v:[["yes","Yes"],["no","No"]]},{k:"pocket",l:"Chest pocket",v:[["yes","Yes"],["no","No"]]}],
+  kaftan:[{k:"kfNeck",l:"Neckline",v:[["slit","Round + slit"],["v","V-neck"]]},{k:"kfSleeve",l:"Sleeves",v:[["elbow","Elbow"],["three","¾"],["long","Long"]]},{k:"kfPocket",l:"Chest pocket",v:[["no","No"],["yes","Yes"]]},{k:"kfSlits",l:"Side slits",v:[["yes","Yes"],["no","No"]]}],
+  kimono:[{k:"kmSleeve",l:"Sleeves",v:[["elbow","Elbow"],["three","¾"]]},{k:"kmSlits",l:"Side slits",v:[["yes","Yes"],["no","No"]]}],
+  hoodie:[{k:"hdPocket",l:"Pocket",v:[["kangaroo","Kangaroo"],["none","None"]]},{k:"hdHood",l:"Hood",v:[["lined","Lined"],["single","Single layer"]]}],
   trousers:[{k:"waistStyle",l:"Waist",v:[["elastic","Elastic / drawstring"],["fitted","Fitted + zip fly"]]},{k:"backPocket",l:"Back pocket",v:[["yes","Yes"],["no","No"]]}],
   shorts:[{k:"waistStyle",l:"Waist",v:[["elastic","Elastic / drawstring"],["fitted","Fitted + zip fly"]]},{k:"backPocket",l:"Back pocket",v:[["yes","Yes"],["no","No"]]}],
   flare:[{k:"flare",l:"Fullness",v:[["full","Full circle"],["half","Half circle"],["quarter","Quarter circle"]]},{k:"skWaist",l:"Waist",v:[["band","Waistband + zip"],["elastic","Elastic"]]}],
@@ -281,9 +291,9 @@ const OPTS = {
   corset:[{k:"corset",l:"Style",v:[["fashion","Fashion top (zip)"],["laced","Laced + boned"]]}],
   pencil:[{k:"shape",l:"Shape",v:[["pencil","Pencil (tapered)"],["straight","Straight"]]},{k:"vent",l:"Back",v:[["pleat","Kick pleat"],["slit","Slit"]]}]
 };
-const SECT={men:["shirt","tee","jacket","trousers","shorts"],women:["wshirt","corset","bodycon","flowgown","backless","tunic","flare","pencil","pullon","bells"]};
+const SECT={men:["shirt","tee","kaftan","kimono","hoodie","jacket","trousers","shorts"],women:["wshirt","corset","bodycon","flowgown","backless","tunic","flare","pencil","pullon","bells"]};
 const NOFIT=["flare","bodycon","corset","flowgown","backless"];
-let S = {g:"shirt",fit:"regular",units:"in",sa:1,roll:91.4,m:{},o:{sleeve:"short",pocket:"yes",lowerPockets:"yes",waistStyle:"elastic",backPocket:"yes",flare:"half",skWaist:"band",shape:"pencil",vent:"pleat",shaping:"darts",stretch:"med",neckline:"scoop",corset:"fashion",gskirt:"circle",gneck:"v",bskirt:"aline",backDepth:"waist",tneck:"round",slits:"yes",fpocket:"slant"},zoom:1,sec:"men",last:{}};
+let S = {g:"shirt",fit:"regular",units:"in",sa:1,roll:91.4,m:{},o:{sleeve:"short",pocket:"yes",lowerPockets:"yes",waistStyle:"elastic",backPocket:"yes",flare:"half",skWaist:"band",shape:"pencil",vent:"pleat",shaping:"darts",stretch:"med",neckline:"scoop",corset:"fashion",gskirt:"circle",gneck:"v",bskirt:"aline",backDepth:"waist",tneck:"round",slits:"yes",fpocket:"slant",kfNeck:"slit",kfSleeve:"three",kfPocket:"no",kfSlits:"yes",kmSleeve:"elbow",kmSlits:"yes",hdPocket:"kangaroo",hdHood:"lined"},zoom:1,sec:"men",last:{}};
 for(const k in M) S.m[k]=M[k].d;
 function load(){try{const j=JSON.parse(localStorage.getItem("pd-state")||"null");if(j){const dm=Object.assign({},S.m),dO=Object.assign({},S.o);S=Object.assign(S,j);S.m=Object.assign(dm,j.m||{});S.o=Object.assign(dO,j.o||{});}}catch(e){}}
 function save(){try{localStorage.setItem("pd-state",JSON.stringify(S))}catch(e){}}
@@ -429,6 +439,113 @@ function draftTop(m,o,fit,SA,kind){
   if(kind==="tee")checks.push([true,`Neckline ${(NL*2).toFixed(1)} cm, band ${(NL*2*0.85).toFixed(1)} cm (85%)`]);
   else checks.push([NL*2>=m.neck,`Collar neckline ${(NL*2).toFixed(1)} cm (your neck ${m.neck} cm)`]);
   return {pieces,checks,sk:{kind,NP,SPf,SPb,frontArm,backArm,frontNeck,backNeck,Uf,Ub,half,hy,sideHem,hemCurve,fnd,br,bnw,sleeveless,sl,hemW,bw:(wb+wf)/2,long,cy,curved}};
+}
+
+// ---------- LOOSE TOPS (kaftan / kimono / hoodie): dropped shoulders, wide sleeves ----------
+function offsetPts(pts,k){return pts.map((p,i)=>{const a=pts[Math.max(0,i-1)],b=pts[Math.min(pts.length-1,i+1)];const t=unit(sub(b,a));return add(p,P(-t.y*k,t.x*k))})}
+function draftLoose(m,o,fit,SA,kind){
+  const T={kaftan:{ease:[18,26,36,50],drop:[3,5,7.5,10],arm:1,len:"kaftanLength"},
+           kimono:{ease:[24,32,42,56],drop:[5,7,9.5,12],arm:2,len:"kimonoLength"},
+           hoodie:{ease:[10,16,24,36],drop:[1,2.5,5,8],arm:1,len:"hoodieLength"}}[kind];
+  const fi={slim:0,regular:1,relaxed:2,oversized:3}[fit];
+  const hd=kind==="hoodie",km=kind==="kimono",kf=kind==="kaftan";
+  const ease=T.ease[fi],drop=T.drop[fi];
+  const bnw=hd?m.neck/5+1.6:km?m.neck/5+1.2:m.neck/5+0.9, br=hd?2.5:2;
+  const SPb=P(m.shoulder/2+drop,Math.max(1.2,4-drop*0.5));
+  let W=Math.max(m.chest/2+ease/2,2*(SPb.x+2.5));const half=W/2;
+  const cy=br+m.chest/10+13.5+drop*0.6+T.arm;
+  const band=hd?6:0, hy=br+m[T.len]-band;
+  const N=P(0,br),NP=P(bnw,0);
+  const backNeck=cubic(N,P(bnw*0.6,br),P(bnw*0.95,0.7),NP);
+  const Ub=P(half,cy),Uf=P(half,cy);
+  const backArm=cubic(SPb,P(SPb.x-0.8,SPb.y+0.55*(cy-SPb.y)),P(half-0.6*(half-SPb.x),cy),Ub);
+  const shLen=dist(NP,SPb),fdrop=Math.max(2,5-drop*0.5);
+  const SPf=P(bnw+Math.sqrt(shLen*shLen-fdrop*fdrop),fdrop);
+  const frontArm=cubic(SPf,P(SPf.x-1.5,SPf.y+0.5*(cy-SPf.y)),P(half-0.75*(half-SPf.x),cy),Uf);
+  const vneck=kf&&o.kfNeck==="v";
+  let fnd,frontNeck;
+  if(km){fnd=cy-2;frontNeck=cubic(NP,P(bnw*0.92,fnd*0.3),P(bnw*0.35,fnd*0.78),P(0,fnd))}
+  else if(vneck){fnd=m.neck/5+11;frontNeck=cubic(NP,P(bnw*0.85,fnd*0.35),P(bnw*0.3,fnd*0.85),P(0,fnd))}
+  else{fnd=hd?m.neck/5+5:m.neck/5+3.5;frontNeck=cubic(NP,P(bnw,fnd*0.55),P(bnw*0.55,fnd),P(0,fnd))}
+  const hemCurve=seg(P(half,hy),P(0,hy)), hemSA=hd?SA:km?3:2.5;
+  const slit=(kf&&o.kfSlits==="yes")||(km&&o.kmSlits==="yes")?12:0;
+  const slitLen=kf&&!vneck?13:0;
+  const sideB=seg(Ub,P(half,hy)),sideF=seg(Uf,P(half,hy));
+  const pieces=[];
+  pieces.push({name:"Back",cut:"Cut 1 on fold",edges:[{pts:backNeck,sa:SA},{pts:seg(NP,SPb),sa:SA},{pts:backArm,sa:SA},{pts:sideB,sa:SA},{pts:hemCurve,sa:hemSA},{pts:seg(P(0,hy),N),sa:0,fold:1}],
+    grain:[P(half*0.5,cy-6),P(half*0.5,hy-10)],label:P(half*0.2,cy+8),note:slit?`Side slit: leave the bottom ${slit} cm open`:"",
+    notches:[{pts:backArm,at:plen(backArm)*0.6,n:2}].concat(slit?[{pts:sideB,at:plen(sideB)-slit,n:1}]:[])});
+  const fN=[{pts:frontArm,at:plen(frontArm)*0.6,n:1}].concat(slit?[{pts:sideF,at:plen(sideF)-slit,n:1}]:[]);
+  let pk=null,kg=null;
+  if(km){
+    pieces.push({name:"Front",cut:"Cut 2 (left + right)",edges:[{pts:seg(NP,SPf),sa:SA},{pts:frontArm,sa:SA},{pts:sideF,sa:SA},{pts:hemCurve,sa:hemSA},{pts:seg(P(0,hy),P(0,fnd)),sa:SA},{pts:rev(frontNeck),sa:SA}],
+      grain:[P(half*0.55,cy+4),P(half*0.55,hy-10)],label:P(half*0.2,cy+12),notches:fN,note:"Neckline and front edge are finished by the band"});
+  } else {
+    const marks=[];
+    if(slitLen)marks.push({pts:seg(P(0,fnd),P(0,fnd+slitLen)),dash:"solid"});
+    if(kf&&o.kfPocket==="yes"){const pw=12.5,ph=14,px=Math.max(bnw+1.5,(half-pw)/2+1.5),pt=cy-6;pk={pw,ph,px,pt};marks.push({pts:[P(px,pt),P(px+pw,pt),P(px+pw,pt+ph),P(px,pt+ph),P(px,pt)],dash:"dot"})}
+    if(hd&&o.hdPocket==="kangaroo"){const ph=Math.min(24,(hy-cy)*0.62);kg={ph,tw:half*0.42,bw:half*0.78,top:hy-ph};marks.push({pts:[P(0,kg.top),P(kg.tw,kg.top),P(kg.bw,hy-ph*0.42),P(kg.bw,hy)],dash:"dot"})}
+    pieces.push({name:"Front",cut:"Cut 1 on fold",edges:[{pts:seg(NP,SPf),sa:SA},{pts:frontArm,sa:SA},{pts:sideF,sa:SA},{pts:hemCurve,sa:hemSA},{pts:seg(P(0,hy),P(0,fnd)),sa:0,fold:1},{pts:rev(frontNeck),sa:SA}],
+      marks,grain:[P(half*0.6,cy-4),P(half*0.6,hy-10)],label:P(half*0.2,cy+(kg?2:8)),notches:fN,
+      note:slitLen?`Cut the ${slitLen} cm neck slit after the facing is stitched`:pk?"Pocket goes on the wearer's left only":kg?"Dotted line: kangaroo pocket placement":""});
+  }
+  // SLEEVE: short cap, wide body
+  const AHb=plen(backArm),AHf=plen(frontArm),AH=AHb+AHf;
+  const ch=Math.max(4,AH/4-drop-(hd?3:2)), capEase=hd?0:0.25;
+  const capB=w=>cubic(P(-w,ch),P(-w*0.6,ch*0.9),P(-w*0.35,0),P(0,0));
+  const capF=w=>cubic(P(w,ch),P(w*0.55,ch*0.98),P(w*0.35,0),P(0,0));
+  const solve=(f,target)=>{let lo=ch*0.5,hi=AH;for(let i=0;i<50;i++){const mid=(lo+hi)/2;if(plen(f(mid))<target)lo=mid;else hi=mid}return (lo+hi)/2};
+  const wb=solve(capB,AHb+capEase),wf=solve(capF,AHf+capEase),cb=capB(wb),cf=capF(wf);
+  const sv=hd?"long":km?o.kmSleeve:o.kfSleeve;
+  let sl,hemW;
+  if(hd){sl=m.sleeve-drop-6;hemW=m.wrist+[8,10,12,14][fi]}
+  else{sl=sv==="elbow"?m.sleeve*0.52-drop:sv==="three"?m.sleeve*0.74-drop:m.sleeve-drop;hemW=sv==="long"?Math.max(m.wrist+14,(wb+wf)*0.75):(wb+wf)*0.96}
+  sl=Math.max(sl,12);const hx=hemW/2, sHemSA=hd?SA:km?3:2.5;
+  pieces.push({name:"Sleeve",cut:"Cut 2 (mirror)",edges:[{pts:rev(cf),sa:SA},{pts:seg(P(wf,ch),P(hx,sl)),sa:SA},{pts:seg(P(hx,sl),P(-hx,sl)),sa:sHemSA},{pts:seg(P(-hx,sl),P(-wb,ch)),sa:SA},{pts:cb,sa:SA}],
+    marks:[{pts:seg(P(0,1),P(0,sl-1)),dash:"cf"}],grain:[P(3,2),P(3,sl-2)],label:P(-wb*0.55,ch+7),
+    tags:[{p:P(wf*0.45,ch+3),t:"FRONT"},{p:P(-wb*0.75,ch+3),t:"BACK"}],
+    notches:[{pts:cf,at:AHf*0.4,n:1},{pts:cb,at:AHb*0.4,n:2},{pts:cb,at:plen(cb)-0.01,n:1}]});
+  const NLh=plen(backNeck)+plen(frontNeck);
+  const checks=[];let bandL=0,H=0,Dw=0;
+  if(kf){ // neck facings
+    const fw=6,A=add(NP,mul(unit(sub(SPf,NP)),fw)),bot=fnd+(slitLen?slitLen+4:4);
+    const outF=cubic(A,P(A.x-0.5,bot*0.45),P(bnw*0.55+1,bot),P(0,bot));
+    pieces.push({name:"Front neck facing",cut:"Cut 1 on fold (+ interfacing)",edges:[{pts:seg(NP,A),sa:SA},{pts:outF,sa:1},{pts:seg(P(0,bot),P(0,fnd)),sa:0,fold:1},{pts:rev(frontNeck),sa:SA}],
+      marks:slitLen?[{pts:seg(P(0,fnd),P(0,fnd+slitLen)),dash:"solid"}]:[],grain:slitLen?[P(bnw*0.5,fnd+2),P(bnw*0.5,bot-2)]:[P(bnw+2.5,2.5),P(bnw+2.5,6.5)],label:P(1,-4.2),small:1});
+    const Bp=add(NP,mul(unit(sub(SPb,NP)),fw)),outB=cubic(Bp,P(Bp.x-0.5,Bp.y+3),P(bnw*0.5,br+fw),P(0,br+fw));
+    pieces.push({name:"Back neck facing",cut:"Cut 1 on fold (+ interfacing)",edges:[{pts:backNeck,sa:SA},{pts:seg(NP,Bp),sa:SA},{pts:outB,sa:1},{pts:seg(P(0,br+fw),N),sa:0,fold:1}],
+      grain:[P(2,br+fw*0.6),P(bnw,br+fw*0.6)],label:P(1,-4.2),small:1});
+    if(pk)pieces.push({name:"Chest pocket",cut:"Cut 1",edges:[{pts:seg(P(0,0),P(pk.pw,0)),sa:2.5},{pts:[P(pk.pw,0),P(pk.pw,pk.ph),P(0,pk.ph),P(0,0)],sa:SA}],grain:[P(pk.pw/2,4),P(pk.pw/2,pk.ph-2)],label:P(1,-3.8),small:1,note:"Looks great in a contrast fabric"});
+  }
+  if(km){
+    bandL=plen(backNeck)+plen(frontNeck)+(hy-fnd);const L=bandL+1,bh=10;
+    pieces.push({name:"Front band",cut:"Cut 2 (+ interfacing 2)",edges:[{pts:[P(0,0),P(L,0),P(L,bh),P(0,bh),P(0,0)],sa:SA}],marks:[{pts:seg(P(0,bh/2),P(L,bh/2)),dash:"fold"}],
+      grain:[P(L/2-4,2),P(L/2+4,2)],label:P(1,-3.8),small:1,notches:[{pts:seg(P(0,0),P(L,0)),at:plen(backNeck),n:1},{pts:seg(P(0,0),P(L,0)),at:plen(backNeck)+plen(frontNeck),n:2}],
+      note:"Short end joins its pair at centre back. 1 notch = shoulder, 2 = start of the front edge"});
+  }
+  if(hd){
+    H=m.headVertical/2+3;Dw=Math.max(24,m.neck*0.62)+[0,1,2,3][fi];
+    const F0=P(0,H),T0=P(0,0),Bk=P(Dw,H*0.42),B0=P(NLh,H);
+    const crown=cubic(T0,P(Dw*0.55,-1.2),P(Dw,1.5),Bk),backC=cubic(Bk,P(Dw,H*0.72),P(NLh+1.5,H*0.9),B0),lined=o.hdHood==="lined";
+    pieces.push({name:"Hood",cut:lined?"Cut 2 (mirror) + 2 lining":"Cut 2 (mirror)",edges:[{pts:seg(F0,T0),sa:lined?SA:3},{pts:crown,sa:SA},{pts:backC,sa:SA},{pts:seg(B0,F0),sa:SA}],
+      grain:[P(Dw*0.4,H*0.25),P(Dw*0.4,H*0.75)],label:P(2.5,H*0.5),notches:[{pts:seg(F0,B0),at:plen(frontNeck),n:1}],
+      tags:[{p:P(1,H*0.15),t:"FRONT EDGE"}],note:lined?"Outer and lining join at the front edge":"Front edge folds 1 + 2 cm for the drawstring"});
+    const bl=W*0.85;
+    pieces.push({name:"Hem band",cut:"Cut 2 (rib)",edges:[{pts:[P(0,0),P(bl,0),P(bl,14),P(0,14),P(0,0)],sa:SA}],marks:[{pts:seg(P(0,7),P(bl,7)),dash:"fold"}],grain:[P(bl/2-3,2),P(bl/2+3,2)],label:P(1,-3.8),small:1,note:"Stretch runs lengthways. Fold, stretch to fit the body (85%)"});
+    const cl=Math.max(m.wrist+3,hemW*0.78);
+    pieces.push({name:"Cuff",cut:"Cut 2 (rib)",edges:[{pts:[P(0,0),P(cl,0),P(cl,16),P(0,16),P(0,0)],sa:SA}],marks:[{pts:seg(P(0,8),P(cl,8)),dash:"fold"}],grain:[P(cl/2-3,2),P(cl/2+3,2)],label:P(1,-3.8),small:1,note:"Join into a loop, fold, stretch to fit"});
+    if(kg)pieces.push({name:"Kangaroo pocket",cut:"Cut 1 on fold",edges:[{pts:seg(P(0,0),P(kg.tw,0)),sa:SA},{pts:seg(P(kg.tw,0),P(kg.bw,kg.ph*0.58)),sa:2},{pts:seg(P(kg.bw,kg.ph*0.58),P(kg.bw,kg.ph)),sa:SA},{pts:seg(P(kg.bw,kg.ph),P(0,kg.ph)),sa:SA},{pts:seg(P(0,kg.ph),P(0,0)),sa:0,fold:1}],
+      grain:[P(kg.tw*0.5,3),P(kg.tw*0.5,kg.ph-3)],label:P(1.5,kg.ph*0.45),small:1,note:"Slanted edges are the hand openings"});
+  }
+  checks.push([W*2-m.chest>=(hd?6:12),`Chest ease ${(W*2-m.chest).toFixed(1)} cm (finished chest ${(W*2).toFixed(1)} cm)`]);
+  checks.push([wb+wf>=m.bicep+(hd?3:8),`Sleeve width ${(wb+wf).toFixed(1)} cm vs bicep ${m.bicep} cm, opening ${hemW.toFixed(1)} cm`]);
+  checks.push([true,`Dropped shoulder sits ${drop.toFixed(1)} cm past your shoulder bone; armhole ${AH.toFixed(1)} cm`]);
+  const NL=NLh*2;
+  if(km)checks.push([true,`Front band ${bandL.toFixed(0)} cm per side, finishes 5 cm wide`]);
+  else if(hd)checks.push([NL>=54,`Neckline ${NL.toFixed(1)} cm; hood ${H.toFixed(1)} cm tall, ${Dw.toFixed(1)} cm deep`]);
+  else checks.push([NL+(slitLen?2*slitLen:0)>=60,`Neckline ${NL.toFixed(1)} cm${slitLen?` + ${slitLen} cm slit`:""} pulls over the head`]);
+  if(slit)checks.push([true,`Side slits ${slit} cm`]);
+  return {pieces,checks,sk:{kind,NP,SPf,SPb,frontArm,backArm,frontNeck,backNeck,Uf,Ub,half,hy,sideHem:hy,hemCurve,fnd,br,bnw,sleeveless:false,sl,hemW,bw:(wb+wf)/2,long:sv==="long",cy,curved:false,slit,slitLen,pk,kg,H}};
 }
 
 // ---------- TROUSERS / SHORTS ----------
@@ -1224,6 +1341,9 @@ FIN.backless=o=>[["Fabric","Crepe, satin or jersey-backed crepe + lining"],["Bod
 FIN.flare=o=>[["Fabric","Drapey cotton, rayon, crepe or linen"],["Side seams","French seam"+(o.skWaist==="elastic"?"":"; left side: press open, zigzag edges, invisible zip")],["Waist","Enclosed by the "+(o.skWaist==="elastic"?"casing":"waistband")],["Hem","Hang 24 h, level, then narrow double-fold (0.5 + 0.5 cm)"]];
 FIN.pencil=o=>[["Fabric","Firm woven with a little stretch: twill, suiting, denim"],["Darts","Sew to a fine point, press towards the centre"],["Side + CB seams","Press open, zigzag or bias-bind each edge"],["Zip","Invisible zip in centre back"],[o.vent==="pleat"?"Kick pleat":"Slit","Press to one side, stitch across the top"],["Hem","Turn 4 cm, slip-stitch by hand (blind hem)"]];
 FIN.tee=o=>[["Fabric","Knit (jersey). It doesn't fray"],["Shoulder seams","Stretch/zigzag stitch + clear elastic or tape"],[o.sleeve==="none"?"Side seams":"Side + sleeve seams","Stretch or narrow zigzag, press to back"],["Neckband","Zigzag on, then topstitch the seam down"]].concat(o.sleeve==="none"?[["Armholes","Binding: same band method as the neck, cut at 90% of armhole"]]:[]).concat([,["Hems","Twin needle or wide zigzag, single fold"]]);
+FIN.kaftan=o=>[["Fabric","Cotton print, ankara, adire, linen or aso-oke"],["Shoulder seams","French seam"],["Sleeve to armhole","Sew flat, then French seam the side and sleeve in one"+(o.kfSlits==="yes"?", stopping at the slit notch":"")],["Neck facing",o.kfNeck==="v"?"Sew to the neckline, clip into the V point, understitch, topstitch":"Sew round the neck and the slit line, cut the slit, clip, turn, topstitch"],o.kfSlits==="yes"?["Side slits","Press under 0.75 + 0.75 cm, topstitch, bar-tack the top"]:null,o.kfPocket==="yes"?["Chest pocket","Double-fold top, sides pressed under 1 cm, topstitch"]:null,["Hem + sleeve hems","Double-fold 1 + 1.5 cm"]];
+FIN.kimono=o=>[["Fabric","Mudcloth, cotton print, linen or soft drill"],["Shoulder + side seams","Flat-felled or French"],["Sleeve to armhole","Sew flat, then side and sleeve in one"],["Front band","Interface, join at centre back, fold in half, sew to the opening, slip-stitch inside"],o.kmSlits==="yes"?["Side slits","Press under, topstitch, bar-tack the top"]:null,["Hem + sleeve hems","Double-fold 1 + 2 cm"]];
+FIN.hoodie=o=>[["Fabric","French terry or fleece; rib knit for cuffs and band"],["All seams","Stretch stitch or narrow zigzag; knit doesn't fray"],["Shoulders","Clear elastic so they keep their shape"],["Hood",o.hdHood==="lined"?"Sew outer and lining, join at the front edge, turn, topstitch":"Centre seam, then fold the front edge 1 + 2 cm for the drawstring"],["Drawstring","Two eyelets 2 cm from the front edge, added before the hood is joined"],o.hdPocket==="kangaroo"?["Kangaroo pocket","Double-fold the hand openings, press under top and sides, topstitch; bottom is caught in the band"]:null,["Cuffs + hem band","Fold, stretch to fit, sew with a stretch stitch"]];
 FIN.jacket=o=>[["Fabric","Medium cotton/linen canvas or twill"],["Side + sleeve seams","Flat-felled"],["Sleeve to armhole","Flat-felled or bias bound"],["Shoulders","Flat-felled"],["Facing edge","Turn-and-stitch"],["Collar","Enclosed, nothing needed"],["Patch pockets","Fold top twice, sides under 1 cm"],["Hem + sleeve hems","Double-fold (1 + 3 cm)"]];
 function renderFin(){
   const rows=FIN[S.g](S.o).filter(Boolean).map(([a,b])=>`<li><span>${a}</span><b>${U(b)}</b></li>`).join("");
@@ -1298,6 +1418,55 @@ function sketchTop(sk,o,view){
   return {sh,dt};
 }
 
+function sketchLoose(sk,o,view){
+  const back=view==="back",sh=[],dt=[],K=sk.kind;
+  const neck=back?sk.backNeck:sk.frontNeck.slice().reverse();
+  const SP=back?sk.SPb:sk.SPf,arm=back?sk.backArm:sk.frontArm,U=back?sk.Ub:sk.Uf;
+  const right=neck.concat([SP]).concat(arm).concat([P(sk.half,sk.hy),P(0,sk.hy)]);
+  // sleeves
+  const th=(sk.long?18:36)*Math.PI/180,d=P(Math.sin(th),Math.cos(th)),n=P(-Math.cos(th),Math.sin(th));
+  const O=add(SP,mul(d,sk.sl)),I=add(O,mul(n,sk.hemW/2));
+  const sl=[SP,O,I,U].concat(arm.slice().reverse());
+  sh.push({d:pathD(sl)+pathD(mir(sl)),role:"sleeve"});
+  if(K==="hoodie"){const c=[O,add(O,mul(d,6)),add(add(I,mul(d,6)),mul(n,-0.9)),I];sh.push({d:pathD(c)+pathD(mir(c)),role:"sleeve"});
+    const r1=add(O,mul(d,0.4)),r2=add(I,mul(d,0.4));dt.push({pre:1,d:pathD([r1,r2],false)+pathD(mir([r1,r2]),false)})}
+  else{const h1=add(O,mul(d,-2.4)),h2=add(I,mul(d,-2.4));dt.push({pre:1,d:pathD([h1,h2],false)+pathD(mir([h1,h2]),false),dash:1})}
+  sh.push({d:pathD(fullOutline(right)),role:"body"});
+  // hems + slits
+  if(K==="hoodie"){const b=[P(sk.half-0.6,sk.hy),P(sk.half-0.6,sk.hy+6),P(0,sk.hy+6)];sh.push({d:pathD(fullOutline([P(0,sk.hy)].concat(b))),role:"trim"})}
+  else{dt.push({d:pathD([P(-sk.half,sk.hy-2.4),P(sk.half,sk.hy-2.4)],false),dash:1})}
+  if(sk.slit){const s=[P(sk.half,sk.hy-sk.slit),P(sk.half-1.4,sk.hy-sk.slit)];dt.push({d:pathD(s,false)+pathD(mir(s),false)})}
+  if(K==="kaftan"){
+    const nk=back?sk.backNeck:sk.frontNeck, off=offsetPts(nk,back?2.2:-2.2);
+    dt.push({d:pathD(off,false)+pathD(mir(off),false),dash:1});
+    if(!back&&sk.slitLen){const y0=sk.fnd,y1=sk.fnd+sk.slitLen;dt.push({d:pathD([P(0,y0),P(0,y1)],false)});
+      dt.push({d:pathD([P(-0.9,y0+1.5),P(-0.9,y1+0.9),P(0.9,y1+0.9),P(0.9,y0+1.5)],false),dash:1})}
+    if(!back&&sk.pk){const {px,pt,pw,ph}=sk.pk,pk=[P(px,pt),P(px+pw,pt),P(px+pw,pt+ph),P(px,pt+ph)];sh.push({d:pathD(pk),role:"pocket"});dt.push({d:pathD([P(px,pt+2),P(px+pw,pt+2)],false),dash:1})}
+  }
+  if(K==="kimono"){
+    if(back){const ob=offsetPts(sk.backNeck,5);sh.push({d:pathD(fullOutline(sk.backNeck.concat(ob.slice().reverse()))),role:"trim"})}
+    else{const on=offsetPts(sk.frontNeck,-5),e=on[on.length-1];
+      const bandR=sk.frontNeck.concat([P(0,sk.hy),P(5,sk.hy),P(5,Math.max(e.y,sk.fnd))]).concat(on.slice().reverse());
+      sh.push({d:pathD(bandR)+pathD(mir(bandR)),role:"trim"});
+      dt.push({d:pathD([P(0,sk.fnd),P(0,sk.hy)],false)})}
+  }
+  if(K==="hoodie"){
+    const b=sk.bnw;
+    if(back){const hl=sk.H*0.68;const hood=cubic(P(0,-5.5),P(b+1,-5.5),P(b+3.2,-1),P(b+3.6,5)).concat(cubic(P(b+3.6,5),P(b+4,hl*0.6),P(b*0.7,hl),P(0,hl)).slice(1));
+      sh.push({d:pathD(fullOutline(hood)),role:"trim"});dt.push({d:pathD([P(0,-5.5),P(0,hl)],false)})}
+    else{
+      const rim=cubic(P(0,sk.fnd+0.4),P(b*0.6,sk.fnd+0.4),P(b+2.4,sk.fnd*0.5),P(b+2.4,0)).concat(cubic(P(b+2.4,0),P(b+2.2,-3.5),P(b*0.6,-5.5),P(0,-5.5)).slice(1));
+      sh.push({d:pathD(fullOutline(rim)),role:"trim"});
+      const inner=cubic(P(0,sk.fnd-0.4),P(b*0.55,sk.fnd*0.7),P(b*0.9,-0.5),P(0,-3.2));
+      sh.push({d:pathD(fullOutline(inner)),role:"collar"});
+      [-1,1].forEach(s=>{dt.push({c:P(s*1.6,sk.fnd-1.6),r:0.45});dt.push({d:pathD([P(s*1.6,sk.fnd-1.2),P(s*2.1,sk.fnd+11)],false),thin:1})});
+      if(sk.kg){const {top,tw,bw,ph}=sk.kg;const pk=[P(0,top),P(tw,top),P(bw,sk.hy-ph*0.42),P(bw,sk.hy),P(0,sk.hy)];sh.push({d:pathD(fullOutline(pk)),role:"pocket"});
+        const op=[P(tw+0.7,top+0.3),P(bw-0.4,sk.hy-ph*0.42-0.5)];dt.push({d:pathD(op,false)+pathD(mir(op),false),dash:1})}
+    }
+  }
+  return {sh,dt};
+}
+
 function sketchBottom(sk,o,view){
   const back=view==="back";
   const sh=[],dt=[];
@@ -1344,7 +1513,7 @@ const FABRICS={
 function shade(hex,k){const n=parseInt(hex.slice(1),16);let r=n>>16&255,g=n>>8&255,b=n&255;const f=v=>Math.max(0,Math.min(255,Math.round(k<0?v*(1+k):v+(255-v)*k)));return "#"+[f(r),f(g),f(b)].map(v=>v.toString(16).padStart(2,"0")).join("")}
 
 function sketchSVG(sk,o,views,colored,color,fabric){
-  const parts=views.map(v=>sk.kind==="bottom"?sketchBottom(sk,o,v):sk.kind==="skirt"?sketchSkirt(sk,o,v):sk.kind==="wtop"?sketchW(sk,o,v):sk.kind==="corset"?sketchCorset(sk,o,v):sk.kind==="gown"?sketchGown(sk,o,v):sketchTop(sk,o,v));
+  const parts=views.map(v=>sk.kind==="bottom"?sketchBottom(sk,o,v):sk.kind==="skirt"?sketchSkirt(sk,o,v):sk.kind==="wtop"?sketchW(sk,o,v):sk.kind==="corset"?sketchCorset(sk,o,v):sk.kind==="gown"?sketchGown(sk,o,v):["kaftan","kimono","hoodie"].includes(sk.kind)?sketchLoose(sk,o,v):sketchTop(sk,o,v));
   // bounds
   const bb=d=>{const nums=d.match(/-?\d+(\.\d+)?/g).map(Number);const xs=[],ys=[];for(let i=0;i+1<nums.length;i+=2){xs.push(nums[i]);ys.push(nums[i+1])}return [Math.min(...xs),Math.max(...xs),Math.min(...ys),Math.max(...ys)]};
   let W=0,minY=1e9,maxY=-1e9;const widths=[];
@@ -1371,6 +1540,9 @@ function sketchSVG(sk,o,views,colored,color,fabric){
 
 // ---------- STUDIO APP ----------
 const ICONS={
+  kaftan:'<path d="M9 3c.5 1.4 1.6 2 3 2s2.5-.6 3-2l5.5 3-1.8 4.5-2.7-1V21H8V9.5l-2.7 1L3.5 6z"/><path d="M12 5v4.5"/>',
+  kimono:'<path d="M9 3l3 8 3-8 5.5 3-2 5-2.5-1V21H8V10l-2.5 1-2-5z"/><path d="M10.4 3.6L12 8.5l1.6-4.9M12 11v10"/>',
+  hoodie:'<path d="M9 5c0-2 1.3-3.2 3-3.2S15 3 15 5l4.8 2-1.5 4.5-2.3-1V19H8v-8.5l-2.3 1L4.2 7z"/><path d="M9 5c.8 1.7 1.8 2.4 3 2.4s2.2-.7 3-2.4M8 19v2h8v-2M9.6 14.5h4.8l1 3.5H8.6z"/>',
   shirt:'<path d="M9 3l3 2 3-2 5 2.5-1.5 5-2.5-1V21H8V9.5l-2.5 1L4 5.5z"/><path d="M12 5v16M10.5 3.6L12 7l1.5-3.4"/>',
   tee:'<path d="M9 3c.5 1.5 1.6 2.2 3 2.2S14.5 4.5 15 3l5 2.5-1.5 4.5-2.5-1V21H8V9l-2.5 1L4 5.5z"/>',
   jacket:'<path d="M9 3l3 3 3-3 5 2.5V21h-5V12M9 3L4 5.5V21h5V12"/><path d="M12 6v15M5.5 15h3M15.5 15h3"/>',
@@ -1387,7 +1559,7 @@ const ICONS={
   corset:'<path d="M6 6c2-1 4 1 6 0s4-1 6 0l-1 6c-.3 2 0 3.5 1 6H6c1-2.5 1.3-4 1-6z"/><path d="M9.5 6v12M14.5 6v12"/>',
   pencil:'<path d="M8 3h8v3H8z"/><path d="M8 6c-.6 3-.8 5 0 8l.5 7h7l.5-7c.8-3 .6-5 0-8"/><path d="M12 17v4"/>'
 };
-const GNAMES={shirt:"Shirt",tee:"T-shirt",jacket:"Jacket",trousers:"Trousers",shorts:"Shorts",flare:"Flared skirt",pencil:"Fitted skirt",wshirt:"Shirt",bodycon:"Bodycon",corset:"Corset top",flowgown:"Flowing gown",backless:"Backless gown",bells:"Bell bottoms",tunic:"Tunic",pullon:"Pull-on pants"};
+const GNAMES={kaftan:"Kaftan",kimono:"Kimono",hoodie:"Hoodie",shirt:"Shirt",tee:"T-shirt",jacket:"Jacket",trousers:"Trousers",shorts:"Shorts",flare:"Flared skirt",pencil:"Fitted skirt",wshirt:"Shirt",bodycon:"Bodycon",corset:"Corset top",flowgown:"Flowing gown",backless:"Backless gown",bells:"Bell bottoms",tunic:"Tunic",pullon:"Pull-on pants"};
 const PALETTE=["#f4f1ea","#1f2937","#6b7280","#1e3a5f","#3b5bdb","#0f766e","#4d7c0f","#a16207","#c2410c","#9f1239","#7c3aed","#b08968"];
 if(!S.color)S.color="#1e3a5f"; if(!S.fabric)S.fabric="linen"; if(!S.view)S.view="both";
 let current=null;
@@ -1473,7 +1645,7 @@ function fabricHTML(r){
 function draft(){
   const m={};for(const k in M)m[k]=+S.m[k]||M[k].d;
   const SA=+S.sa;
-  const r=["shirt","tee","jacket"].includes(S.g)?draftTop(m,S.o,S.fit,SA,S.g):["flare","pencil"].includes(S.g)?draftSkirt(m,S.o,S.fit,SA,S.g):S.g==="wshirt"?draftWShirt(m,S.o,S.fit,SA):S.g==="bodycon"?draftBodycon(m,S.o,S.fit,SA):S.g==="corset"?draftCorset(m,S.o,S.fit,SA):S.g==="tunic"?draftTunic(m,S.o,S.fit,SA):S.g==="pullon"?draftTrousers(Object.assign({},m,{waist:m.wWaist,seat:m.wHip,rise:m.wRise,inseam:m.wInseam,thigh:m.wThigh,hem:m.wLegOpen,_straight:m.wLegOpen}),Object.assign({},S.o,{waistStyle:"elastic",_fp:S.o.fpocket||"slant"}),S.fit,SA,false):S.g==="bells"?draftTrousers(Object.assign({},m,{waist:m.wWaist,seat:m.wHip,rise:m.wRise,inseam:m.wInseam,thigh:m.wThigh,hem:m.bellHem,_bells:{knee:m.wKnee,hem:m.bellHem}}),S.o,S.fit,SA,false):S.g==="flowgown"?draftFlowGown(m,S.o,S.fit,SA):S.g==="backless"?draftBackless(m,S.o,S.fit,SA):draftTrousers(m,S.o,S.fit,SA,S.g==="shorts");
+  const r=["shirt","tee","jacket"].includes(S.g)?draftTop(m,S.o,S.fit,SA,S.g):["kaftan","kimono","hoodie"].includes(S.g)?draftLoose(m,S.o,S.fit,SA,S.g):["flare","pencil"].includes(S.g)?draftSkirt(m,S.o,S.fit,SA,S.g):S.g==="wshirt"?draftWShirt(m,S.o,S.fit,SA):S.g==="bodycon"?draftBodycon(m,S.o,S.fit,SA):S.g==="corset"?draftCorset(m,S.o,S.fit,SA):S.g==="tunic"?draftTunic(m,S.o,S.fit,SA):S.g==="pullon"?draftTrousers(Object.assign({},m,{waist:m.wWaist,seat:m.wHip,rise:m.wRise,inseam:m.wInseam,thigh:m.wThigh,hem:m.wLegOpen,_straight:m.wLegOpen}),Object.assign({},S.o,{waistStyle:"elastic",_fp:S.o.fpocket||"slant"}),S.fit,SA,false):S.g==="bells"?draftTrousers(Object.assign({},m,{waist:m.wWaist,seat:m.wHip,rise:m.wRise,inseam:m.wInseam,thigh:m.wThigh,hem:m.bellHem,_bells:{knee:m.wKnee,hem:m.bellHem}}),S.o,S.fit,SA,false):S.g==="flowgown"?draftFlowGown(m,S.o,S.fit,SA):S.g==="backless"?draftBackless(m,S.o,S.fit,SA):draftTrousers(m,S.o,S.fit,SA,S.g==="shorts");
   const items=[testSquare(multi()?profName():"")].concat(r.pieces.map(buildPiece));
   const paged=S.paper&&S.paper!=="roll";
   let sheet;
