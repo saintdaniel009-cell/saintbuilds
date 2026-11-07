@@ -192,7 +192,7 @@ main{overflow-x:clip}
 .ptall{height:calc(clamp(130px,16vw,230px) + clamp(160px,22vw,340px) + 12px)}
 .vgrid{display:none}
 .vgrid video{width:100%;aspect-ratio:9/16;height:auto;object-fit:cover;border-radius:32px;background:#16181c}
-@media(min-width:768px){.vmob{display:none!important}.vgrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;max-width:1100px;margin:0 auto}}
+@media(min-width:768px){.vmob{display:none!important}.vgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:1100px;margin:0 auto}}
 .pgrid .swap{cursor:pointer;transition:transform .25s,opacity .25s}
 .pgrid .swap:hover{transform:scale(.98);opacity:.85}
 
@@ -311,7 +311,7 @@ html.ng .no-ng{display:none!important}
         <img class="ph1 swap" src="videos/vendpay.jpg" data-video="videos/vendpay.mp4" alt="Play VendPay promo video" loading="lazy">
         <img class="ph2 swap" src="videos/rigo.jpg" data-video="videos/rigo.mp4" alt="Play Rigo explainer video" loading="lazy">
       </div><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" class="ptall" id="mainVideo" src="videos/aizenosa.mp4" poster="videos/aizenosa.jpg" controls playsinline preload="none" aria-label="Aizenosa Abu personal brand ad"></video></div>
-      <div class="vgrid"><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" src="videos/aizenosa.mp4" poster="videos/aizenosa.jpg" controls playsinline preload="none" aria-label="Aizenosa Abu personal brand ad"></video><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" src="videos/vendpay.mp4" poster="videos/vendpay.jpg" controls playsinline preload="none" aria-label="VendPay product promo"></video><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" src="videos/hscd.mp4" poster="videos/hscd.jpg" controls playsinline preload="none" aria-label="World Sickle Cell Day reel"></video><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" src="videos/rigo.mp4" poster="videos/rigo.jpg" controls playsinline preload="none" aria-label="Rigo explainer reel"></video><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" src="videos/chatbot.mp4" poster="videos/chatbot.jpg" controls playsinline preload="none" aria-label="Chatbot announcement reel"></video></div>
+      <div class="vgrid"><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" src="videos/aizenosa.mp4" poster="videos/aizenosa.jpg" controls playsinline preload="none" aria-label="Aizenosa Abu personal brand ad"></video><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" src="videos/vendpay.mp4" poster="videos/vendpay.jpg" controls playsinline preload="none" aria-label="VendPay product promo"></video><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" src="videos/rigo.mp4" poster="videos/rigo.jpg" controls playsinline preload="none" aria-label="Rigo explainer reel"></video><video controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false" src="videos/chatbot.mp4" poster="videos/chatbot.jpg" controls playsinline preload="none" aria-label="Chatbot announcement reel"></video></div>
     </article></div>
 
     <div class="pwrap"><article class="pcard" style="top:calc(var(--st) + 84px)">
@@ -366,7 +366,7 @@ document.querySelectorAll('.magnet').forEach(el=>{
 });
 
 /* ---------- Marquee ---------- */
-const row1=['images/gavi.jpg','images/3d1.jpg','images/idice.jpg','videos/hscd.jpg','images/kontratpay.jpg','images/3d3.jpg','images/healthbetter.jpg','images/3d5.jpg','videos/vendpay.jpg'];
+const row1=['images/gavi.jpg','images/3d1.jpg','images/idice.jpg','images/kontratpay.jpg','images/3d3.jpg','images/healthbetter.jpg','images/3d5.jpg','videos/vendpay.jpg'];
 const row2=['images/seraph.jpg','images/3d2.jpg','videos/rigo.jpg','images/rigo.jpg','images/3d4.jpg','videos/chatbot.jpg','images/3d6.jpg','images/3d7.jpg'];
 function fill(el,list){const all=[...list,...list,...list];el.innerHTML=all.map(s=>`<img src="${s}" alt="" loading="lazy">`).join('');}
 const r1=document.getElementById('row1'),r2=document.getElementById('row2'),mq=document.getElementById('marquee');
