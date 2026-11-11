@@ -27,6 +27,14 @@ document.documentElement.dataset.theme=t})();</script>
 .v-hero h1{font-size:clamp(56px,10vw,128px);letter-spacing:-.055em;line-height:1}
 .v-hero .lede{margin:18px auto 0}
 .reel{position:relative;width:fit-content;margin:56px auto 0}
+.tri{display:flex;justify-content:center;align-items:center;gap:clamp(16px,3vw,40px);margin-top:56px}
+.tri .reel{margin:0}
+.tri .side{position:relative;opacity:.92;transition:opacity .3s,transform .3s}
+.tri .side:hover{opacity:1;transform:translateY(-4px)}
+.tri .side video{height:min(58vh,600px);width:auto;aspect-ratio:9/16;border-radius:26px;background:#000;object-fit:cover;box-shadow:var(--lift)}
+.tri .side .play{width:56px;height:56px}.tri .side .play svg{width:22px;height:22px}
+@media(max-width:759px){.tri .side{display:none}}
+
 .reel video{height:min(82vh,860px);width:auto;aspect-ratio:9/16;border-radius:32px;background:#000;box-shadow:var(--lift);object-fit:cover}
 .reel p{text-align:center;color:var(--soft);font-size:15px;margin-top:16px}
 .play{position:absolute;inset:0;margin:auto;width:84px;height:84px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;
@@ -67,7 +75,11 @@ document.documentElement.dataset.theme=t})();</script>
     <h1>Video.</h1>
     <p class="lede">Edited and animated from script to final cut, in After Effects, DaVinci Resolve and CapCut.</p>
   </header>
-  <figure class="reel"><div class="clip"><video src="/videos/showreel.mp4" poster="/videos/showreel.jpg" playsinline preload="metadata" controlsList="nodownload" aria-label="Showreel"></video><button class="play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg></button></div><p>Showreel · 1:08 · Sound on</p></figure>
+  <div class="tri">
+    <figure class="side clip"><video class="loop" src="/videos/aizenosa.mp4" poster="/videos/aizenosa.jpg" muted loop playsinline preload="none" controlsList="nodownload" aria-label="Aizenosa Abu ad"></video><button class="play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg></button></figure>
+    <figure class="reel"><div class="clip"><video src="/videos/showreel.mp4" poster="/videos/showreel.jpg" playsinline preload="metadata" controlsList="nodownload" aria-label="Showreel"></video><button class="play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg></button></div><p>Showreel · 1:08 · Sound on</p></figure>
+    <figure class="side clip"><video class="loop" src="/videos/rigo.mp4" poster="/videos/rigo.jpg" muted loop playsinline preload="none" controlsList="nodownload" aria-label="Rigo explainer"></video><button class="play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg></button></figure>
+  </div>
   <section class="shelf">
     <div class="shelf-head"><h2>Motion and product</h2><div class="arrows"><button class="bk" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="fw" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button></div></div>
     <div class="track">
@@ -106,9 +118,13 @@ document.querySelectorAll('.play').forEach(function(b){
   var v=b.previousElementSibling;
   b.addEventListener('click',function(){
     document.querySelectorAll('video').forEach(function(o){if(o!==v)o.pause()});
-    v.controls=true;b.hidden=true;v.play();
+    v.controls=true;v.muted=false;v.currentTime=0;b.hidden=true;v.play();
   });
-  v.addEventListener('play',function(){document.querySelectorAll('video').forEach(function(o){if(o!==v)o.pause()})});
+  v.addEventListener('play',function(){if(!v.controls)return;document.querySelectorAll('video').forEach(function(o){if(o!==v)o.pause()})});
+});
+/* Side loops play silently when visible, unless the visitor prefers reduced motion. */
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.querySelectorAll('video.loop').forEach(function(v){
+  if(v.offsetParent){v.preload='auto';var p=v.play();if(p)p.catch(function(){})}
 });
 /* Shelf arrows scroll by one card. */
 document.querySelectorAll('.shelf').forEach(function(s){
