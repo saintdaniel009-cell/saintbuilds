@@ -7,7 +7,7 @@
 <meta name="description" content="Case study: designing Rigo Retail, a banking app for a healthcare-focused microfinance bank, plus Movement, a step-challenge feature and its web version.">
 <meta property="og:title" content="Rigo Retail — case study by Saint Daniel">
 <meta property="og:description" content="Banking, health data without diagnosis, regulator-ready security, and step challenges that reach people before they download.">
-<meta property="og:image" content="https://saintbuilds.com/work/rigo/img/home.webp">
+<meta property="og:image" content="https://saintbuilds.com/work/rigo/img/v3-hero.webp">
 <meta property="og:url" content="https://saintbuilds.com/work/rigo/">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -48,6 +48,12 @@ section{padding:56px 0;border-top:1px solid var(--line)}
 figure{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:20px;overflow:hidden}
 figure img{border-radius:12px;margin:0 auto}
 figure.phone img{max-height:620px;width:auto}
+figure.mock{background:none;border:0;padding:0;border-radius:24px}
+figure.mock img{width:100%;border-radius:24px}
+figure.mock figcaption{padding:0 4px}
+figure.mock.two{max-width:720px}
+.hero.stack{display:block;padding-bottom:40px}
+.hero.stack figure{margin-top:40px}
 figure.wide{margin-top:28px}
 figcaption{font-size:14px;color:var(--muted);margin-top:14px;line-height:1.5;font-weight:300}
 .phones{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -88,8 +94,8 @@ footer{padding:40px 0 56px;color:var(--muted);font-size:13px;border-top:1px soli
 <div class="wrap">
   <nav><a href="/work/">← All work</a><a href="mailto:letsbuild@saintbuilds.com">Contact</a></nav>
 
-  <header class="hero">
-    <div>
+  <header class="hero stack">
+    <div class="col" style="max-width:820px">
       <span class="eyebrow">Case study · Fintech × Health</span>
       <h1 class="grad">Rigo Retail: a bank account with health built in</h1>
       <p class="lede">A mobile banking app for a CBN-licensed, healthcare-focused microfinance bank. Transfers, savings, cards and bills sit alongside HMO cover, a health wallet, a dietitian and rewards for healthy habits.</p>
@@ -100,7 +106,7 @@ footer{padding:40px 0 56px;color:var(--muted);font-size:13px;border-top:1px soli
         <div><small>Scope</small><span>Wireframes, hi-fi, system, QA</span></div>
       </div>
     </div>
-    <img src="img/home.webp" alt="Rigo Retail home screen with balance, quick actions, health and rewards" width="430" height="932">
+    <figure class="mock"><img src="img/v3-hero.webp" alt="Rigo Retail welcome, home and health screens" width="1608" height="1174"></figure>
   </header>
 
   <section>
@@ -111,7 +117,7 @@ footer{padding:40px 0 56px;color:var(--muted);font-size:13px;border-top:1px soli
     </div>
     <div class="stats">
       <div class="stat"><b>129+</b><span>wireframe frames</span></div>
-      <div class="stat"><b>86</b><span>hi-fi screens in one handoff</span></div>
+      <div class="stat"><b>600+</b><span>hi-fi screens, light and dark</span></div>
       <div class="stat"><b>25%</b><span>faster design-to-dev handoff</span></div>
       <div class="stat"><b>2</b><span>themes: light and dark</span></div>
     </div>
@@ -119,51 +125,70 @@ footer{padding:40px 0 56px;color:var(--muted);font-size:13px;border-top:1px soli
 
   <section>
     <span class="num">Decision 01</span>
-    <div class="split">
-      <div class="col">
-        <h2>Health data that helps without diagnosing</h2>
-        <p>I proposed a firm rule, and the team adopted it into the PRD: the app collects health data but never shows a health score. The PRD added that it must never name a condition it suspects, and BMI is calculated behind the scenes only. A bank isn’t a doctor, and a wrong label on someone’s phone does real harm.</p>
-        <p>So I designed the health profile around what the app <em>can</em> do: notice, explain, and route people to a professional.</p>
-        <ul class="ticks">
-          <li><strong>Low effort, no pressure.</strong> Eight short sections, completed in any order, skippable, each under a minute.</li>
-          <li><strong>Say what it’s for.</strong> Every screen states that the data is encrypted, private and used to personalise, never to score or diagnose.</li>
-          <li><strong>A high reading leads to action.</strong> An elevated blood pressure says it’s above typical guidelines, that one reading isn’t a conclusion, and offers a telemedicine consult the user’s HMO already covers, a partner clinic, or a reminder to re-check.</li>
-        </ul>
-      </div>
-      <div class="media phones">
-        <figure class="phone"><img src="img/health-hub.webp" alt="Health profile hub with eight sections" width="490" height="992" loading="lazy"><figcaption>Health profile: any order, skip anything.</figcaption></figure>
-        <figure class="phone"><img src="img/bp-elevated.webp" alt="Elevated blood pressure state with next steps" width="490" height="990" loading="lazy"><figcaption>Elevated reading: context and next steps, no diagnosis.</figcaption></figure>
-      </div>
+    <div class="col">
+      <h2>Health data that helps without diagnosing</h2>
+      <p>I proposed a firm rule, and the team adopted it into the PRD: the app collects health data but never shows a health score. The PRD added that it must never name a condition it suspects, and BMI is calculated behind the scenes only. A bank isn’t a doctor, and a wrong label on someone’s phone does real harm.</p>
+      <p>So I designed the health profile around what the app <em>can</em> do: notice, explain, and route people to a professional.</p>
+      <ul class="ticks">
+        <li><strong>Low effort, no pressure.</strong> Short sections, completed in any order, skippable, each under a minute.</li>
+        <li><strong>A high reading leads to action.</strong> An elevated blood pressure says it’s above the typical range and that one reading can be off, then offers a telemedicine consult, a partner clinic, or a reminder to re-check.</li>
+        <li><strong>Guidance, labelled as guidance.</strong> Plain next steps for eating and movement, plus a consult the user’s HMO already covers.</li>
+      </ul>
     </div>
+    <figure class="mock wide"><img src="img/v3-health.webp" alt="Health profile, elevated blood pressure and guidance screens" width="1608" height="1174" loading="lazy"><figcaption>Health profile, an elevated reading, and the guidance that follows.</figcaption></figure>
   </section>
 
   <section>
     <span class="num">Decision 02</span>
-    <div class="split rev">
-      <div class="col">
-        <h2>Security the regulator signs off and users don’t hate</h2>
-        <p>CBN rules require device verification and strong authentication. Each requirement adds a step a user can get stuck on, so I designed each one to be quick and to explain itself.</p>
-        <ul class="ticks">
-          <li><strong>New device, clear choice.</strong> An unrecognised sign-in triggers an OTP and an alert showing device, rough location and time, with two plain options: “This was me” or “Sign out all devices and reset PIN”. It also reminds them that moving money needs a separate PIN.</li>
-          <li><strong>Passkeys, offered at the right moment.</strong> After a successful sign-in, everyone gets a one-tap prompt to create a passkey. PIN and email sign-in stay as backups.</li>
-          <li><strong>Step up, don’t lock out.</strong> A new-device session works normally until the first sensitive action, which asks for extra verification there and then.</li>
-          <li><strong>SIM-swap guards</strong> on PIN recovery, because a hijacked phone number shouldn’t be enough to take over an account.</li>
-        </ul>
-      </div>
-      <div class="media phones">
-        <figure class="phone"><img src="img/new-device.webp" alt="New device sign-in security alert" width="490" height="1005" loading="lazy"><figcaption>New-device alert with two clear choices.</figcaption></figure>
-        <figure class="phone"><img src="img/passkey.webp" alt="Passkey creation prompt" width="490" height="951" loading="lazy"><figcaption>Passkey prompt after sign-in.</figcaption></figure>
-      </div>
+    <div class="col">
+      <h2>Vitals from a selfie, without playing doctor</h2>
+      <p>Management asked for a camera scan that estimates heart rate, breathing, heart rhythm variation, stress, blood pressure and oxygen in about a minute. The no-diagnosis rule had to hold here too.</p>
+      <ul class="ticks">
+        <li><strong>Every number is an estimate.</strong> The results carry “wellness estimate, not medical advice” at the top and a see-a-doctor line at the bottom.</li>
+        <li><strong>Compared to you, not a score.</strong> A reading is shown against the user’s own usual, so “higher than usual” means something.</li>
+        <li><strong>One calm next step.</strong> A high reading asks for a re-scan after rest, offers a doctor and the user’s health cover, and keeps a red line for emergencies.</li>
+      </ul>
     </div>
+    <figure class="mock wide two"><img src="img/v3-vitals.webp" alt="Vitals results and a higher-than-usual blood pressure screen" width="1112" height="1174" loading="lazy"><figcaption>Scan results, and what a higher-than-usual reading leads to.</figcaption></figure>
   </section>
 
   <section>
+    <span class="num">Decision 03</span>
     <div class="col">
-      <span class="num">Decision 03</span>
-      <h2>A system that holds across 200+ screens</h2>
-      <p>I built light and dark design systems as Tokens Studio tokens, so colour, type and spacing reach engineering as data rather than redlines. That cut design-to-development time by about 25%.</p>
+      <h2>Security the regulator signs off and users don’t hate</h2>
+      <p>CBN rules require device verification and strong authentication. Each requirement adds a step a user can get stuck on, so I designed each one to be quick and to explain itself.</p>
+      <ul class="ticks">
+        <li><strong>New device, clear choice.</strong> An unrecognised sign-in shows the device, location, time and IP address, with two plain options: “This wasn’t me” or “It was me”.</li>
+        <li><strong>Biometrics at the right moment.</strong> Face ID or fingerprint is offered after the first login, not crammed into sign-up. The PIN stays as the backup.</li>
+        <li><strong>Step up, don’t lock out.</strong> A new-device session works normally until the first sensitive action, which asks for extra verification there and then.</li>
+        <li><strong>SIM-swap guards</strong> on PIN recovery, because a hijacked phone number shouldn’t be enough to take over an account.</li>
+      </ul>
+    </div>
+    <figure class="mock wide two"><img src="img/v3-security.webp" alt="New device alert and Face ID prompt" width="1112" height="1174" loading="lazy"><figcaption>New-device alert, and the biometrics prompt after first login.</figcaption></figure>
+  </section>
+
+  <section>
+    <span class="num">Decision 04</span>
+    <div class="col">
+      <h2>Cut until only the task is left</h2>
+      <p>The third version of the app set one rule for every screen: as plain as Apple Notes. Taglines, helper text and secondary labels came out. Where a screen needed them to make sense, I fixed the layout instead.</p>
+      <ul class="ticks">
+        <li><strong>Five tabs.</strong> Home, Banking, Health, Save and More. The health wallet and HMO status sit on Home, next to the balance.</li>
+        <li><strong>Two typefaces, two jobs.</strong> Inter for everything you read and tap, Wix Madefor Display only for titles and balances.</li>
+        <li><strong>Proven flows kept.</strong> Transfers and bill payments kept their earlier designs, which already worked.</li>
+      </ul>
+    </div>
+    <figure class="mock wide two"><img src="img/v3-minimal.webp" alt="Send money and savings screens" width="1112" height="1174" loading="lazy"><figcaption>Send money and savings: one job per screen.</figcaption></figure>
+  </section>
+
+  <section>
+    <span class="num">Decision 05</span>
+    <div class="col">
+      <h2>A system that holds across 600+ screens</h2>
+      <p>I built light and dark design systems as Tokens Studio tokens, so colour, type and spacing reach engineering as data rather than redlines. That cut design-to-development time by about 25%. Every screen has a dark version.</p>
       <p>Before releases I run a <strong>live app vs. Figma audit</strong>: screenshots of the build next to the designs, each difference tagged by severity, so engineering fixes what matters first and drift doesn’t pile up.</p>
     </div>
+    <figure class="mock wide"><img src="img/v3-dark.webp" alt="Home, health and Movement screens in dark mode" width="1608" height="1174" loading="lazy"><figcaption>The same screens in dark mode.</figcaption></figure>
   </section>
 
   <div class="part">
@@ -178,20 +203,16 @@ footer{padding:40px 0 56px;color:var(--muted);font-size:13px;border-top:1px soli
       <h2>Steps that move money</h2>
       <p>Phase 1 is just you: today’s steps, a goal based on your own last 14 days, and self-challenges. The bank-specific idea is <strong>step-to-save</strong>: hit your daily goal and the app moves an amount you choose from your wallet into a savings goal. Walking and saving reinforce each other, and the rule sits alongside the user’s other auto-save rules.</p>
     </div>
-    <figure class="wide"><img src="img/movement-p1.webp" alt="Movement phase 1: health tab card, today, new challenge, challenge detail, step-to-save, auto-save rules" width="2400" height="1178" loading="lazy"><figcaption>Left to right: health tab entry, today, new challenge, challenge progress, step-to-save setup, auto-save rules.</figcaption></figure>
+    <figure class="mock wide two"><img src="img/v3-movement-p1.webp" alt="Movement hub and step-to-save setup" width="1112" height="1174" loading="lazy"><figcaption>Today’s steps against your goal, and step-to-save.</figcaption></figure>
   </section>
 
   <section>
     <span class="num">Phase 2 · Community</span>
     <div class="col">
       <h2>Races, leagues and cheers</h2>
-      <p>Phase 2 adds other people, opt-in and with a display name the user chooses. Challenges are live races with a points pot, a visible track and a one-tap cheer. Weekly leagues have promotion and demotion zones, so there’s always someone just ahead to catch. Daily quests and streaks give a reason to open the app on days without a race.</p>
+      <p>Phase 2 adds other people, opt-in and with a display name the user chooses. Challenges are live races with a leaderboard, the gap to the person ahead and a one-tap cheer. Weekly leagues have promotion and demotion zones, so there’s always someone just ahead to catch. Daily quests and streaks give a reason to open the app on days without a race.</p>
     </div>
-    <div class="row3">
-      <figure class="phone"><img src="img/movement-hub.webp" alt="Movement hub with level, quests and active challenges" width="477" height="1300" loading="lazy"><figcaption>Movement hub: level, quests, active races, league.</figcaption></figure>
-      <figure class="phone"><img src="img/live-race.webp" alt="Live race track with five walkers" width="550" height="1070" loading="lazy"><figcaption>Live race: where you stand and how far to the next place.</figcaption></figure>
-      <figure class="phone"><img src="img/leagues.webp" alt="Weekly silver league table with promotion and demotion zones" width="531" height="1200" loading="lazy"><figcaption>Weekly leagues with promotion and demotion zones.</figcaption></figure>
-    </div>
+    <figure class="mock wide two"><img src="img/v3-movement-p2.webp" alt="Live race leaderboard and weekly silver league" width="1112" height="1174" loading="lazy"><figcaption>A live race with a cheer button, and a weekly league with a promotion line.</figcaption></figure>
   </section>
 
   <section>
@@ -220,7 +241,7 @@ footer{padding:40px 0 56px;color:var(--muted);font-size:13px;border-top:1px soli
     <div class="col">
       <span class="num">Where it stands</span>
       <h2>Designed, not yet built</h2>
-      <p>Everything here is designed and waiting to be built: 86 hi-fi screens across onboarding, transfers, savings, cards, KYC, HMO and support, plus the health profile, the security flows and both Movement phases. The Movement web version already runs as a working prototype.</p>
+      <p>Everything here is designed and waiting to be built: 600+ hi-fi screens in light and dark, across onboarding, transfers, savings, cards, KYC, HMO, vitals and support, plus the health profile, the security flows and both Movement phases. The Movement web version already runs as a working prototype.</p>
       <div class="cta">
         <a class="primary" href="/work/kontratpay/">KontratPay case study</a>
         <a href="/reel/">Showreel</a>
