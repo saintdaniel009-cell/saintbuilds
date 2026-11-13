@@ -59,7 +59,7 @@ span.chip{border-style:dashed}
 #thanks{position:fixed;right:18px;bottom:18px;z-index:40;width:min(320px,calc(100% - 36px));background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.14);padding:14px 16px;display:none;font-size:13px;line-height:1.45}
 #thanks.on{display:block}#thanks b{display:block;font-size:14px;margin-bottom:4px}#thanks .row{display:flex;gap:8px;margin-top:10px}
 #thanks a{background:var(--acc);color:#fff;text-decoration:none;border-radius:9px;padding:8px 12px;font-weight:600}#thanks button{border:0;background:#f3f2ee;border-radius:9px;padding:8px 12px;cursor:pointer}
-.sample{display:none;margin:4px 18px 8px;background:#fff4e6;border:1px solid #fed7aa;border-radius:10px;padding:9px 10px 9px 12px;font-size:12.5px;line-height:1.4;align-items:center;justify-content:space-between;gap:10px}.sample.on{display:flex}.sample b{font-weight:700}.sample button{flex:none;border:0;background:var(--acc);color:#fff;border-radius:8px;padding:7px 11px;font:inherit;font-weight:600;font-size:12px;cursor:pointer}
+.sample{display:none;margin:4px 18px 8px;background:#fff4e6;border:1px solid #fed7aa;border-radius:10px;padding:9px 10px 9px 12px;font-size:12.5px;line-height:1.4;align-items:center;justify-content:space-between;gap:10px}.sample.on{display:flex}.mobsend{display:none;margin:4px 18px 8px;background:#eef4ff;border:1px solid #c7d7f5;border-radius:10px;padding:9px 10px 9px 12px;font-size:12.5px;line-height:1.4;align-items:center;justify-content:space-between;gap:10px}.mobsend button{flex:none;border:0;background:var(--ink);color:#fff;border-radius:8px;padding:7px 11px;font:inherit;font-weight:600;font-size:12px;cursor:pointer}@media(max-width:1000px),(pointer:coarse){.mobsend{display:flex}}.mobsend.off{display:none!important}.sub{display:flex;gap:6px;margin-top:8px}.sub input{flex:1;min-width:0;border:1px solid var(--line);border-radius:9px;padding:8px 10px;font:inherit;font-size:13px}.sub button{border:0!important;background:var(--ink)!important;color:#fff;border-radius:9px;padding:8px 12px;font-weight:600;cursor:pointer}.sub.done{display:block;color:var(--ok);font-weight:600}.subnote{font-size:11.5px;color:var(--mute);margin-top:4px}.sample b{font-weight:700}.sample button{flex:none;border:0;background:var(--acc);color:#fff;border-radius:8px;padding:7px 11px;font:inherit;font-weight:600;font-size:12px;cursor:pointer}
 select.mini{width:auto;padding:2px 22px 2px 6px;font-size:11.5px;border-radius:6px;display:inline-block}
 .pinfo{font-size:11.5px;color:var(--mute);padding:0 18px 4px}
 .tb{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
@@ -160,6 +160,7 @@ input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border
     <div class="ph"><span class="pt">Pattern</span>
       <div class="tb"><div class="useg" id="useg" role="group" aria-label="Units"><button data-u="in" type="button">in</button><button data-u="cm" type="button">cm</button></div><button class="tbtn dark" id="pdf"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14"/></svg>PDF 1:1</button><button class="tbtn" id="svg">SVG</button><button class="tbtn" id="openM2" title="Measurements & settings"><svg viewBox="0 0 24 24"><path d="M3 8h18v8H3zM7 8v3M11 8v4M15 8v3M19 8v4"/></svg>Measure</button><button class="tbtn" id="guideBtn" title="Seam finishing guide"><svg viewBox="0 0 24 24"><path d="M6 4h9l3 3v13H6zM9 11h6M9 15h6"/></svg>Finishing</button></div></div>
     <div class="sample" id="sample"><span><b>These are sample measurements.</b> Add yours so the pattern fits you.</span><button id="sampleBtn">Add my measurements</button></div>
+    <div class="mobsend" id="mobsend"><span><b>On your phone?</b> Send this pattern to your computer to print it.</span><button id="sendBtn" type="button">Send to computer</button></div>
     <div class="pinfo" id="info" style="display:flex;justify-content:space-between;align-items:center"></div>
     <div class="patbox" id="prev"></div>
     <div class="fabbar" id="fabric"></div>
@@ -191,10 +192,11 @@ input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px;border
     <h2>Printing</h2>
     <p class="note">Print the PDF at <b>100% / actual size</b> and measure the <span id="tsqN">10 cm</span> test square before cutting. Solid line = cut, dashed = stitch. Seam allowance is included. Make a toile in cheap fabric first.</p>
     <p class="note"><button class="chip" id="reset">Reset measurements</button></p>
+    <div id="subWrap" hidden><h2>New patterns</h2><p class="note">New garments drop regularly. Get them first by email.</p><form class="sub" data-sub><input type="email" name="email_address" required placeholder="you@example.com" aria-label="Email"><button type="submit">Notify me</button></form><div class="subnote">No spam. Unsubscribe anytime.</div></div>
   </div>
 </aside>
 <div id="toast"></div>
-<div id="thanks" role="dialog" aria-label="Say thanks"><b>Your pattern is saving</b>Pattern Drafter is free to use. If it saved you time or fabric, a small tip helps keep it that way.<div class="row"><a href="https://selar.com/showlove/saintbuilds" target="_blank" rel="noopener" id="thanksGo">Say thanks ♥</a><button id="thanksX">Maybe later</button></div></div>
+<div id="thanks" role="dialog" aria-label="Say thanks"><b>Your pattern is saving</b>Pattern Drafter is free to use. If it saved you time or fabric, a small tip helps keep it that way.<form class="sub" data-sub hidden><input type="email" name="email_address" required placeholder="Email for new patterns" aria-label="Email"><button type="submit">Notify me</button></form><div class="row"><a href="https://selar.com/showlove/saintbuilds" target="_blank" rel="noopener" id="thanksGo">Say thanks ♥</a><button id="thanksX">Maybe later</button></div></div>
 <script>
 
 "use strict";
@@ -1746,7 +1748,37 @@ $("profFile").onchange=e=>{const f=e.target.files&&e.target.files[0];if(!f)retur
     if(last){switchTo(last);toast(`Imported ${n} ${n===1?"person":"people"}`)}else toast("Nothing new to import")}
   catch(err){toast("That file isn't a Pattern Drafter export")}e.target.value=""};rd.readAsText(f)};
 function bindZoom(){$("zi").onclick=()=>{S.zoom=Math.min(4,S.zoom*1.25);draft()};$("zo").onclick=()=>{S.zoom=Math.max(0.2,S.zoom/1.25);draft()}}
-load();initProfiles();if(!S.sec)S.sec="men";if(!S.last)S.last={};if(!SECT[S.sec].includes(S.g))S.g=SECT[S.sec][0];if(!S.zoom||S.zoom===1)S.zoom=0.55;if(!S.color)S.color="#1e3a5f";if(!S.fabric)S.fabric="linen";if(!S.view)S.view="both";
+
+// ---------- email signup (Kit) ----------
+const KIT_FORM_ID=""; // paste the Kit form ID here to switch signups on
+const KIT_URL=KIT_FORM_ID?`https://app.kit.com/forms/${KIT_FORM_ID}/subscriptions`:"";
+if(KIT_URL){$("subWrap").hidden=false;document.querySelectorAll("form[data-sub]").forEach(f=>f.hidden=false);
+  const fr=document.createElement("iframe");fr.name="kitsink";fr.hidden=true;document.body.appendChild(fr);
+  document.querySelectorAll("form[data-sub]").forEach(f=>{f.action=KIT_URL;f.method="post";f.target="kitsink";
+    f.addEventListener("submit",()=>{try{localStorage.setItem("pd-sub","1")}catch(e){}
+      setTimeout(()=>{f.className="sub done";f.textContent="You're on the list. Check your inbox to confirm."},50)})});
+  try{if(localStorage.getItem("pd-sub"))document.querySelectorAll("form[data-sub]").forEach(f=>{f.className="sub done";f.textContent="You're on the list for new patterns."})}catch(e){}}
+
+// ---------- send to computer (deep link) ----------
+const b64e=o=>btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+const b64d=t=>JSON.parse(decodeURIComponent(escape(atob(t.replace(/-/g,"+").replace(/_/g,"/")))));
+function shareLink(){const o={v:1,g:S.g,sec:S.sec,fit:S.fit,units:S.units,sa:S.sa,paper:S.paper,roll:S.roll,o:S.o,m:S.m,n:profName()};
+  return location.origin+location.pathname+"#p="+b64e(o)}
+$("sendBtn").onclick=async()=>{const url=shareLink(),t=(GNAMES[S.g]||"Pattern")+" pattern";
+  if(navigator.share){try{await navigator.share({title:t,text:"Open this on your computer to print your "+t.toLowerCase()+":",url});return}catch(e){if(e&&e.name==="AbortError")return}}
+  try{await navigator.clipboard.writeText(url);toast("Link copied. Open it on your computer")}catch(e){prompt("Copy this link and open it on your computer:",url)}};
+function applyLink(){const h=location.hash.match(/^#p=([A-Za-z0-9_-]+)/);if(!h)return;
+  try{const j=b64d(h[1]);if(!j||j.v!==1)throw 0;
+    for(const k of ["g","sec","fit","units","paper"])if(typeof j[k]==="string")S[k]=j[k];
+    for(const k of ["sa","roll"])if(typeof j[k]==="number")S[k]=j[k];
+    if(j.o&&typeof j.o==="object")Object.assign(S.o,j.o);
+    if(j.m&&typeof j.m==="object"){const m={};for(const k in M){const v=parseFloat(j.m[k]);m[k]=v>0&&v<400?v:S.m[k]}
+      const name=String(j.n||"From my phone").slice(0,40);const ex=Object.entries(S.profiles).find(([,p])=>p.name===name);
+      const id=ex?ex[0]:"p"+Date.now().toString(36);S.profiles[id]={name,m};S.pid=id;S.m=m}
+    if(!SECT[S.sec]||!SECT[S.sec].includes(S.g)){S.sec=SECT.men.includes(S.g)?"men":"women"}
+    save();toast("Pattern loaded from your link")}catch(e){toast("That link couldn't be opened")}
+  history.replaceState(null,"",location.pathname+location.search)}
+load();initProfiles();applyLink();if(!S.sec)S.sec="men";if(!S.last)S.last={};if(!SECT[S.sec].includes(S.g))S.g=SECT[S.sec][0];if(!S.zoom||S.zoom===1)S.zoom=0.55;if(!S.color)S.color="#1e3a5f";if(!S.fabric)S.fabric="linen";if(!S.view)S.view="both";
 renderGarments();renderViews();renderProfiles();renderForm();draft();syncUnitsUI();
 
 </script>
