@@ -1750,7 +1750,7 @@ $("profFile").onchange=e=>{const f=e.target.files&&e.target.files[0];if(!f)retur
 function bindZoom(){$("zi").onclick=()=>{S.zoom=Math.min(4,S.zoom*1.25);draft()};$("zo").onclick=()=>{S.zoom=Math.max(0.2,S.zoom/1.25);draft()}}
 
 // ---------- email signup (Kit) ----------
-const KIT_FORM_ID=""; // paste the Kit form ID here to switch signups on
+const KIT_FORM_ID="10185443"; // paste the Kit form ID here to switch signups on
 const KIT_URL=KIT_FORM_ID?`https://app.kit.com/forms/${KIT_FORM_ID}/subscriptions`:"";
 if(KIT_URL){$("subWrap").hidden=false;document.querySelectorAll("form[data-sub]").forEach(f=>f.hidden=false);
   const fr=document.createElement("iframe");fr.name="kitsink";fr.hidden=true;document.body.appendChild(fr);
